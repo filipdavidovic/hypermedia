@@ -4,17 +4,20 @@ var mainCtrl = require('../controllers/main');
 
 /* GETs */
 router.get('/', function (req, res) {
-    if (req.session.userType === 'visitor' || req.session.userType === undefined) {
-        mainCtrl.homepageVisitor(req, res);
-    } else {
+    if (req.session.userType === undefined) {
+        req.session.userType = 'student';
+        res.redirect('/');
+    } else if (req.session.userType === 'student') {
         mainCtrl.homepage(req, res);
+    } else {
+        mainCtrl.homepageVisitor(req, res);
     }
 });
 
 /* POSTs */
 router.post('/', function (req, res) {
     if (req.session.userType === undefined) {
-        req.session.userType = 'visitor';
+        req.session.userType = 'student';
         res.redirect('/');
     }
 
