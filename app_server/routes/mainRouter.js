@@ -18,10 +18,7 @@ router.post('/', function (req, res) {
         res.redirect('/');
     }
 
-    console.log(req.session.userType);
-
     req.session.userType = req.session.userType === 'visitor' ? 'student' : 'visitor';
-
     res.redirect('/');
 });
 
