@@ -1,0 +1,5 @@
+mixin pickUserType(userType)
+    - if(userType === 'student')
+    button.btn.btn-default(name="foo", value="changeUserType") Change user type to Visitor
+    - else
+    button.btn.btn-default(name="foo", value="changeUserType") Change user type to Student

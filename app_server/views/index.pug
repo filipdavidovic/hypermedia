@@ -1,11 +1,13 @@
 extends layout
 
+include _includes/sharedFunctions
+
 block content
     h1= title
     p Welcome to #{title}
     .row
         .col-md-6
             form(action="", method="post", role="form")
-                button.btn.btn-default(name="foo", value="changeUserType") Change user type
+                +pickUserType(userType)
         .col-md-6
             p You are currently: #{userType}
