@@ -49,3 +49,4 @@ mongoose.connection.on('disconnected', function () {
 });
 
 require('./faculties');
+require('./forum');

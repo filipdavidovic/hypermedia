@@ -1,5 +1,11 @@
+mixin pickUserTypeInverse(userType)
+    - if(userType === 'student')
+        =" Visitor"
+    - else
+        =" Student"
+
 mixin pickUserType(userType)
     - if(userType === 'student')
-        button.btn.btn-default(name="foo", value="changeUserType") Change user type to Visitor
+        =" Student"
     - else
-        button.btn.btn-default(name="foo", value="changeUserType") Change user type to Student
+        =" Visitor"

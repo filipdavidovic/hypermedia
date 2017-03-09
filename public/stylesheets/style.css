@@ -6,3 +6,10 @@ body {
 a {
   color: #00B7FF;
 }
+
+.subforum {
+    margin: 25px 0;
+    padding: 15px;
+    background-color: #3c763d;
+    border-radius: 1.25em;
+}

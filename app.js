@@ -8,6 +8,7 @@ var cookieSession = require('express-session');
 require('./app_api/models/db');
 
 var router = require('./app_server/routes/mainRouter');
+var apiRouter = require('./app_api/routes/apiRouter');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }));
 
 app.use('/', router);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

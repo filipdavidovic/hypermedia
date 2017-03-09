@@ -8,6 +8,7 @@ block content
     .row
         .col-md-6
             form(action="", method="post", role="form")
-                +pickUserType(userType)
+                button.btn.btn-default(name="foo", value="changeUserType") Change user type to
+                    +pickUserTypeInverse(userType)
         .col-md-6
             p.pull-right You are currently: #{userType}

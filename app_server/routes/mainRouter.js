@@ -14,6 +14,18 @@ router.get('/', function (req, res) {
     }
 });
 
+router.get('/forum', function (req, res) {
+    if(req.session.userType === 'student') {
+        mainCtrl.forum(req, res);
+    } else {
+        mainCtrl.notAvailable(req, res);
+    }
+});
+
+router.get('forum/:forumid', function (req, res) {
+    res.end("Success");
+});
+
 /* POSTs */
 router.post('/', function (req, res) {
     if (req.session.userType === undefined) {

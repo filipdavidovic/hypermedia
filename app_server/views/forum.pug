@@ -1,0 +1,14 @@
+extends layout
+
+include _includes/sharedFunctions
+
+block content
+     p You are a
+        +pickUserType(userType)
+     each forum in forums
+         .subforum.clearfix
+             - var forumUrl = '/forum/' + forum._id
+             a(href=forumUrl)
+                h2 #{forum.title}
+             p #{forum.description}
+             p.pull-right Number of posts: #{forum.posts.length}
