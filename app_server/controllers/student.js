@@ -193,3 +193,25 @@ module.exports.getOneForum = function (req, res) {
         });
     });
 };
+
+// ORGANIZATION
+module.exports.advisorsTutors = function (req, res) {
+    res.send("Advisors & Tutors");
+};
+
+module.exports.rulesRegulations = function (req, res) {
+    res.send("Rules & Regulations");
+};
+
+module.exports.campusCard = function (req, res) {
+    res.send("Campus Card");
+};
+
+// STUDY
+module.exports.freeSoftware = function (req, res) {
+    res.send("Free Software");
+};
+
+module.exports.academicYear = function (req, res) {
+    res.send("Academic Year");
+};

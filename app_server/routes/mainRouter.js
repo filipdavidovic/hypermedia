@@ -3,7 +3,7 @@ var router = express.Router();
 
 var studentCtrl = require('../controllers/student');
 var visitorCtrl = require('../controllers/visitor');
-var otherCtrl = require('../controllers/other');
+var uniformCtrl = require('../controllers/uniform');
 
 var chooseUponUser = function (req, res, callback1, callback2) {
     if(req.session.userType === undefined) {
@@ -19,7 +19,8 @@ var chooseUponUser = function (req, res, callback1, callback2) {
 };
 
 /* GETs */
-router.get('/', function (req, res) {
+// HOMEPAGE
+router.get('/', function (req, res) { // TODO: decide whether separate controllers are needed for homepage
     if (req.session.userType === undefined) {
         req.session.userType = 'student';
         res.redirect('/');
@@ -30,6 +31,7 @@ router.get('/', function (req, res) {
     }
 });
 
+// FORUM
 router.get('/forum', function (req, res) {
     chooseUponUser(req, res, studentCtrl.forum, otherCtrl.notAvailable);
 });
@@ -38,6 +40,7 @@ router.get('/forum/:forumid', function (req, res) {
     chooseUponUser(req, res, studentCtrl.getOneForum, otherCtrl.notAvailable);
 });
 
+// FACULTIES
 router.get('/faculties', function (req, res) {
     chooseUponUser(req, res, studentCtrl.faculties, visitorCtrl.faculties);
 });
@@ -65,6 +68,38 @@ router.get('/faculties/:facultyidentification/premaster/:premasteridentification
 router.get('/faculties/:facultyidentification/master/:masteridentification', function (req, res) {
     chooseUponUser(req, res, studentCtrl.singleMaster, visitorCtrl.singleMaster);
 });
+
+// ORGANIZATION
+router.get('/organization/map', uniformCtrl.map);
+
+router.get('/organization/contact', uniformCtrl.contact);
+
+router.get('/organization/student-for-a-day', uniformCtrl.studentForADay);
+
+router.get('/organization/advisors-tutors', studentCtrl.advisorsTutors);
+
+router.get('/organization/rules-regulations', studentCtrl.rulesRegulations);
+
+router.get('/organization/campus-card', studentCtrl.campusCard);
+
+router.get('/organization/enrollment', visitorCtrl.enrollment);
+
+// STuDY
+router.get('/study/electives', uniformCtrl.electives);
+
+router.get('/study/notebook', uniformCtrl.notebook);
+
+router.get('/study/canvas', uniformCtrl.canvas);
+
+router.get('/study/timetables-timeslots', uniformCtrl.timetablesTimeslots);
+
+router.get('/study/planapp', uniformCtrl.planapp);
+
+router.get('/study/internationals', uniformCtrl.internationals);
+
+router.get('/study/free-software', studentCtrl.freeSoftware);
+
+router.get('/study/academic-year', studentCtrl.academicYear);
 
 /* POSTs */
 router.post('/', function (req, res) {

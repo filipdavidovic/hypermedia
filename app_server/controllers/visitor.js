@@ -71,3 +71,7 @@ module.exports.singlePremaster = function (req, res) {
 module.exports.singleMaster = function (req, res) {
     res.send("Single Master - Visitor");
 };
+
+module.exports.enrollment = function (req, res) {
+    res.send("Enrollment");
+};
