@@ -54,4 +54,4 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-// TODO: think about the study guide forum!
+// TODO: if necessary continue building the forum.

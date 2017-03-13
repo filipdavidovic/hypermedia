@@ -1,12 +1,8 @@
 extends layout
 
-include _includes/sharedFunctions
-
 block content
-     p You are a
-        +pickUserType(userType)
      each forum in forums
-         .subforum.clearfix
+         .forum-box.clearfix
              - var forumUrl = '/forum/' + forum._id
              a(href=forumUrl)
                 h2 #{forum.title}

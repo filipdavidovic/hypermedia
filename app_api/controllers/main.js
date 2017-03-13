@@ -1,6 +1,24 @@
 var mongoose = require('mongoose');
 
+var Faculty = mongoose.model('Faculty');
 var Forum = mongoose.model('Forum');
+
+module.exports.getFaculties = function (req, res) {
+    Faculty
+        .find()
+        .exec(function (err, faculties) {
+            if(!faculties) {
+                sendJsonResponse(res, 404, {
+                    "message": "No faculties found"
+                });
+                return;
+            } else if(err) {
+                sendJsonResponse(res, 404, err);
+                return;
+            }
+            sendJsonResponse(res, 200, faculties);
+        });
+};
 
 module.exports.getForums = function (req, res) {
     Forum

@@ -7,9 +7,56 @@ a {
   color: #00B7FF;
 }
 
-.subforum {
+.forum-box {
     margin: 25px 0;
     padding: 15px;
     background-color: #3c763d;
     border-radius: 1.25em;
+}
+
+.post-box {
+    margin: 25px 0;
+    padding: 15px;
+    background-color: #d43f3a;
+    border-radius: 1.25em;
+}
+
+.answer-box {
+    margin: 25px 0;
+    padding: 15px;
+    background-color: #2e6da4;
+    border-radius: 1.25em;
+}
+
+.program-box {
+    margin: 25px 0;
+    padding: 15px;
+    background-color: #33ccff;
+    border-radius: 1.25em;
+}
+
+.img-center {
+    margin: 0 auto;
+}
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row-eq-height > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-pills > li {  /* TODO: not working properly */
+    float: none;
+    display: inline-block;
+}
+
+.nav-pills {
+    text-align: center;
 }

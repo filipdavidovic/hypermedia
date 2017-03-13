@@ -1,4 +1,7 @@
 doctype html
+
+include _includes/sharedFunctions
+
 html
     head
         title= title
@@ -6,15 +9,79 @@ html
         link(rel="stylesheet", href="/stylesheets/style.css")
         link(rel="stylesheet", href="/bootstrap/css/bootstrap.css")
     body
-        .btn-group(style="margin: 50px auto;")
+        .btn-group.btn-group-justified(style="margin: 50px auto;")
             a.btn.btn-default(href="/") Home
             - if(userType === 'student')
                 a.btn.btn-default(href="/forum") Forum
-            a.btn.btn-default(href="/about") About
+            .btn-group
+                button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                    | Faculties
+                    span.caret
+                ul.dropdown-menu.pull-right
+                    li.dropdown-header
+                        | Undergraduate Programs
+                    li
+                        a(href="/faculties/bachelor") Bachelor
+                    li.dropdown-header
+                        | Graduate Programs
+                    li
+                        a(href="/faculties/premaster") Pre-Master
+                    li
+                        a(href="/faculties/master") Master
+            .btn-group
+                button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                    | Organization
+                    span.caret
+                ul.dropdown-menu.pull-right
+                    li
+                        a(href="/organization/map") Map
+                    li
+                        a(href="/organization/contact") Contact
+                    li
+                        a(href="/organization/student-for-a-day") Student-for-a-Day
+                    - if(userType === 'student')
+                        li.dropdown-header
+                            | Students Only
+                        li
+                            a(href="/organization/advisors-tutors") Advisors & Tutors
+                        li
+                            a(href="/organization/rules-regulations") Rules & Regulations
+                        li
+                            a(href="/organization/campus-card") Campus Card
+                    - if(userType === 'visitor')
+                        li.dropdown-header
+                            | Visitors Only
+                        li
+                            a(href="/organization/enrollment") Enrollment
+            .btn-group
+                button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                    | Study
+                    span.caret
+                ul.dropdown-menu.pull-right
+                    li
+                        a(href="/study/electives") Electives
+                    li
+                        a(href="/study/notebook") Notebook
+                    li
+                        a(href="/study/canvas") Canvas
+                    li
+                        a(href="/study/timetables-timeslots") Timetables & Timeslots
+                    li
+                        a(href="/study/planapp") PlanApp
+                    li
+                        a(href="/study/internationals") Internationals
+                    - if(userType === 'student')
+                        li.dropdown-header
+                            | Students Only
+                        li
+                            a(href="/study/free-software") Free Software
+                        li
+                            a(href="/study/academic-year") Academic Year
+
+        p.pull-right You are currently:
+            +pickUserType(userType)
+
         block content
-
-
-
 
         script(src="/javascripts/jquery-3.1.1.min.js")
         script(src="/bootstrap/js/bootstrap.min.js")

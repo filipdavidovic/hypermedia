@@ -11,13 +11,101 @@ if(process.env.NODE_ENV === 'production') {
 
 /* homepage */
 module.exports.homepage = function (req, res) {
-    console.log(req.session.userType);
-    res.render('index', {title: 'Student', userType: req.session.userType});
+    var requestOptions, path;
+
+    path = '/api/faculties';
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var faculties = body;
+        var message;
+
+        if(!(faculties instanceof Array)) {
+            message = "API lookup error";
+            faculties = [];
+        } else {
+            if(!faculties.length) {
+                message = "No faculties found";
+            }
+        }
+
+        res.render('index', {
+            title: "Student",
+            pageHeader: {
+                title: "Home",
+                strapline: "Homepage of TU/e Study Guide"
+            },
+            faculties: faculties,
+            message: message,
+            userType: req.session.userType
+        });
+    });
 };
 
-module.exports.homepageVisitor = function (req, res) {
-    console.log(req.session.userType);
-    res.render('index', {title: 'Visitor', userType: req.session.userType});
+module.exports.faculties = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/faculties';
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var faculties = body;
+        var message;
+
+        if(!(faculties instanceof Array)) {
+            message = "API lookup error";
+            faculties = [];
+        } else {
+            if(!faculties.length) {
+                message = "No faculties found";
+            }
+        }
+
+        res.render('faculties', {
+            title: "Undergraduate programs",
+            pageHeader: {
+                title: "Undergraduate programs",
+                strapline: "Major in English"
+            },
+            majors: faculties,
+            message: message,
+            userType: req.session.userType
+        });
+    });
+};
+
+module.exports.bachelor = function (req, res) {
+    res.send("Bachelor - Student");
+};
+
+module.exports.premaster = function (req, res) {
+    res.send("Premaster - Student");
+};
+
+module.exports.master = function (req, res) {
+    res.send("Master - Student");
+};
+
+module.exports.singleBachelor = function (req, res) {
+    res.send("Single Bachelor - Student");
+};
+
+module.exports.singlePremaster = function (req, res) {
+    res.send("Single Premaster - Student");
+};
+
+module.exports.singleMaster = function (req, res) {
+    res.send("Single Master - Student");
 };
 
 module.exports.forum = function (req, res) {
@@ -69,6 +157,39 @@ module.exports.forum = function (req, res) {
     // });
 };
 
-module.exports.notAvailable = function (req, res) {
-    res.render('error', { "message": "You are not allowed to use this service", "error": { "status": 550, "stack": "Switch to student in order to use this service." }});
+module.exports.getOneForum = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/forum' + req.params.forumid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var forum = body;
+        var message;
+
+        if(err) {
+            message = "API lookup error";
+            forum = null;
+        } else {
+            if(!forum.length) {
+                message = "No forums found";
+            }
+        }
+
+        res.render('subforum', {
+            title: forum.title,
+            pageHeader: {
+                title: forum.title,
+                strapline: "Welcome to " + forum.title
+            },
+            forum: forum,
+            message: message,
+            userType: req.session.userType
+        });
+    });
 };
