@@ -84,7 +84,7 @@ router.get('/organization/campus-card', studentCtrl.campusCard);
 
 router.get('/organization/enrollment', visitorCtrl.enrollment);
 
-// STuDY
+// STUDY
 router.get('/study/electives', uniformCtrl.electives);
 
 router.get('/study/notebook', uniformCtrl.notebook);

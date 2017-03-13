@@ -8,6 +8,7 @@ block content
             form(action="", method="post", role="form")
                 button.btn.btn-default(name="foo", value="changeUserType") Change user type to
                     +pickUserTypeInverse(userType)
+    //input.search.form-control(type="text", style="margin: 30px;", placeholder="Search")
     ul.nav.nav-pills
         li.active(style="float: none; display: inline-block;")
             a(data-toggle="pill", href="#bachelor") Bachelor
@@ -15,37 +16,41 @@ block content
             a(data-toggle="pill", href="#premaster") Pre-Master
         li(style="float: none; display: inline-block;")
             a(data-toggle="pill", href="#master") Master
-    .tab-content
-        .tab-pane.fade.in.active(id="bachelor")
-            h1 Bachelor
+
+    div(id="faculties-list")
+        // TODO: add the .list class on the right tag
+        input.search.form-control(type="text", style="margin: 30px;", placeholder="Search")
+        .tab-content
+            .tab-pane.fade.in.active(id="bachelor")
+                h1 Bachelor
+                    each faculty in faculties
+                        h2 #{faculty.name}
+                        .row
+                            each bachelorProgram in faculty.bachelor
+                                .col-md-4
+                                    .program-box
+                                        h3.name #{bachelorProgram.name}
+                                        p.description #{bachelorProgram.description}
+                                        img.img-responsive.img-center(src=bachelorProgram.banner)
+            .tab-pane.fade(id="premaster")
+                h1 Pre-Master
                 each faculty in faculties
                     h2 #{faculty.name}
                     .row
-                        each bachelorProgram in faculty.bachelor
+                        each premasterProgram in faculty.premaster
                             .col-md-4
                                 .program-box
-                                    h3 #{bachelorProgram.name}
-                                    p #{bachelorProgram.description}
-                                    img.img-responsive.img-center(src=bachelorProgram.banner)
-        .tab-pane.fade(id="premaster")
-            h1 Pre-Master
-            each faculty in faculties
-                h2 #{faculty.name}
-                .row
-                    each premasterProgram in faculty.premaster
-                        .col-md-4
-                            .program-box
-                                h3 #{premasterProgram.name}
-                                p #{premasterProgram.description}
-                                img.img-responsive.img-center(src=premasterProgram.banner)
-        .tab-pane.fade(id="master")
-            h1 Master
-            each faculty in faculties
-                h2 #{faculty.name}
-                .row
-                    each masterProgram in faculty.master
-                        .col-md-4
-                            .program-box
-                                h3 #{masterProgram.name}
-                                p #{masterProgram.description}
-                                img.img-responsive.img-center(src=masterProgram.banner)
+                                    h3.name #{premasterProgram.name}
+                                    p.description #{premasterProgram.description}
+                                    img.img-responsive.img-center(src=premasterProgram.banner)
+            .tab-pane.fade(id="master")
+                h1 Master
+                each faculty in faculties
+                    h2 #{faculty.name}
+                    .row
+                        each masterProgram in faculty.master
+                            .col-md-4
+                                .program-box
+                                    h3.name #{masterProgram.name}
+                                    p.description #{masterProgram.description}
+                                    img.img-responsive.img-center(src=masterProgram.banner)
