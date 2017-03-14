@@ -7,8 +7,6 @@ if(process.env.NODE_ENV === 'production') {
     apiOptions.server = "https://hypermedia-group9-studyguide.herokuapp.com/";
 }
 
-
-
 /* homepage */
 module.exports.homepage = function (req, res) {
     var requestOptions, path;
@@ -33,7 +31,7 @@ module.exports.homepage = function (req, res) {
                 message = "No faculties found";
             }
         }
-
+        console.log(faculties);
         res.render('index', {
             title: "Student",
             pageHeader: {

@@ -18,8 +18,10 @@ block content
             a(data-toggle="pill", href="#master") Master
 
     div(id="faculties-list")
+        - if(message)
+            .alert.alert-warning #{message}
         // TODO: add the .list class on the right tag
-        input.search.form-control(type="text", style="margin: 30px;", placeholder="Search")
+        input.search.form-control(type="text", style="margin: 30px auto; width: 50%", placeholder="Search")
         .tab-content
             .tab-pane.fade.in.active(id="bachelor")
                 h1 Bachelor
@@ -42,7 +44,7 @@ block content
                                         h3.name #{premasterProgram.name}
                                         p.description #{premasterProgram.description}
                                         img.img-responsive.img-center(src=premasterProgram.banner)
-                                        h2 #{faculty.name}
+                                        h2.faculty #{faculty.name}
             .tab-pane.fade(id="master")
                 h1 Master
                     .row.row-eq-height(id="masterRow")
@@ -53,4 +55,4 @@ block content
                                         h3.name #{masterProgram.name}
                                         p.description #{masterProgram.description}
                                         img.img-responsive.img-center(src=masterProgram.banner)
-                                        h2 #{faculty.name}
+                                        h2.faculty #{faculty.name}
