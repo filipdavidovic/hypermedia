@@ -33,11 +33,11 @@ router.get('/', function (req, res) { // TODO: decide whether separate controlle
 
 // FORUM
 router.get('/forum', function (req, res) {
-    chooseUponUser(req, res, studentCtrl.forum, otherCtrl.notAvailable);
+    chooseUponUser(req, res, studentCtrl.forum, uniformCtrl.notAvailable);
 });
 
 router.get('/forum/:forumid', function (req, res) {
-    chooseUponUser(req, res, studentCtrl.getOneForum, otherCtrl.notAvailable);
+    chooseUponUser(req, res, studentCtrl.getOneForum, uniformCtrl.notAvailable);
 });
 
 // FACULTIES
