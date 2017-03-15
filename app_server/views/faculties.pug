@@ -1,15 +1,55 @@
 extends layout
 
 block content
-    .error #{message}
     h1 #{pageHeader.title}
     p #{pageHeader.strapline}
-    .row
-        each major in majors
-            .col-md-6
-                - var majorUrl = "/faculties/" + major._id
-                a(href=majorUrl)
-                    .forum-box
-                        h2 #{major.name}
-                        p #{major.description}
-                        img(src=major.banner)
+
+    ul.nav.nav-pills
+        li.active(style="float: none; display: inline-block;")
+            a(data-toggle="pill", href="#bachelor") Bachelor
+        li(style="float: none; display: inline-block;")
+            a(data-toggle="pill", href="#premaster") Pre-Master
+        li(style="float: none; display: inline-block;")
+            a(data-toggle="pill", href="#master") Master
+
+    div(id="faculties-list")
+        - if(message)
+            .alert.alert-warning #{message}
+        input.search.form-control(id="search-bar", type="text", style="margin: 30px auto; width: 50%", placeholder="Search")
+        .tab-content
+            .tab-pane.fade.in.active(id="bachelor")
+                h1 Bachelor
+                    .row.row-eq-height.list(id="bachelorRow")
+                        each faculty in faculties
+                            each bachelorProgram in faculty.bachelor
+                                .col-md-4
+                                    - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
+                                    a.program-box(href=programUrl)
+                                        h3.name #{bachelorProgram.name}
+                                        p.description #{bachelorProgram.description}
+                                        img.img-responsive.img-center(src=bachelorProgram.banner)
+                                        h2.faculty #{faculty.name}
+            .tab-pane.fade(id="premaster")
+                h1 Pre-Master
+                    .row.row-eq-height(id="premasterRow")
+                        each faculty in faculties
+                            each premasterProgram in faculty.premaster
+                                .col-md-4
+                                    - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
+                                    a.program-box(href=programUrl)
+                                        h3.name #{premasterProgram.name}
+                                        p.description #{premasterProgram.description}
+                                        img.img-responsive.img-center(src=premasterProgram.banner)
+                                        h2.faculty #{faculty.name}
+            .tab-pane.fade(id="master")
+                h1 Master
+                    .row.row-eq-height(id="masterRow")
+                        each faculty in faculties
+                            each masterProgram in faculty.master
+                                .col-md-4
+                                    - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
+                                    a.program-box(href=programUrl)
+                                        h3.name #{masterProgram.name}
+                                        p.description #{masterProgram.description}
+                                        img.img-responsive.img-center(src=masterProgram.banner)
+                                        h2.faculty #{faculty.name}

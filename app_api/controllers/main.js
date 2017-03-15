@@ -20,6 +20,33 @@ module.exports.getFaculties = function (req, res) {
         });
 };
 
+module.exports.getOneFaculty = function (req, res) {
+    console.log("Getting single faculty");
+    if(req.params && req.params.facultyid) {
+        Faculty
+            .findById(req.params.facultyid)
+            .exec(function (err, faculty) {
+                if(!faculty) {
+                    console.log("facultyid");
+                    sendJsonResponse(res, 404, {
+                        "message": "facultyid not found"
+                    });
+                    return;
+                } else if(err) {
+                    console.log("err");
+                    sendJsonResponse(res, 404, err);
+                    return;
+                }
+                console.log("Sending..");
+                sendJsonResponse(res, 200, faculty);
+            });
+    } else {
+        sendJsonResponse(res, 404, {
+            "message": "Not found, facultyid and bachelorid are both required"
+        });
+    }
+};
+
 module.exports.getOneBachelor = function (req, res) {
     console.log("Getting single bachelor.");
     if(req.params && req.params.facultyid && req.params.bachelorid) {

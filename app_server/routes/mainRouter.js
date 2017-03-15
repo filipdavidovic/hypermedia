@@ -46,6 +46,10 @@ router.get('/faculties', function (req, res) {
     chooseUponUser(req, res, studentCtrl.faculties, visitorCtrl.faculties);
 });
 
+router.get('/faculties/:facultyid', function (req, res) {
+    chooseUponUser(req, res, studentCtrl.singleFaculty, visitorCtrl.singleFaculty);
+});
+
 router.get('/faculties/bachelor', function (req, res) {
     chooseUponUser(req, res, studentCtrl.bachelor, visitorCtrl.bachelor);
 });

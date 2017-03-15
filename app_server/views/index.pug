@@ -29,11 +29,14 @@ block content
                             each bachelorProgram in faculty.bachelor
                                 .col-md-4
                                     - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
-                                        a.program-box(href=programUrl)
-                                            h3.name #{bachelorProgram.name}
-                                            p.description #{bachelorProgram.description}
-                                            img.img-responsive.img-center(src=bachelorProgram.banner)
-                                            h2.faculty #{faculty.name}
+                                        .program-box
+                                            a(href=programUrl)
+                                                h3.name #{bachelorProgram.name}
+                                                p.description #{bachelorProgram.description}
+                                                img.img-responsive.img-center(src=bachelorProgram.banner)
+                                            - var facultyUrl = '/faculties/' + faculty._id
+                                                a(href=facultyUrl)
+                                                    h2.faculty #{faculty.name}
             .tab-pane.fade(id="premaster")
                 h1 Pre-Master
                     .row.row-eq-height(id="premasterRow")
@@ -41,11 +44,14 @@ block content
                             each premasterProgram in faculty.premaster
                                 .col-md-4
                                     - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
-                                        a.program-box(href=programUrl)
-                                            h3.name #{premasterProgram.name}
-                                            p.description #{premasterProgram.description}
-                                            img.img-responsive.img-center(src=premasterProgram.banner)
-                                            h2.faculty #{faculty.name}
+                                        .program-box
+                                            a(href=programUrl)
+                                                h3.name #{premasterProgram.name}
+                                                p.description #{premasterProgram.description}
+                                                img.img-responsive.img-center(src=premasterProgram.banner)
+                                            - var facultyUrl = '/faculties/' + faculty._id
+                                                a(href=facultyUrl)
+                                                    h2.faculty #{faculty.name}
             .tab-pane.fade(id="master")
                 h1 Master
                     .row.row-eq-height(id="masterRow")
@@ -53,8 +59,11 @@ block content
                             each masterProgram in faculty.master
                                 .col-md-4
                                     - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
-                                    a.program-box(href=programUrl)
-                                        h3.name #{masterProgram.name}
-                                        p.description #{masterProgram.description}
-                                        img.img-responsive.img-center(src=masterProgram.banner)
-                                        h2.faculty #{faculty.name}
+                                        .program-box
+                                            a(href=programUrl)
+                                                h3.name #{masterProgram.name}
+                                                p.description #{masterProgram.description}
+                                                img.img-responsive.img-center(src=masterProgram.banner)
+                                            - var facultyUrl = '/faculties/' + faculty._id
+                                                a(href=facultyUrl)
+                                                    h2.faculty #{faculty.name}

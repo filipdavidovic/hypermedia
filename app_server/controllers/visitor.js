@@ -45,7 +45,70 @@ module.exports.homepage = function (req, res) {
 };
 
 module.exports.faculties = function (req, res) {
+    var requestOptions, path;
 
+    path = '/api/faculties';
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var faculties = body;
+        var message;
+
+        if(!(faculties instanceof Array)) {
+            message = "API lookup error";
+            faculties = [];
+        } else {
+            if(!faculties.length) {
+                message = "No faculties found";
+            }
+        }
+
+        res.render('faculties', {
+            title: "TU/e Faculties",
+            pageHeader: {
+                title: "Faculties",
+                strapline: "Faculties of the TU/e"
+            },
+            faculties: faculties,
+            message: message,
+            userType: req.session.userType
+        });
+    });
+};
+
+module.exports.singleFaculty = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var faculty = body;
+
+        if(response.statusCode === 200) {
+            res.render('faculty', {
+                title: faculty.name,
+                pageHeader: {
+                    title: faculty.name,
+                    strapline: faculty.description
+                },
+                faculty: faculty,
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
 };
 
 module.exports.bachelor = function (req, res) {
