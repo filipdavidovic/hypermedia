@@ -40,3 +40,13 @@ var searches = [
     'Data Science and Entrepreneurship'
 ];
 // TODO: implement the suggestion engine
+
+// pills url fix
+var url = document.location.toString();
+if (url.match('#')) {
+    $('.nav-pills a[href="#' + url.split('#')[1] + '"]').tab('show');
+}
+
+$(document).ready(function () {
+    $(window).scrollTop(0);
+});
