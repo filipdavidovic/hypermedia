@@ -8,7 +8,7 @@ block content
             form(action="", method="post", role="form")
                 button.btn.btn-default(name="foo", value="changeUserType") Change user type to
                     +pickUserTypeInverse(userType)
-    //input.search.form-control(type="text", style="margin: 30px;", placeholder="Search")
+    //input.form-control(id="search-barina", type="text", style="margin: 30px;", placeholder="Search")
     ul.nav.nav-pills
         li.active(style="float: none; display: inline-block;")
             a(data-toggle="pill", href="#bachelor") Bachelor
@@ -20,8 +20,7 @@ block content
     div(id="faculties-list")
         - if(message)
             .alert.alert-warning #{message}
-        // TODO: add the .list class on the right tag
-        input.search.form-control(type="text", style="margin: 30px auto; width: 50%", placeholder="Search")
+        input.search.form-control(id="search-bar", type="text", style="margin: 30px auto; width: 50%", placeholder="Search")
         .tab-content
             .tab-pane.fade.in.active(id="bachelor")
                 h1 Bachelor

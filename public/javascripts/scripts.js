@@ -26,3 +26,17 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
     MyLibrary.hash = '#' + rowDiv.attr('id'); // hash the current row id
     loadListJs();
 });
+
+// typeahead.js
+var searches = [
+    'Computer Science',
+    'Psychology & Technology',
+    'Software Science',
+    'Web Science',
+    'Data Science',
+    'Computer Science and Engineering',
+    'Data Science in Engineering',
+    'Human-Technology Interaction',
+    'Data Science and Entrepreneurship'
+];
+// TODO: implement the suggestion engine

@@ -9,8 +9,9 @@ var chooseUponUser = function (req, res, callback1, callback2) {
     if(req.session.userType === undefined) {
         req.session.userType = 'student';
         console.log(req.session.userType);
-        res.redirect(req.get('referer'));
-        // res.redirect('/');
+        // res.redirect(req.get('referrer'));
+        // console.log(req.get('origin'));
+        res.redirect('/'); // TODO: check this out
     } else if(req.session.userType === 'student') {
         callback1(req, res);
     } else {
@@ -23,7 +24,7 @@ var chooseUponUser = function (req, res, callback1, callback2) {
 router.get('/', function (req, res) { // TODO: decide whether separate controllers are needed for homepage
     if (req.session.userType === undefined) {
         req.session.userType = 'student';
-        res.redirect(res.get('referer'));
+        res.redirect('/');
     } else if (req.session.userType === 'student') {
         studentCtrl.homepage(req, res);
     } else {
@@ -105,11 +106,11 @@ router.get('/study/academic-year', studentCtrl.academicYear);
 router.post('/', function (req, res) {
     if (req.session.userType === undefined) {
         req.session.userType = 'student';
-        res.redirect(req.get('referer'));
+        res.redirect('/');
     }
 
     req.session.userType = req.session.userType === 'visitor' ? 'student' : 'visitor';
-    res.redirect(req.get('referer'));
+    res.redirect('/');
 });
 
 module.exports = router;
