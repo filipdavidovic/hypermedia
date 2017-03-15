@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    img(src=target.program.banner, style="width: 100%; margin-bottom: 100px;")
+    h1 #{pageHeader.title}
+    p #{pageHeader.strapline}
+
+    br
+
+    ol.breadcrumb
+        li
+            a(href="/") Home
+        li
+            a(href="/faculties") Faculties
+        li
+            - var url = '/faculties/' + target.faculty._id
+                a(href=url) #{target.faculty.name}
+        li.active #{target.program.name}
+    h2 #{target.program.name}
+    p #{target.program.description}

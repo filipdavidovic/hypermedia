@@ -57,15 +57,15 @@ router.get('/faculties/master', function (req, res) {
     chooseUponUser(req, res, studentCtrl.master, visitorCtrl.master);
 });
 
-router.get('/faculties/:facultyidentification/bachelor/:bacheloridentification', function (req, res) {
+router.get('/faculties/:facultyid/bachelor/:bachelorid', function (req, res) { // TODO: fix so that it receives a custom id
     chooseUponUser(req, res, studentCtrl.singleBachelor, visitorCtrl.singleBachelor);
 });
 
-router.get('/faculties/:facultyidentification/premaster/:premasteridentification', function (req, res) {
+router.get('/faculties/:facultyid/premaster/:premasterid', function (req, res) { // TODO: fix so that it receives a custom id
     chooseUponUser(req, res, studentCtrl.singlePremaster, visitorCtrl.singlePremaster);
 });
 
-router.get('/faculties/:facultyidentification/master/:masteridentification', function (req, res) {
+router.get('/faculties/:facultyid/master/:masterid', function (req, res) { // TODO: fix so that it receives a custom id
     chooseUponUser(req, res, studentCtrl.singleMaster, visitorCtrl.singleMaster);
 });
 

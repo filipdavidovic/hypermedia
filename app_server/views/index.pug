@@ -1,8 +1,8 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
+    h1= pageHeader.title
+    p= pageHeader.strapline
     .row
         .col-md-6
             form(action="", method="post", role="form")
@@ -29,29 +29,32 @@ block content
                         each faculty in faculties
                             each bachelorProgram in faculty.bachelor
                                 .col-md-4
-                                    .program-box
-                                        h3.name #{bachelorProgram.name}
-                                        p.description #{bachelorProgram.description}
-                                        img.img-responsive.img-center(src=bachelorProgram.banner)
-                                        h2.faculty #{faculty.name}
+                                    - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
+                                        a.program-box(href=programUrl)
+                                            h3.name #{bachelorProgram.name}
+                                            p.description #{bachelorProgram.description}
+                                            img.img-responsive.img-center(src=bachelorProgram.banner)
+                                            h2.faculty #{faculty.name}
             .tab-pane.fade(id="premaster")
                 h1 Pre-Master
                     .row.row-eq-height(id="premasterRow")
                         each faculty in faculties
                             each premasterProgram in faculty.premaster
                                 .col-md-4
-                                    .program-box
-                                        h3.name #{premasterProgram.name}
-                                        p.description #{premasterProgram.description}
-                                        img.img-responsive.img-center(src=premasterProgram.banner)
-                                        h2.faculty #{faculty.name}
+                                    - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
+                                        a.program-box(href=programUrl)
+                                            h3.name #{premasterProgram.name}
+                                            p.description #{premasterProgram.description}
+                                            img.img-responsive.img-center(src=premasterProgram.banner)
+                                            h2.faculty #{faculty.name}
             .tab-pane.fade(id="master")
                 h1 Master
                     .row.row-eq-height(id="masterRow")
                         each faculty in faculties
                             each masterProgram in faculty.master
                                 .col-md-4
-                                    .program-box
+                                    - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
+                                    a.program-box(href=programUrl)
                                         h3.name #{masterProgram.name}
                                         p.description #{masterProgram.description}
                                         img.img-responsive.img-center(src=masterProgram.banner)

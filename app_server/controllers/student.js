@@ -7,6 +7,25 @@ if(process.env.NODE_ENV === 'production') {
     apiOptions.server = "https://hypermedia-group9-studyguide.herokuapp.com";
 }
 
+var _showError = function (req, res, status) {
+    var title, content;
+    if (status === 404) {
+        title = "404, page not found";
+        content = "Oh dear. Looks like we can't find this page. Sorry.";
+    } else if (status === 500) {
+        title = "500, internal server error";
+        content = "How embarrassing. There's a problem with our server.";
+    } else {
+        title = status + ", something's gone wrong";
+        content = "Something, somewhere, has gone just a little bit wrong.";
+    }
+    res.status(status);
+    res.render('generic-text', {
+        title : title,
+        content : content
+    });
+};
+
 /* homepage */
 module.exports.homepage = function (req, res) {
     var requestOptions, path;
@@ -33,7 +52,7 @@ module.exports.homepage = function (req, res) {
         }
 
         res.render('index', {
-            title: "Student",
+            title: "TU/e Study Guide",
             pageHeader: {
                 title: "Home",
                 strapline: "Homepage of TU/e Study Guide"
@@ -95,15 +114,111 @@ module.exports.master = function (req, res) {
 };
 
 module.exports.singleBachelor = function (req, res) {
-    res.send("Single Bachelor - Student");
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var bachelor = body;
+
+        if(response.statusCode === 200) {
+            console.log(bachelor);
+            res.render('program', {
+                title: bachelor.name,
+                pageHeader: {
+                    title: bachelor.name,
+                    strapline: bachelor.description
+                },
+                target: bachelor,
+                type: {
+                    bachelor: true,
+                    premaster: false,
+                    master: false
+                },
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
 };
 
 module.exports.singlePremaster = function (req, res) {
-    res.send("Single Premaster - Student");
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var premaster = body;
+
+        if(response.statusCode === 200) {
+            console.log(premaster);
+            res.render('program', {
+                title: premaster.name,
+                pageHeader: {
+                    title: premaster.name,
+                    strapline: premaster.description
+                },
+                target: premaster,
+                type: {
+                    bachelor: false,
+                    premaster: true,
+                    master: false
+                },
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
 };
 
 module.exports.singleMaster = function (req, res) {
-    res.send("Single Master - Student");
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/master/' + req.params.masterid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var master = body;
+
+        if(response.statusCode === 200) {
+            console.log(master);
+            res.render('program', {
+                title: master.name,
+                pageHeader: {
+                    title: master.name,
+                    strapline: master.description
+                },
+                target: master,
+                type: {
+                    bachelor: false,
+                    premaster: false,
+                    master: true
+                },
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
 };
 
 module.exports.forum = function (req, res) {

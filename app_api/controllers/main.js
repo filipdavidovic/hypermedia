@@ -20,6 +20,150 @@ module.exports.getFaculties = function (req, res) {
         });
 };
 
+module.exports.getOneBachelor = function (req, res) {
+    console.log("Getting single bachelor.");
+    if(req.params && req.params.facultyid && req.params.bachelorid) {
+        Faculty
+            .findById(req.params.facultyid)
+            .exec(function (err, faculty) {
+                var response, program;
+                if(!faculty) {
+                    sendJsonResponse(res, 404, {
+                        "message": "facultyid not found"
+                    });
+                    return;
+                } else if(err){
+                    sendJsonResponse(res, 404, err)
+                }
+                if(faculty.bachelor && faculty.bachelor.length > 0) {
+                    program = faculty.bachelor.id(req.params.bachelorid);
+                    if(!program) {
+                        sendJsonResponse(res, 404, {
+                            "message": "Program not found!"
+                        });
+                    } else {
+                        response = {
+                            faculty: {
+                                name: faculty.name,
+                                _id: req.params.facultyid
+                            },
+                            program: program
+                        };
+                        sendJsonResponse(res, 200, response);
+                    }
+                } else {
+                    sendJsonResponse(res, 404, {
+                        "message": "No bachelor found."
+                    });
+                }
+            });
+    } else {
+        sendJsonResponse(res, 404, {
+            "message": "Not found, facultyid and bachelorid are both required"
+        });
+    }
+};
+
+module.exports.getOnePremaster = function (req, res) {
+    console.log("Getting single premaster.");
+    if(req.params && req.params.facultyid && req.params.premasterid) {
+        Faculty
+            .findById(req.params.facultyid)
+            .exec(function (err, faculty) {
+                var response, program;
+                if(!faculty) {
+                    console.log("*** facultyid not found.");
+                    sendJsonResponse(res, 404, {
+                        "message": "facultyid not found"
+                    });
+                    return;
+                } else if(err){
+                    console.log("*** Error: " + err);
+                    sendJsonResponse(res, 404, err)
+                }
+
+                if(faculty.premaster && faculty.premaster.length > 0) {
+                    program = faculty.premaster.id(req.params.premasterid);
+                    if(!program) {
+                        console.log("*** Program not found");
+                        sendJsonResponse(res, 404, {
+                            "message": "Program not found!"
+                        });
+                    } else {
+                        response = {
+                            faculty: {
+                                name: faculty.name,
+                                _id: req.params.facultyid
+                            },
+                            program: program
+                        };
+                        sendJsonResponse(res, 200, response);
+                    }
+                } else {
+                    console.log("*** Program not found");
+                    sendJsonResponse(res, 404, {
+                        "message": "No premaster found."
+                    });
+                }
+            });
+    } else {
+        console.log("*** Not found, facultyid and premasterid are both required");
+        sendJsonResponse(res, 404, {
+            "message": "Not found, facultyid and premasterid are both required"
+        });
+    }
+};
+
+module.exports.getOneMaster = function (req, res) {
+    console.log("Getting single master.");
+    if(req.params && req.params.facultyid && req.params.masterid) {
+        Faculty
+            .findById(req.params.facultyid)
+            .exec(function (err, faculty) {
+                var response, program;
+                if(!faculty) {
+                    console.log("*** facultyid not found.");
+                    sendJsonResponse(res, 404, {
+                        "message": "facultyid not found"
+                    });
+                    return;
+                } else if(err){
+                    console.log("*** Error: " + err);
+                    sendJsonResponse(res, 404, err)
+                }
+
+                if(faculty.master && faculty.master.length > 0) {
+                    program = faculty.master.id(req.params.masterid);
+                    if(!program) {
+                        console.log("*** Program not found");
+                        sendJsonResponse(res, 404, {
+                            "message": "Program not found!"
+                        });
+                    } else {
+                        response = {
+                            faculty: {
+                                name: faculty.name,
+                                _id: req.params.facultyid
+                            },
+                            program: program
+                        };
+                        sendJsonResponse(res, 200, response);
+                    }
+                } else {
+                    console.log("*** Program not found");
+                    sendJsonResponse(res, 404, {
+                        "message": "No premaster found."
+                    });
+                }
+            });
+    } else {
+        console.log("*** Not found, facultyid and premasterid are both required");
+        sendJsonResponse(res, 404, {
+            "message": "Not found, facultyid and premasterid are both required"
+        });
+    }
+};
+
 module.exports.getForums = function (req, res) {
     Forum
         .find()
