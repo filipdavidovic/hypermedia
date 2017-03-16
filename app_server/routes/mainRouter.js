@@ -41,6 +41,10 @@ router.get('/forum/:forumid', function (req, res) {
     chooseUponUser(req, res, studentCtrl.getOneForum, uniformCtrl.notAvailable);
 });
 
+router.get('/forum/:forumid/:postid', function (req, res) {
+    chooseUponUser(req, res, studentCtrl.getOnePost, uniformCtrl.notAvailable);
+});
+
 // FACULTIES
 router.get('/faculties', function (req, res) {
     chooseUponUser(req, res, studentCtrl.faculties, visitorCtrl.faculties);

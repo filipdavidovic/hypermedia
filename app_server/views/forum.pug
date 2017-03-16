@@ -1,10 +1,12 @@
 extends layout
 
 block content
+     - if(message)
+        .alert.alert-warning #{message}
      each forum in forums
          .forum-box.clearfix
              - var forumUrl = '/forum/' + forum._id
-             a(href=forumUrl)
-                h2 #{forum.title}
-             p #{forum.description}
-             p.pull-right Number of posts: #{forum.posts.length}
+                 a(href=forumUrl)
+                    h2 #{forum.title}
+                 p #{forum.description}
+                 p.pull-right Number of posts: #{forum.posts.length}

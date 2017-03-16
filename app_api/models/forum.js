@@ -15,6 +15,7 @@ var postSchema = new mongoose.Schema({
 });
 
 var forumSchema = new mongoose.Schema({
+    "_id": {type: String, required: true},
     "title": {type: String, required: true},
     "description": {type: String, "default": "This is a forum"},
     "identification": {type: String, required: true},

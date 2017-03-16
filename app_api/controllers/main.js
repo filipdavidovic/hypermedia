@@ -233,7 +233,7 @@ module.exports.getOneForum = function (req, res) {
 
 module.exports.getOnePost = function (req, res) {
     if(req.params && req.params.forumid && req.params.postid) {
-        Loc
+        Forum
             .findById(req.params.forumid)
             .exec(function (err, forum) {
                 var response, post;

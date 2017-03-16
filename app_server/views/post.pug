@@ -1,3 +1,22 @@
 extends layout
 
 block content
+    .post-box
+        h2 #{target.post.title}
+        p #{target.post.description}
+        .row
+            .col-md-6
+                p Created by: #{target.post.author}
+            .col-md-6
+                p.pull-right Created on:
+                    +formatDate(target.post.createdOn)
+    each answer in target.post.answers
+        .answer-box
+            h2 #{answer.title}
+            p #{answer.answerBody}
+            .row
+                .col-md-6
+                    p Created by: #{answer.author}
+                .col-md-6
+                    p.pull-right Created on:
+                        +formatDate(answer.createdOn)

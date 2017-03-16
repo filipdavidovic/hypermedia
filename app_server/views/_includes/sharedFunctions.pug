@@ -9,3 +9,16 @@ mixin pickUserType(userType)
         =" Student"
     - else
         =" Visitor"
+
+mixin formatDate(dateString)
+    - var date = new Date(dateString);
+    - var monthNames = [ "January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December" ];
+    - var d = date.getDay();
+    - var m = monthNames[date.getMonth()];
+    - var y = date.getFullYear();
+    - var h = date.getHours();
+    - var min = date.getMinutes();
+    - if(min%10 === min)
+        - min = "0" + min;
+    - var output = d + ". " + m + " " + y + ". - " + h + ":" + min
+    =output

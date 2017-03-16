@@ -286,24 +286,12 @@ module.exports.forum = function (req, res) {
             userType: req.session.userType
         });
     });
-
-    // res.render('forum', {
-    //     forums: [{
-    //         "name": "Newbie Forum",
-    //         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eleifend augue sed dolor molestie sollicitudin. Etiam sed venenatis tellus, at tristique diam. Integer non sapien velit. Cras consectetur, ipsum sit amet luctus efficitur, eros metus sollicitudin sapien, in rhoncus nisl diam eu erat. Phasellus vel auctor libero. Cras faucibus a mauris in varius. Nulla pharetra lorem aliquam turpis vestibulum, porttitor luctus dolor rhoncus. Mauris vel vestibulum justo. Sed congue magna vel urna efficitur, a aliquam sem scelerisque. Nullam non lectus in felis mollis rutrum. Maecenas pulvinar mattis sapien, eu pellentesque tellus sagittis a. Donec et dignissim quam, sit amet viverra magna. Morbi vehicula lorem tellus, vitae bibendum augue consectetur quis. Quisque sodales posuere sapien quis cursus. Suspendisse tempor hendrerit mi, et finibus erat ullamcorper eu.",
-    //         "postNumber": 350
-    //     }, {
-    //         "name": "Computer Science",
-    //         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eleifend augue sed dolor molestie sollicitudin. Etiam sed venenatis tellus, at tristique diam. Integer non sapien velit. Cras consectetur, ipsum sit amet luctus efficitur, eros metus sollicitudin sapien, in rhoncus nisl diam eu erat. Phasellus vel auctor libero. Cras faucibus a mauris in varius. Nulla pharetra lorem aliquam turpis vestibulum, porttitor luctus dolor rhoncus. Mauris vel vestibulum justo. Sed congue magna vel urna efficitur, a aliquam sem scelerisque. Nullam non lectus in felis mollis rutrum. Maecenas pulvinar mattis sapien, eu pellentesque tellus sagittis a. Donec et dignissim quam, sit amet viverra magna. Morbi vehicula lorem tellus, vitae bibendum augue consectetur quis. Quisque sodales posuere sapien quis cursus. Suspendisse tempor hendrerit mi, et finibus erat ullamcorper eu.",
-    //         "postNumber": 123
-    //     }]
-    // });
 };
 
 module.exports.getOneForum = function (req, res) {
     var requestOptions, path;
 
-    path = '/api/forum' + req.params.forumid;
+    path = '/api/forum/' + req.params.forumid;
 
     requestOptions = {
         url: apiOptions.server + path,
@@ -334,6 +322,36 @@ module.exports.getOneForum = function (req, res) {
             message: message,
             userType: req.session.userType
         });
+    });
+};
+
+module.exports.getOnePost = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/forum/' + req.params.forumid + '/' + req.params.postid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var postfetch = body;
+
+        if(response.statusCode === 200) {
+            res.render('post', {
+                title: postfetch.post.title + " - TU/e Forum",
+                pageHeader: {
+                    title: postfetch.post.title,
+                    strapline: postfetch.post.description
+                },
+                target: postfetch,
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
     });
 };
 

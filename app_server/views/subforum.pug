@@ -1,12 +1,14 @@
 extends layout
 
 block content
-    p You are a
-        +pickUserType(userType)
     each post in forum.posts
         .post-box.clearfix
             - var forumUrl = '/forum/' + forum._id + '/' + post._id
             a(href=forumUrl)
                 h2 #{post.title}
-            p #{post.description}
-            p.pull-right Number of answers: #{post.answers.length}
+                p #{post.description}
+            .row
+                .col-md-6
+                    p Author: #{post.author}
+                .col-md-6
+                    p.pull-right Number of answers: #{post.answers.length}
