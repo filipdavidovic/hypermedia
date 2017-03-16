@@ -288,6 +288,73 @@ module.exports.forum = function (req, res) {
     });
 };
 
+module.exports.addPost = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/forum/' + req.params.forumid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var forum = body;
+        var message;
+
+        if(err) {
+            message = "API lookup error";
+            forum = null;
+        } else {
+            if(!forum.length) {
+                message = "No forums found";
+            }
+        }
+
+        res.render('addPost', {
+            title: "Add a post to " + forum.title,
+            pageHeader: {
+                title: forum.title
+            },
+            forum: forum,
+            error: req.query.err,
+            message: message,
+            userType: req.session.userType
+        });
+    });
+};
+
+module.exports.doAddPost = function (req, res) {
+    var requestOptions, path, postdata;
+
+    path = '/api/forum/' + req.params.forumid + '/add-new-post';
+
+    postdata = {
+        author: req.body.author,
+        title: req.body.title,
+        description: req.body.description
+    };
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "POST",
+        json: postdata
+    };
+
+    if(!postdata.title || !postdata.description) {
+        res.redirect('/forum/' + req.params.forumid + '/add-new-post?err=val');
+    } else {
+        request(requestOptions, function (err, response, body) {
+            if(response.statusCode === 201) {
+                res.redirect('/forum/' + req.params.forumid + '/' + body._id);
+            } else {
+                _showError(req, res, response.statusCode);
+            }
+        });
+    }
+};
+
 module.exports.getOneForum = function (req, res) {
     var requestOptions, path;
 
@@ -347,12 +414,45 @@ module.exports.getOnePost = function (req, res) {
                     strapline: postfetch.post.description
                 },
                 target: postfetch,
+                error: req.query.err,
                 userType: req.session.userType
             });
         } else {
             _showError(req, res, response.statusCode);
         }
     });
+};
+
+module.exports.doAddAnswer = function (req, res) {
+    var requestOptions, path, postdata;
+
+    path = '/api/forum/' + req.params.forumid + '/' + req.params.postid;
+
+    postdata = {
+        answerBody: req.body.answerBody
+    };
+
+    if(req.body.author != '') {
+        postdata.author = req.body.author;
+    }
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "POST",
+        json: postdata
+    };
+
+    if(!postdata.answerBody) {
+        res.redirect('/forum/' + req.params.forumid + '/' + req.params.postid + '?err=val');
+    } else {
+        request(requestOptions, function (err, response, body) {
+            if(response.statusCode === 201) {
+                res.redirect('/forum/' + req.params.forumid + '/' + body._id);
+            } else {
+                _showError(req, res, response.statusCode);
+            }
+        });
+    }
 };
 
 // ORGANIZATION

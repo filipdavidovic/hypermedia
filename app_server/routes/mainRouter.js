@@ -41,6 +41,10 @@ router.get('/forum/:forumid', function (req, res) {
     chooseUponUser(req, res, studentCtrl.getOneForum, uniformCtrl.notAvailable);
 });
 
+router.get('/forum/:forumid/add-new-post', function (req, res) {
+    chooseUponUser(req, res, studentCtrl.addPost, uniformCtrl.notAvailable);
+});
+
 router.get('/forum/:forumid/:postid', function (req, res) {
     chooseUponUser(req, res, studentCtrl.getOnePost, uniformCtrl.notAvailable);
 });
@@ -119,6 +123,14 @@ router.post('/', function (req, res) {
 
     req.session.userType = req.session.userType === 'visitor' ? 'student' : 'visitor';
     res.redirect('/');
+});
+
+router.post('/forum/:forumid/add-new-post', function (req, res) {
+    chooseUponUser(req, res, studentCtrl.doAddPost, uniformCtrl.notAvailable);
+});
+
+router.post('/forum/:forumid/:postid', function (req, res) {
+    chooseUponUser(req, res, studentCtrl.doAddAnswer, uniformCtrl.notAvailable);
 });
 
 module.exports = router;

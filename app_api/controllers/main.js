@@ -3,6 +3,52 @@ var mongoose = require('mongoose');
 var Faculty = mongoose.model('Faculty');
 var Forum = mongoose.model('Forum');
 
+var doAddPost = function (req, res, forum) {
+    if(!forum) {
+        console.log("*** not found");
+        sendJsonResponse(res, 404, {
+            "message": "forumid not found"
+        });
+    } else {
+        console.log("*** pushing...");
+        forum.posts.push({
+            author: req.body.author,
+            title: req.body.title,
+            description: req.body.description
+        });
+        forum.save(function (err, forum) {
+            var thisPost;
+            if(err) {
+                console.log("**** ERROR: " + err);
+                sendJsonResponse(res, 404, err);
+            } else {
+                thisPost = forum.posts[forum.posts.length-1];
+                sendJsonResponse(res, 201, thisPost);
+            }
+        });
+    }
+};
+
+var doAddAnswer = function (req, res, forum, post) {
+    if(!post) {
+        sendJsonResponse(res, 404, {
+            "message": "forumid or postid not found"
+        });
+    } else {
+        post.answers.push({
+            author: req.body.author,
+            answerBody: req.body.answerBody
+        });
+        forum.save(function (err, forum) {
+            if(err) {
+                sendJsonResponse(res, 404, err);
+            } else {
+                sendJsonResponse(res, 201, post);
+            }
+        });
+    }
+};
+
 module.exports.getFaculties = function (req, res) {
     Faculty
         .find()
@@ -267,6 +313,47 @@ module.exports.getOnePost = function (req, res) {
         sendJsonResponse(res, 404, {
             "message": "Not found, forumid and postid are both required."
         });
+    }
+};
+
+module.exports.createPost = function (req, res) {
+    if(!req.params.forumid) {
+        console.log("*** forumid required");
+        sendJsonResponse(res, 404, {
+            "message": "Not found, forumid required."
+        });
+    } else {
+        Forum
+            .findById(req.params.forumid)
+            .exec(function (err, forum) {
+                if(err) {
+                    sendJsonResponse(res, 404, err);
+                } else {
+                    console.log("*** do add review");
+                    doAddPost(req, res, forum);
+                }
+            });
+    }
+};
+
+module.exports.createAnswer = function (req, res) {
+    if(!req.params.forumid || !req.params.postid) {
+        sendJsonResponse(res, 404, {
+            "message": "Not found, forumid and postid are both required."
+        });
+    } else {
+        Forum
+            .findById(req.params.forumid)
+            .select('title posts _id')
+            .exec(function (err, body) {
+                if(err) {
+                    sendJsonResponse(res, 404, err);
+                } else {
+                    var post = body.posts.id(req.params.postid);
+
+                    doAddAnswer(req, res, body, post);
+                }
+            });
     }
 };
 

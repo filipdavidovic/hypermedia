@@ -20,3 +20,16 @@ block content
                 .col-md-6
                     p.pull-right Created on:
                         +formatDate(answer.createdOn)
+    .answer-box.clearfix
+        form.form-horizontal(action="", method="post", role="form")
+            - if(error === "val")
+                .alert.alert-danger(role="alert") All fields are required, please try again.
+            .form-group
+                label.col-xs-10.col-sm-2.control-label(for="author") Author
+                .col-xs-12.col-sm-6
+                    input#author.form-control(name="author")
+            .form-group
+                label.col-sm-2.control-label(for="answerBody") Answer
+                .col-sm-10
+                    textarea#answerBody.form-control(name="answerBody", rows="5")
+            button.btn.btn-default.pull-right Add my post

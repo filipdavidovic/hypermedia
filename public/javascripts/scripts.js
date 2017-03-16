@@ -42,10 +42,18 @@ var searches = [
 
 // pills url fix
 var url = document.location.toString();
-if (url.match('#')) {
+if(url.match('#')) {
     $('.nav-pills a[href="#' + url.split('#')[1] + '"]').tab('show');
 }
 
 $(document).ready(function () {
     $(window).scrollTop(0);
 });
+
+// if validation error, scroll to bottom - because of posting answer
+if(url.match('\\?')) {
+    if(url.split('?')[1] === 'err=val') {
+        var $target = $('html,body');
+        $target.animate({scrollTop: $target.height()}, 1000);
+    }
+}

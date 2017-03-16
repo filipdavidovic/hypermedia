@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    h1 Add a post to #{pageHeader.title}
+    .row
+        .col-xs-12.col-md-6
+            form.form-horizontal(action="", method="post", role="form")
+                - if(error === "val")
+                    .alert.alert-danger(role="alert") All fields are required, please try again.
+                .form-group
+                    label.col-xs-10.col-sm-2.control-label(for="author") Author
+                    .col-xs-12.col-sm-6
+                        input#author.form-control(name="author")
+                .form-group
+                    label.col-xs-10.col-sm-2.control-label(for="title") Title
+                    .col-xs-12.col-sm-10
+                        input#title.form-control(name="title")
+                .form-group
+                    label.col-sm-2.control-label(for="description") Description
+                    .col-sm-10
+                        textarea#description.form-control(name="description", rows="5")
+                button.btn.btn-default.pull-right Add my post
+        .col-xs-12.col-md-4
