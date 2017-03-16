@@ -38,8 +38,7 @@ var searches = [
     'Data Science in Engineering',
     'Human-Technology Interaction',
     'Data Science and Entrepreneurship'
-];
-// TODO: implement the suggestion engine
+]; // TODO: implement the suggestion engine - typeahead.js
 
 // pills url fix
 var url = document.location.toString();
