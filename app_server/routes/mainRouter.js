@@ -150,7 +150,7 @@ module.exports = function (passport) {
 
     router.post('/register', passport.authenticate('registration', {
         successRedirect: '/forum',
-        failureRedirect: '/registration',
+        failureRedirect: '/register',
         failureFlash: true
     }));
 

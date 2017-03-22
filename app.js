@@ -63,3 +63,6 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+// TODO: if possible add email verification for forum users
+// TODO: add remember me to forum user login, use a passport strategy if available
