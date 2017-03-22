@@ -3,6 +3,19 @@ extends layout
 block content
      - if(message)
         .alert.alert-warning #{message}
+     .row
+         .col-md-4
+            - if(userName)
+                p Currently logged in as #{userName}
+            - else
+                p Not currently logged in
+         .col-md-8
+             - if(userName)
+                 a.btn.btn-default(href="/logout") Log Out
+             - else
+                .btn-group
+                    a.btn.btn-default(href="/login") Log In
+                    a.btn.btn-default(href="/register") Register
      each forum in forums
          .forum-box.clearfix
              - var forumUrl = '/forum/' + forum._id

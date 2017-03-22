@@ -27,28 +27,11 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
     loadListJs();
 });
 
-// typeahead.js
-var searches = [
-    'Computer Science',
-    'Psychology & Technology',
-    'Software Science',
-    'Web Science',
-    'Data Science',
-    'Computer Science and Engineering',
-    'Data Science in Engineering',
-    'Human-Technology Interaction',
-    'Data Science and Entrepreneurship'
-]; // TODO: implement the suggestion engine - typeahead.js
-
 // pills url fix
 var url = document.location.toString();
 if(url.match('#')) {
     $('.nav-pills a[href="#' + url.split('#')[1] + '"]').tab('show');
 }
-
-$(document).ready(function () {
-    $(window).scrollTop(0);
-});
 
 // if validation error, scroll to bottom - because of posting answer
 if(url.match('\\?')) {
@@ -57,3 +40,8 @@ if(url.match('\\?')) {
         $target.animate({scrollTop: $target.height()}, 1000);
     }
 }
+
+// other
+$(document).ready(function () {
+    $(window).scrollTop(0);
+});

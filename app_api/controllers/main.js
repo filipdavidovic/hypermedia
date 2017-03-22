@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var Faculty = mongoose.model('Faculty');
 var Forum = mongoose.model('Forum');
+var User = mongoose.model('User');
 
 var doAddPost = function (req, res, forum) {
     if(!forum) {
@@ -14,7 +15,8 @@ var doAddPost = function (req, res, forum) {
         forum.posts.push({
             author: req.body.author,
             title: req.body.title,
-            description: req.body.description
+            description: req.body.description,
+            creatorId: req.body.user._id.toString()
         });
         forum.save(function (err, forum) {
             var thisPost;
@@ -31,18 +33,25 @@ var doAddPost = function (req, res, forum) {
 
 var doAddAnswer = function (req, res, forum, post) {
     if(!post) {
+        console.log("*** forumid or postid not found");
         sendJsonResponse(res, 404, {
             "message": "forumid or postid not found"
         });
     } else {
+        console.log("*** Pushing...");
         post.answers.push({
-            author: req.body.author,
-            answerBody: req.body.answerBody
+            "author": req.body.user.lastName + " " + req.body.user.initials,
+            "answerBody": req.body.answerBody,
+            "creatorId": req.body.user._id.toString()
         });
+
+        console.log("*** Saving...");
         forum.save(function (err, forum) {
             if(err) {
+                console.log("*** ERROR: " + err);
                 sendJsonResponse(res, 404, err);
             } else {
+                console.log("*** SUCCESS");
                 sendJsonResponse(res, 201, post);
             }
         });
@@ -347,10 +356,12 @@ module.exports.createAnswer = function (req, res) {
             .select('title posts _id')
             .exec(function (err, body) {
                 if(err) {
+                    console.log("*** ERROR: " + err);
                     sendJsonResponse(res, 404, err);
                 } else {
                     var post = body.posts.id(req.params.postid);
 
+                    console.log("*** Sending to doAddAnswer method");
                     doAddAnswer(req, res, body, post);
                 }
             });
@@ -360,4 +371,71 @@ module.exports.createAnswer = function (req, res) {
 var sendJsonResponse = function (res, status, content) {
     res.status(status);
     res.json(content);
+};
+
+module.exports.deleteAnswer = function (req, res) {
+    if(!req.params.forumid || !req.params.postid) {
+        sendJsonResponse(res, 404, {
+            "message": "Not found, forumid and postid both required"
+        });
+        return;
+    }
+    Forum
+        .findById(req.params.forumid)
+        .select('posts')
+        .exec(function (err, forum) {
+            if(!forum) {
+                sendJsonResponse(res, 404, {
+                    "message": "forumid not found"
+                });
+                return;
+            } else if(err) {
+                sendJsonResponse(res, 404, err);
+                return;
+            }
+            if(forum.posts && forum.posts.length > 0) {
+                if (!forum.posts.id(req.params.postid)) {
+                    sendJsonResponse(res, 404, {
+                        "message": "postid not found"
+                    });
+                } else {
+                    var post = forum.posts.id(req.params.postid);
+                    if (!req.body.answerId) {
+                        sendJsonResponse(res, 404, {
+                            "message": "Not found, answerid required"
+                        });
+                        return;
+                    }
+
+                    var thisAnswer;
+                    var returnFourOFour = true;
+                    post.answers.forEach(function (answer) {
+                        if (answer._id.toString() === req.body.answerId.toString()) {
+                            thisAnswer = answer;
+                            returnFourOFour = false;
+                            if (thisAnswer.creatorId != req.body.user._id) {
+                                sendJsonResponse(res, 401, {
+                                    "message": "You are unauthorized to do this."
+                                });
+                            } else {
+                                thisAnswer.remove();
+                                forum.save(function (err) {
+                                    if (err) {
+                                        sendJsonResponse(res, 404, err);
+                                        return;
+                                    }
+                                    sendJsonResponse(res, 204, null);
+                                });
+                            }
+                        }
+                    });
+
+                    if(returnFourOFour) {
+                        sendJsonResponse(res, 404, {
+                            "message": "Not found"
+                        });
+                    }
+                }
+            }
+        });
 };

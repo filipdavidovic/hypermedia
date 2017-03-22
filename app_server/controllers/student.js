@@ -275,7 +275,7 @@ module.exports.forum = function (req, res) {
             }
         }
 
-        res.render('forum', {
+        var data = {
             title: "TUe Forums",
             pageHeader: {
                 title: "Forum",
@@ -284,7 +284,13 @@ module.exports.forum = function (req, res) {
             forums: forums,
             message: message,
             userType: req.session.userType
-        });
+        };
+
+        if(req.user) {
+            data.userName = req.user.lastName + " " + req.user.initials;
+        }
+
+        res.render('forum', data);
     });
 };
 
@@ -336,6 +342,10 @@ module.exports.doAddPost = function (req, res) {
         description: req.body.description
     };
 
+    if(req.user) {
+        postdata.user = req.user;
+    }
+
     requestOptions = {
         url: apiOptions.server + path,
         method: "POST",
@@ -379,6 +389,8 @@ module.exports.getOneForum = function (req, res) {
             }
         }
 
+        var loggedIn = !!req.user;
+
         res.render('subforum', {
             title: forum.title,
             pageHeader: {
@@ -387,7 +399,8 @@ module.exports.getOneForum = function (req, res) {
             },
             forum: forum,
             message: message,
-            userType: req.session.userType
+            userType: req.session.userType,
+            loggedIn: loggedIn
         });
     });
 };
@@ -407,7 +420,9 @@ module.exports.getOnePost = function (req, res) {
         var postfetch = body;
 
         if(response.statusCode === 200) {
-            res.render('post', {
+            var loggedIn = !!req.user;
+
+            var data = {
                 title: postfetch.post.title + " - TU/e Forum",
                 pageHeader: {
                     title: postfetch.post.title,
@@ -415,43 +430,81 @@ module.exports.getOnePost = function (req, res) {
                 },
                 target: postfetch,
                 error: req.query.err,
-                userType: req.session.userType
-            });
+                userType: req.session.userType,
+                loggedIn: loggedIn
+            };
+
+            if(req.user) {
+                data.userId = req.user._id;
+            } else {
+                data.userId = "visitor";
+            }
+
+            res.render('post', data);
         } else {
             _showError(req, res, response.statusCode);
         }
     });
 };
 
-module.exports.doAddAnswer = function (req, res) {
+module.exports.doChangeAnswer = function (req, res) {
     var requestOptions, path, postdata;
 
     path = '/api/forum/' + req.params.forumid + '/' + req.params.postid;
 
-    postdata = {
-        answerBody: req.body.answerBody
-    };
+    if(req.body._method === "DELETE") { // DELETE
+        postdata = {
+            answerId: req.body.answerId
+        };
 
-    if(req.body.author != '') {
-        postdata.author = req.body.author;
-    }
+        if(req.user) {
+            postdata.user = req.user;
+        } else {
+            _showError(req, res, 401);
+        }
 
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "POST",
-        json: postdata
-    };
+        requestOptions = {
+            url: apiOptions.server + path,
+            method: "DELETE",
+            json: postdata
+        };
 
-    if(!postdata.answerBody) {
-        res.redirect('/forum/' + req.params.forumid + '/' + req.params.postid + '?err=val');
-    } else {
         request(requestOptions, function (err, response, body) {
-            if(response.statusCode === 201) {
-                res.redirect('/forum/' + req.params.forumid + '/' + body._id);
+            if(response.statusCode === 204) {
+                console.log("**** BODY: " + body);
+                res.redirect('/forum/' + req.params.forumid + '/' + req.params.postid);
             } else {
                 _showError(req, res, response.statusCode);
             }
         });
+    } else { // POST
+        postdata = {
+            answerBody: req.body.answerBody
+        };
+
+        if(req.user) {
+            postdata.user = req.user;
+        } else {
+            _showError(req, res, 401);
+        }
+
+        requestOptions = {
+            url: apiOptions.server + path,
+            method: "POST",
+            json: postdata
+        };
+
+        if(!postdata.answerBody) {
+            res.redirect('/forum/' + req.params.forumid + '/' + req.params.postid + '?err=val');
+        } else {
+            request(requestOptions, function (err, response, body) {
+                if(response.statusCode === 201) {
+                    res.redirect('/forum/' + req.params.forumid + '/' + body._id);
+                } else {
+                    _showError(req, res, response.statusCode);
+                }
+            });
+        }
     }
 };
 
@@ -475,4 +528,57 @@ module.exports.freeSoftware = function (req, res) {
 
 module.exports.academicYear = function (req, res) {
     res.send("Academic Year");
+};
+
+// USER
+module.exports.register = function (req, res) {
+    var data = {
+        errorMessage: req.flash('message')[0]
+    };
+    res.render('register', data);
+};
+
+module.exports.login = function (req, res) {
+    var data = {
+        errorMessage: req.flash('message')[0]
+    };
+    res.render('login', data);
+};
+
+module.exports.doAddUser = function (req, res) {
+    var requestOptions, path, postdata;
+
+    path = '/api/forum/add-user';
+
+    postdata = {
+        lastName: req.body.lastName,
+        initials: req.body.initials,
+        username: req.body.username,
+        password: req.body.password
+    };
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "POST",
+        json: postdata
+    };
+
+
+
+    if((true)) { // !postdata.lastName || (postdata.username.match(usernameRegEx) === null) || !postdata.password || !postdata.initials
+        req.flash('message', 'Invalid Input');
+
+    } else {
+        request(requestOptions, function (err, response, body) {
+            if(response.statusCode === 201) {
+                res.redirect('/forum');
+            } else {
+                _showError(req, res, response.statusCode);
+            }
+        });
+    }
+};
+
+module.exports.deleteOneAnswer = function (req, res) {
+    res.redirect('/');
 };

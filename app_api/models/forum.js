@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 
 var answerSchema = new mongoose.Schema({
-    "author": {type: String, "default": "Anonymous"},
+    "author": {type: String, required: true},
     "answerBody": {type: String, required: true},
-    "createdOn": {type: Date, "default": Date.now()}
+    "createdOn": {type: Date, "default": Date.now()},
+    "creatorId": {type: String}
 });
 
 var postSchema = new mongoose.Schema({
@@ -11,7 +12,8 @@ var postSchema = new mongoose.Schema({
     "author": {type: String, "default": "Anonymous"},
     "description": {type: String, required: true},
     "answers": [answerSchema],
-    "createdOn": {type: Date, "default": Date.now()}
+    "createdOn": {type: Date, "default": Date.now()},
+    "creatorId": {type: String}
 });
 
 var forumSchema = new mongoose.Schema({

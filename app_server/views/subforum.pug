@@ -1,8 +1,9 @@
 extends layout
 
 block content
-    - var addPostUrl = '/forum/' + forum._id + '/add-new-post'
-    a.btn.btn-default(href=addPostUrl) Add a post
+    - if(loggedIn)
+        - var addPostUrl = '/forum/' + forum._id + '/add-new-post'
+        a.btn.btn-default(href=addPostUrl) Add a post
     each post in forum.posts
         .post-box.clearfix
             - var forumUrl = '/forum/' + forum._id + '/' + post._id

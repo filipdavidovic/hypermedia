@@ -1,6 +1,7 @@
 extends layout
 
 block content
+    h1 #{userId}
     .post-box
         h2 #{target.post.title}
         p #{target.post.description}
@@ -12,24 +13,29 @@ block content
                     +formatDate(target.post.createdOn)
     each answer in target.post.answers
         .answer-box
+            - if(answer.creatorId === userId.toString())
+                form(action="", method="post", role="form")
+                    button.pull-right
+                        span.glyphicon.glyphicon-remove-circle
+                    input(type="hidden", name="answerId", value=answer._id)
+                    input(type="hidden", name="_method", value="DELETE")
             h2 #{answer.title}
             p #{answer.answerBody}
             .row
                 .col-md-6
                     p Created by: #{answer.author}
+                    p CreatorId: #{answer.creatorId}
                 .col-md-6
                     p.pull-right Created on:
                         +formatDate(answer.createdOn)
-    .answer-box.clearfix
-        form.form-horizontal(action="", method="post", role="form")
-            - if(error === "val")
-                .alert.alert-danger(role="alert") All fields are required, please try again.
-            .form-group
-                label.col-xs-10.col-sm-2.control-label(for="author") Author
-                .col-xs-12.col-sm-6
-                    input#author.form-control(name="author")
-            .form-group
-                label.col-sm-2.control-label(for="answerBody") Answer
-                .col-sm-10
-                    textarea#answerBody.form-control(name="answerBody", rows="5")
-            button.btn.btn-default.pull-right Add my post
+    - if(loggedIn)
+        .answer-box.clearfix
+            form.form-horizontal(action="", method="post", role="form")
+                - if(error === "val")
+                    .alert.alert-danger(role="alert") All fields are required, please try again.
+                h2 Your Answer
+                .form-group
+                    label.col-sm-2.control-label(for="answerBody") Answer
+                    .col-sm-10
+                        textarea#answerBody.form-control(name="answerBody", rows="5")
+                button.btn.btn-default.pull-right(type="submit") Add my post

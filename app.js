@@ -4,10 +4,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cookieSession = require('express-session');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash = require('connect-flash');
 // var sassMiddleware = require('node-sass-middleware');
 require('./app_api/models/db');
 
-var router = require('./app_server/routes/mainRouter');
+var router = require('./app_server/routes/mainRouter')(passport);
 var apiRouter = require('./app_api/routes/apiRouter');
 
 var app = express();
@@ -22,6 +25,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
 app.use(cookieSession({secret: "hypermedia", resave: false, saveUninitialized: false}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use(sassMiddleware({
@@ -30,6 +35,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     debug: true,
 //     outputStyle: 'compressed'
 // }));
+
+app.use(flash());
+
+var initPassport = require('./passport/init');
+initPassport(passport);
 
 app.use('/', router);
 app.use('/api', apiRouter);
@@ -53,5 +63,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-// TODO: if necessary continue building the forum.
