@@ -1,41 +1,84 @@
 extends layout
 
 block content
-    h1 #{userId}
-    .post-box
-        h2 #{target.post.title}
-        p #{target.post.description}
-        .row
-            .col-md-6
-                p Created by: #{target.post.author}
-            .col-md-6
-                p.pull-right Created on:
-                    +formatDate(target.post.createdOn)
-    each answer in target.post.answers
-        .answer-box
-            - if(answer.creatorId === userId.toString())
-                form(action="", method="post", role="form")
-                    button.pull-right
-                        span.glyphicon.glyphicon-remove-circle
-                    input(type="hidden", name="answerId", value=answer._id)
-                    input(type="hidden", name="_method", value="DELETE")
-            h2 #{answer.title}
-            p #{answer.answerBody}
-            .row
-                .col-md-6
-                    p Created by: #{answer.author}
-                    p CreatorId: #{answer.creatorId}
-                .col-md-6
-                    p.pull-right Created on:
-                        +formatDate(answer.createdOn)
-    - if(loggedIn)
-        .answer-box.clearfix
-            form.form-horizontal(action="", method="post", role="form")
-                - if(error === "val")
-                    .alert.alert-danger(role="alert") All fields are required, please try again.
-                h2 Your Answer
-                .form-group
-                    label.col-sm-2.control-label(for="answerBody") Answer
-                    .col-sm-10
-                        textarea#answerBody.form-control(name="answerBody", rows="5")
-                button.btn.btn-default.pull-right(type="submit") Add my post
+    .content-margins
+        .container
+            .subforum-thumbnail
+                h2.basic-title.align-left #{target.post.title}
+                p.basic-text #{target.post.description}
+                .row
+                    .col-md-6.col-sm-12
+                        p.basic-text.vertical-align-text.align-left
+                            | Number of answers:
+                            b  #{target.post.answers.length}
+                    .col-md-6.col-sm-12
+                        p.basic-text.align-right
+                            | Author:
+                            b  #{target.post.author}
+                        p.basic-text.align-right
+                            | Created on:
+                            b
+                                 +formatDate(target.post.createdOn)
+            each answer in target.post.answers
+                .answer-box
+                    // TODO: add remove post
+                    h3.basic-title.align-left #{answer.title}
+                    p.basic-text #{answer.answerBody}
+                    .row
+                        .col-md-6.col-sm-12
+                            p.basic-text.align-left
+                                | Author:
+                                b  #{answer.author}
+                        .col-md-6.col-sm-12
+                            p.basic-text.align-right
+                                | Created on:
+                                b
+                                      +formatDate(answer.createdOn)
+            - if(loggedIn)
+                .answer-box
+                    h3.basic-title.align-left Your Answer
+                    form.form-horizontal(action='', method='post', role='form')
+                        .form-group.padding-form-group
+                            textarea#answerBody.form-control.textarea-mod(name='answerBody', rows='5')
+                        |
+                        button.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;')
+                            span Submit.
+
+    //h1 #{userId}
+    //.post-box
+    //    h2 #{target.post.title}
+    //    p #{target.post.description}
+    //    .row
+    //        .col-md-6
+    //            p Created by: #{target.post.author}
+    //        .col-md-6
+    //            p.pull-right Created on:
+    //                +formatDate(target.post.createdOn)
+    //each answer in target.post.answers
+    //    .answer-box
+    //        - if(answer.creatorId === userId.toString())
+    //            form(action="", method="post", role="form")
+    //                button.pull-right
+    //                    span.glyphicon.glyphicon-remove-circle
+    //                input(type="hidden", name="answerId", value=answer._id)
+    //                input(type="hidden", name="_method", value="DELETE")
+    //        h2 #{answer.title}
+    //        p #{answer.answerBody}
+    //        .row
+    //            .col-md-6
+    //                p Created by: #{answer.author}
+    //                p CreatorId: #{answer.creatorId}
+    //            .col-md-6
+    //                p.pull-right Created on:
+    //                    +formatDate(answer.createdOn)
+    //- if(loggedIn)
+    //    .answer-box.clearfix
+    //        form.form-horizontal(action="", method="post", role="form")
+    //            - if(error === "val")
+    //                .alert.alert-danger(role="alert") All fields are required, please try again.
+    //            h2 Your Answer
+    //            .form-group
+    //                label.col-sm-2.control-label(for="answerBody") Answer
+    //                .col-sm-10
+    //                    textarea#answerBody.form-control(name="answerBody", rows="5")
+    //            button.btn.btn-default.pull-right(type="submit") Add my post

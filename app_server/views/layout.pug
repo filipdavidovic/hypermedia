@@ -1,93 +1,177 @@
-doctype html
-
 include _includes/sharedFunctions
-
+doctype html
 html
     head
-        title= title
-        link(rel="icon", href="tue-favicon.ico")
-        link(rel="stylesheet", href="/stylesheets/style.css")
-        link(rel="stylesheet", href="/bootstrap/css/bootstrap.css")
+        meta(charset='utf-8')
+        title Education Guide
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible', content='IE=8')
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css', media='screen')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/stylesheets/hover.css')
     body
-        .btn-group.btn-group-justified(style="margin: 50px auto;")
-            a.btn.btn-default(href="/") Home
-            - if(userType === 'student')
-                a.btn.btn-default(href="/forum") Forum
-            .btn-group
-                button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-                    | Faculties
-                    span.caret
-                ul.dropdown-menu.pull-right
-                    li
-                        a(href="/faculties") Faculties
-                    li.dropdown-header
-                        | Undergraduate Programs
-                    li
-                        a(href="/faculties/#bachelor") Bachelor
-                    li.dropdown-header
-                        | Graduate Programs
-                    li
-                        a(href="/faculties/#premaster") Pre-Master
-                    li
-                        a(href="/faculties/#master") Master
-            .btn-group
-                button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-                    | Organization
-                    span.caret
-                ul.dropdown-menu.pull-right
-                    li
-                        a(href="/organization/map") Map
-                    li
-                        a(href="/organization/contact") Contact
-                    li
-                        a(href="/organization/student-for-a-day") Student-for-a-Day
-                    - if(userType === 'student')
-                        li.dropdown-header
-                            | Students Only
-                        li
-                            a(href="/organization/advisors-tutors") Advisors & Tutors
-                        li
-                            a(href="/organization/rules-regulations") Rules & Regulations
-                        li
-                            a(href="/organization/campus-card") Campus Card
-                    - if(userType === 'visitor')
-                        li.dropdown-header
-                            | Visitors Only
-                        li
-                            a(href="/organization/enrollment") Enrollment
-            .btn-group
-                button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-                    | Study
-                    span.caret
-                ul.dropdown-menu.pull-right
-                    li
-                        a(href="/study/electives") Electives
-                    li
-                        a(href="/study/notebook") Notebook
-                    li
-                        a(href="/study/canvas") Canvas
-                    li
-                        a(href="/study/timetables-timeslots") Timetables & Timeslots
-                    li
-                        a(href="/study/planapp") PlanApp
-                    li
-                        a(href="/study/internationals") Internationals
-                    - if(userType === 'student')
-                        li.dropdown-header
-                            | Students Only
-                        li
-                            a(href="/study/free-software") Free Software
-                        li
-                            a(href="/study/academic-year") Academic Year
+        header
+            nav#mainNavigation.navbar.navigacija.navbar-default.navbar-fixed-top
+                .navbar-header
+                    button#navigationToggle.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    #navbarBrand
+                        a.navbar-brand(href='/')
+                            img#bannerImage(src='')
+                #navbar.navbar-collapse.collapse
+                    ul.nav.navbar-nav.pull-right
+                        li.active.headerTooltip(data-toggle='tooltip', title='Home', data-placement='bottom')
+                            a#homeHeaderAnchor.topHeaderAnchor(href='/') Home
+                        - if(userType === 'student')
+                            li.headerTooltip(data-toggle='tooltip', title='Forum', data-placement='bottom')
+                                a#forumHeaderAnchor.topHeaderAnchor(href='/forum') Forum
+                        li.dropdown.dropdown-large
+                            a#facultiesHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') Faculties
+                            ul.dropdown-menu
+                                li
+                                    a(href='/faculties') Faculties
+                                li.dropdown-header  Undergraduate
+                                li
+                                    a(href='/faculties#bachelor') Bachelor
+                                li.dropdown-header  Graduate
+                                li
+                                    a(href='/faculties#premaster') Pre-Master
+                                li
+                                    a(href='/faculties#master') Master
+                        li.dropdown
+                            a#studyingHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') Studying
+                            ul.dropdown-menu
+                                li
+                                    a(href='/study/electives') Electives
+                                li
+                                    a(href='/study/notebook') Notebook
+                                li
+                                    a(href='/study/canvas') Canvas
+                                li
+                                    a(href='/study/timetables-timeslots') Timetables &amp; Timeslots
+                                li
+                                    a(href='/study/planapp') PlanApp
+                                li
+                                    a(href='/study/internationals') Internationals
+                                - if(userType === 'student')
+                                    li.dropdown-header  Students Only
+                                    li
+                                        a(href='/study/free-software') Free Software
+                                    li
+                                        a(href='/study/academic-year') Academic Year
+                        li.dropdown
+                            a#organizationHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') Organization
+                            ul.dropdown-menu
+                                li
+                                    a(href='/organization/map') Map
+                                li
+                                    a(href='/organization/contact') Contact
+                                li
+                                    a(href='/organization/student-for-a-day') Student-for-a-Day
+                                - if(userType === 'student')
+                                    li.dropdown-header
+                                        | Students Only
+                                    li
+                                        a(href='/organization/advisors-tutors') Advisors &amp; Tutors
+                                    li
+                                        a(href='/organization/rules-regulations') Rules &amp; Regulations
+                                    li
+                                        a(href='/organization/campus-card') Campus Card
+                                - if(userType === 'visitor')
+                                    li.dropdown-header
+                                        | Visitors Only
+                                    li
+                                        a(href='/organization/enrollment') Enrollment
 
-        p.pull-right You are currently:
-            +pickUserType(userType)
+
+        //p.pull-right You are currently:
+        //    +pickUserType(userType)
 
         block content
 
+        // TODO: fix footer to bottom
+        footer.page-footer
+            .upper-footer
+                .row(style='padding-bottom: 30px;')
+                    .col-md-6
+                        .helper
+                            p.footer-header  Or are you looking for
+                            table.contact(style='text-align: center;')
+                                tr
+                                    td
+                                        a.footer-text(href='#') Route &amp; Map
+                                    td
+                                        a.footer-text(href='#') Timetables
+                                tr
+                                    td
+                                        a.footer-text(href='#') Notebook
+                                    td
+                                        a.footer-text(href='#') PlanApp
+                                tr
+                                    td
+                                        a.footer-text(href='#') Canvas
+                    .col-md-6
+                        .helper
+                            p.footer-header
+                                | Contact TU
+                                b /
+                                | e
+                            table.contact(style='text-align: center;')
+                                tr
+                                    td
+                                        b Navigation address
+                                    td
+                                        b Postal address
+                                tr
+                                    td  De Zaale Eindhoven
+                                    td PO Box 513
+                                tr
+                                    td
+                                    td 5600 MB Eindhoven
+                                tr
+                                    td
+                                tr
+                                    td
+                                        b E:
+                                        |
+                                        a.footer-text(href='mailto:info@tue.nl') info@tue.nl
+                                    td
+                                        b T:
+                                        a.footer-text(href='tel:00310402479111') +31 (0)40 247 9111
+                .row(style='padding-bottom: 20px;')
+                    .col-md-4
+                        .helper
+                            p.tue-pink.footer-text  &copy; 2017 TU/e
+                    .col-md-4
+                        .helper
+                            ul#socialMedia
+                                li
+                                    a(href='https://twitter.com/TUeindhoven')
+                                        i.fa.fa-twitter(aria-hidden='true')
+                                li
+                                    a(href='https://www.facebook.com/TU.Eindhoven')
+                                        i.fa.fa-facebook(aria-hidden='true')
+                                li
+                                    a(href='https://google.com/+tueindhoven')
+                                        i.fa.fa-google-plus(aria-hidden='true')
+                                li
+                                    a(href='https://www.linkedin.com/company/4838')
+                                        i.fa.fa-linkedin(aria-hidden='true')
+                                li
+                                    a(href='https://www.youtube.com/user/tueindhoven')
+                                        i.fa.fa-youtube-play(aria-hidden='true')
+                    .col-md-4
+                        .helper
+                            p.tue-pink.footer-text  Where innovation starts
         script(src="/javascripts/jquery-3.1.1.min.js")
-        script(src="/bootstrap/js/bootstrap.min.js")
+        script(src='/bootstrap/js/bootstrap.min.js')
+        script(src='/javascripts/script.js')
         script(src="/javascripts/angular.min.js")
         script(src="/javascripts/listjs.js")
-        script(src="/javascripts/typeahead.js")
         script(src="/javascripts/scripts.js")
+
+

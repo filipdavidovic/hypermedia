@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+.page-title {
+  font-family: 'Lato', sans-serif;
+  color: #2f3264;
+  font-size: 50px;
+}
+
+.subtitle {
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  color: #2f3264;
+  font-size: 40px;
+}
+
+.basic-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 30px;
+  color: #2f3264;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.basic-text {
+  font-family: 'Lato', sans-serif;
+  font-size: 20px;
+  color: #2f3264;
+}
+
+.inner-text,
+button.accordion,
+#navbar a,
+.nav-pills a,
+button.buttonGeneric span,
+.generic-box p,
+.alert-error {
+  font-family: 'Lato', sans-serif;
+  font-size: 17px !important;
+  color: #2f3264 !important;
+}
+
+.generic-box h2 {
+  font-family: 'Lato', sans-serif;
+  font-size: 27px !important;
+  color: #2f3264 !important;
+  margin: 10px 0;
+}
+
+.generic-box h3 {
+  font-family: 'Lato', sans-serif;
+  font-size: 23px !important;
+  color: #2f3264 !important;
+  margin: 10px 0;
+}
+
+.footer-text {
+  font-family: 'Lato', sans-serif;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+}
+
+a.footer-text:hover {
+  font-family: 'Lato', sans-serif;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+}
+
+.footer-header {
+  font-family: 'Lato', sans-serif;
+  color: white;
+  font-weight:bold;
+  font-size: 24px;
+}
+
+.tue-pink {
+  color: #d22061;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/*.generic-box > ol li:before {
+  color: #d22061;
+}*/
+
+.inner-ol {
+    list-style-type: none;
+}
+.inner-ol ol {
+    margin-left: 2em;
+}
+.inner-ol li {
+    counter-increment: count-me;
+}
+.inner-ol li::before {
+    content: counter(count-me) ". ";
+    display: block;
+    position: relative;
+    max-width: 0px;
+    max-height: 0px;
+    left: -1.3em;
+    top: .20em;
+    color: #d22061;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+strong,
+b {
+  color: #d22061;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.vertical-align-text {
+  margin: auto 0;
+}
+
+.forum-thumbnail a:hover,
+.forum-thumbnail a:focus,
+.subforum-thumbnail a:hover,
+.subforum-thumbnail a:focus,
+.program-thumbnail a:hover,
+.program-thumbnail a:hover{
+  text-decoration: none;
+}
+
+.forum-thumbnail p {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient: vertical;
+}
+
+.subforum-thumbnail p {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient: vertical;
+}

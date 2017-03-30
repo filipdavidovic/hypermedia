@@ -1,69 +1,70 @@
 extends layout
 
 block content
-    h1= pageHeader.title
-    p= pageHeader.strapline
-    .row
-        .col-md-6
-            form(action="", method="post", role="form")
-                button.btn.btn-default(name="foo", value="changeUserType") Change user type to
-                    +pickUserTypeInverse(userType)
-    //input.form-control(id="search-barina", type="text", style="margin: 30px;", placeholder="Search")
-    ul.nav.nav-pills
-        li.active(style="float: none; display: inline-block;")
-            a(data-toggle="pill", href="#bachelor") Bachelor
-        li(style="float: none; display: inline-block;")
-            a(data-toggle="pill", href="#premaster") Pre-Master
-        li(style="float: none; display: inline-block;")
-            a(data-toggle="pill", href="#master") Master
-
-    div(id="faculties-list")
-        - if(message)
-            .alert.alert-warning #{message}
-        input.search.form-control(id="search-bar", type="text", style="margin: 30px auto; width: 50%", placeholder="Search")
-        .tab-content
-            .tab-pane.fade.in.active(id="bachelor")
-                h1 Bachelor
-                    .row.row-eq-height.list(id="bachelorRow")
-                        each faculty in faculties
-                            each bachelorProgram in faculty.bachelor
-                                .col-md-4
-                                    - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
-                                        .program-box
-                                            a(href=programUrl)
-                                                h3.name #{bachelorProgram.name}
-                                                p.description #{bachelorProgram.description}
-                                                img.img-responsive.img-center(src=bachelorProgram.banner)
-                                            - var facultyUrl = '/faculties/' + faculty._id
-                                                a(href=facultyUrl)
-                                                    h2.faculty #{faculty.name}
-            .tab-pane.fade(id="premaster")
-                h1 Pre-Master
-                    .row.row-eq-height(id="premasterRow")
-                        each faculty in faculties
-                            each premasterProgram in faculty.premaster
-                                .col-md-4
-                                    - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
-                                        .program-box
-                                            a(href=programUrl)
-                                                h3.name #{premasterProgram.name}
-                                                p.description #{premasterProgram.description}
-                                                img.img-responsive.img-center(src=premasterProgram.banner)
-                                            - var facultyUrl = '/faculties/' + faculty._id
-                                                a(href=facultyUrl)
-                                                    h2.faculty #{faculty.name}
-            .tab-pane.fade(id="master")
-                h1 Master
-                    .row.row-eq-height(id="masterRow")
-                        each faculty in faculties
-                            each masterProgram in faculty.master
-                                .col-md-4
-                                    - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
-                                        .program-box
-                                            a(href=programUrl)
-                                                h3.name #{masterProgram.name}
-                                                p.description #{masterProgram.description}
-                                                img.img-responsive.img-center(src=masterProgram.banner)
-                                            - var facultyUrl = '/faculties/' + faculty._id
-                                                a(href=facultyUrl)
-                                                    h2.faculty #{faculty.name}
+    .content-margins
+        .container-fluid
+            .row.row-eq-height.no-padding-cols
+                .col-md-9.col-xs-12
+                    .parallax(style="background-image: url('/img/carousel4-vertigo.png'); background-position: center 25%;")
+                .col-md-3.col-xs-12
+                    div(style='padding: 10%; height: 100%; background-color: #EAEAF0;')
+                        h1.subtitle
+                            | You are currently
+                            span.tue-pink
+                                +pickUserType(userType)
+                            |  user type.
+                        h2.basic-title(style='text-align: center;') If you want to change it to Visitor, you can do it here.
+                        .button-col-helper(style='margin-top: 25px;')
+                            form(action="", method="post", role="form")
+                                button.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;')
+                                    span Change type to
+                                        +pickUserTypeInverse(userType)
+            h1.page-title.center-text= pageHeader.title
+            p.basic-title.center-text= pageHeader.strapline
+             - if(message)
+                .alert.alert-error.alert-dismissable(role='alert')
+                    a.close(href='#', data-dismiss='alert', aria-label='close') &times
+                    | #{message}
+            ul.nav.nav-pills(style='margin-top: 20px;')
+                li.active.hvr-overline-from-center
+                    a(data-toggle='pill', href='#bachelor') Bachelor
+                li.hvr-overline-from-center
+                    a(data-toggle='pill', href='#premaster') Pre-Master
+                li.hvr-overline-from-center
+                    a(data-toggle='pill', href='#master') Master
+            div#faculties-list
+                input.search.form-control.search-bar(id="search-bar", type='text', placeholder='Search For Majors or Faculties')
+                .tab-content(style='margin-bottom: 20px;')
+                    #bachelor.tab-pane.fade.in.active
+                        .row.row-eq-height.list(id="bachelorRow")
+                            each faculty in faculties
+                                each bachelorProgram in faculty.bachelor
+                                    .col-md-4.col-sm-6.col-xs-12
+                                        - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
+                                                .program-thumbnail
+                                                    a(href=programUrl)
+                                                        img.img-responsive.img-center(src=bachelorProgram.banner)
+                                                        .program-colored-rect(style='background-color: #d22061;')
+                                                        h2.subtitle.align-right.name #{bachelorProgram.name}
+                    #premaster.tab-pane
+                        .row.row-eq-height(id="premasterRow")
+                            each faculty in faculties
+                                each premasterProgram in faculty.premaster
+                                    .col-md-4.col-sm-6.col-xs-12
+                                        - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
+                                            .program-thumbnail
+                                                a(href=programUrl)
+                                                    img.img-responsive.img-center(src=premasterProgram.banner)
+                                                    .program-colored-rect(style='background-color: #d22061;')
+                                                    h2.subtitle.align-right.name #{premasterProgram.name}
+                    #master.tab-pane
+                        .row.row-eq-height(id="masterRow")
+                            each faculty in faculties
+                                each masterProgram in faculty.master
+                                    .col-md-4.col-sm-6.col-xs-12
+                                        - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
+                                            .program-thumbnail
+                                                a(href=programUrl)
+                                                    img.img-responsive.img-center(src=masterProgram.banner)
+                                                    .program-colored-rect(style='background-color: #d22061;')
+                                                    h2.subtitle.align-right.name #{masterProgram.name}

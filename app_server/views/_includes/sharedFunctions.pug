@@ -22,3 +22,15 @@ mixin formatDate(dateString)
         - min = "0" + min;
     - var output = d + ". " + m + " " + y + ". - " + h + ":" + min
     =output
+
+mixin putUsernameField(errorMessage)
+    - if(errorMessage != undefined)
+        input#username.error-form-field.form-control.form-input-mod(name="username", type="text", placeholder="Username")
+    - else
+        input#username.form-control.form-input-mod(name="username", type="text", placeholder="Username")
+
+mixin putPasswordField(errorMessage)
+    - if(errorMessage != undefined)
+        input#password.error-form-field.form-control.form-input-mod(name="password", type="password", placeholder="Password")
+    - else
+        input#password.form-control.form-input-mod(name="password", type="password", placeholder="Password")

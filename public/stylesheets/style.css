@@ -1,44 +1,25 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@import url("./header.css");
+@import url("./footer.css");
+@import url("./text.css");
+
+@media all and (max-width: 768px) {
+  .nav-pills > li {
+    padding: 10px 5px;
+  }
+
+  .content-margins {
+    margin-top: 50px;
+  }
+
+  .content-margins-extended {
+    margin-top: 65px;
+  }
 }
 
-a {
-  color: #00B7FF;
-}
-
-.forum-box {
-    margin: 25px 0;
-    padding: 15px;
-    background-color: #3c763d;
-    border-radius: 1.25em;
-}
-
-.post-box {
-    margin: 25px 0;
-    padding: 15px;
-    background-color: #800080;
-    border-radius: 1.25em;
-}
-
-.answer-box {
-    margin: 25px 0;
-    padding: 15px;
-    background-color: #2e6da4;
-    border-radius: 1.25em;
-}
-
-.program-box {
-    margin: 25px 0;
-    padding: 15px;
-    background-color: #33ccff;
-    border-radius: 12px;
-    width: 100%;
-    height: 100%;
-}
-
-.img-center {
-    margin: 0 auto;
+*,
+*:after,
+:before {
+  box-sizing: border-box;
 }
 
 .row-eq-height {
@@ -54,11 +35,410 @@ a {
     flex-direction: column;
 }
 
-.nav-pills > li {  /* TODO: not working properly */
-    float: none;
-    display: inline-block;
+@media (max-width: 768px) {
+  .row-eq-height > [class*='col-'] {
+      display: flex;
+      flex-direction: row;
+  }
+}
+
+.no-padding-cols > [class*='col-'] {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+    background-color: #F5F5F7;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.footer, .push {
+    height: 155px; /* .push must be the same height as .footer */
 }
 
 .nav-pills {
-    text-align: center;
+  text-align: center;
+}
+
+.nav-pills > li {
+  padding: 10px 15px;
+}
+
+/* solid color pills
+.nav-pills > li > a {
+  color: black;
+}
+
+.nav-pills > li > a:hover,
+.nav-pills > li > a:focus {
+  background-color: rgba(128, 0, 128, 0.3);
+
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  background-color: green;
+}
+*/
+
+.nav-pills > li > a {
+  color: black;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-pills > li > a:hover,
+.nav-pills > li > a:focus {
+  color: black;
+  background-color: transparent;
+}
+
+.nav-pills > li.active > a {
+  color: black;
+  background-color: inherit;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  color: black;
+  background-color: inherit;
+}
+
+/*.nav-pills > li > a:hover:before,
+.nav-pills > li > a:focus:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}*/
+
+/*.nav-pills > li > a:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;*/
+  /*bottom: 0;*/
+  /*top: 0;
+  left: 0;
+  background-color: #2f3264; */
+  /*TODO: change color accordingly*/
+  /*visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}*/
+
+.nav-pills > li.active:before {
+  content: "";
+  visibility: visible;
+  position: absolute;
+  background-color: #d22061;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.nav-pills > li {
+  float: none;
+  display: inline-block;
+}
+
+.content-margins {
+  margin-top: 100px;
+}
+
+.content-margins-extended {
+  margin-top: 115px;
+}
+
+/* accordion menu */
+.accordion-col {
+  text-align: center;
+}
+
+.accordion {
+  background-color: #EAEAF0;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  position: relative;
+  text-decoration: none;
+}
+
+.accordion:hover {
+  background-color: #EAEAF0;
+}
+
+/*.accordion:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}*/
+
+.accordion.accordion-dropdown:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.accordion.active.accordion-dropdown:after {
+    content: "\2212";
+}
+
+.accordion.active {
+  color: black;
+  background-color: #EAEAF0;
+  position: relative;
+  text-decoration: none;
+}
+
+.accordion-panel {
+    padding: 0 18px;
+    background-color: #E0E0E8;
+    max-height: 0;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    transition: max-height 0.2s ease-out;
+}
+
+.accordion-panel > .accordion {
+  background-color: #E0E0E8;
+}
+
+.col-helper {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.generic-box {
+  background-color: #EAEAF0; /* #e7e7e7 #f8f8f8 */
+  padding: 20px;
+  margin: 20px 0;
+  border-top: 3px solid #d22061;
+  border-radius: 0 0 5px 5px;
+}
+
+/*.banner {
+  background-image: url("../images/tue.png"); /* no-repeat url("../images/tue.png") 50% / 100%; */
+
+.banner > img {
+  width: 100%;
+  opacity: 0.5;
+  height: auto;
+}
+
+.img-center {
+  margin: 0 auto;
+}
+
+.program-thumbnail {
+  background-color: #EAEAF0;
+  padding: 10px 20px;
+  margin: 20px;
+  border-radius: 5px;
+  height: 100%;
+}
+
+.program-thumbnail img {
+  margin-top: 15px;
+}
+
+.program-colored-rect {
+  height: 10px;
+  width: 90%;
+  margin: 20px auto;
+  /*background-color: blue;*/
+}
+
+.forum-thumbnail {
+  background-color: #EAEAF0;
+  /*border: 1px solid #2f3264;*/
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 20px;
+}
+
+.forum-colored-rect {
+  height: 10px;
+  width: 100%;
+  margin: 20px auto 10px;
+  /*background-color: blue;*/
+}
+
+.subforum-thumbnail {
+  background-color: #FAE9EF;
+  border-radius: 5px;
+  padding: 20px 20px;
+  margin: 20px;
+}
+
+.answer-box {
+  background-color: #EAEAF0;
+  padding: 20px 20px;
+  border-bottom: 2px solid #2f3264;
+  margin: 0 20px;
+}
+
+.answer-box:first-child {
+  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
+  margin-top: 20px;
+}
+
+.answer-box:last-child {
+  border: none;
+  margin-bottom: 20px;
+  border-radius: 0 0 5px 5px;
+}
+
+.buttonGeneric {
+  /*border-radius: 7px;*/
+  background-color: #EAEAF0;
+  /*border-top: 2px solid black;*/
+  border: none;
+  border-radius: 3px;
+  color: black;
+  text-align: center;
+  height: 50px;
+  width: 200px;
+}
+
+.button-col-helper {
+  text-align: center;
+}
+
+.pagination-custom {
+  display: inline-block;
+}
+
+.pagination-custom a {
+  color: black;
+  /*padding: 20px;*/
+  text-decoration: none;
+}
+
+.pagination-custom > li {
+  padding: 10px 20px;
+}
+
+.pagination-custom > li.active > a:before {
+  content: "";
+  visibility: visible;
+  position: absolute;
+  background-color: #d22061;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.parallax {
+    background-image: url("/img/carousel1-atlas.png");
+    background-position: center 75%;
+    height: 500px;
+    width: 100%;
+    background-attachment: fixed;
+    /*background-position: center;*/
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.search-bar {
+  width: 60%;
+  margin: 0 auto;
+  border: 2px solid #2f3264;
+}
+
+.search-bar:focus {
+  box-shadow: 0 0 10px #d22061;
+  border: 2px solid #d22061;
+}
+
+.form-input-mod {
+
+}
+
+.form-input-mod:focus {
+  box-shadow: 0 0 10px #2f3264;
+  border: 2px solid #2f3264;
+}
+
+.input-form-group {
+  margin: 20px 0;
+}
+
+.error-form-field {
+  box-shadow: 0 0 10px #d22061;
+  border: 2px solid #d22061;
+}
+
+.input-group.input-group-unstyled input.form-control {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+.input-group-unstyled .input-group-addon {
+    border-radius: 4px;
+    border: 0px;
+    background-color: transparent;
+}
+
+.input-group-addon .tooltip-inner {
+    max-width: 350px;
+    width: 350px;
+}
+
+.alert-error {
+  box-shadow: 0 0 10px #d22061;
+  border: 2px solid #d22061;
+  background-color: #FAE9EF;
+}
+
+.course-table {
+  margin-top: 10px;
+}
+
+textarea.textarea-mod {
+  width: 100%;
+  /*margin: 0 auto;*/
+  /*border: 2px solid #2f3264;*/
+  resize: none;
+  border: 1px solid #2f3264;
+}
+
+textarea.textarea-mod:focus {
+  /*box-shadow: 0 0 10px #d22061;*/
+  /*border: 2px solid #d22061;*/
+  box-shadow: 0 0 10px #2f3264;
+  border: 2px solid #2f3264;
+}
+
+.padding-form-group {
+  padding: 0 20px;
 }

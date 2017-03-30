@@ -1,19 +1,32 @@
 extends layout
 
 block content
-    h1 Log In
-    - if(errorMessage != undefined)
-        .alert.alert-danger(role="alert") #{errorMessage}
-    .row
-        .col-xs-12.col-md-6
-            form.form-horizontal(action="", method="post", role="form")
-                .form-group
-                    label.col-sm-2.control-label(for="username") Username (Your S-Number)
-                    .col-sm-10
-                        input#username.form-control(name="username")
-                .form-group
-                    label.col-sm-2.control-label(for="password") Password
-                    .col-sm-10
-                        input#password.form-control(type="password", name="password")
-                button.btn.btn-default.pull-right Sign in!
-        .col-xs-12.col-md-4
+    .content-margins-extended
+        .container-fluid(style="margin-bottom: 20px;")
+            h1.page-title Sign In
+            - if(errorMessage != undefined)
+                .alert.alert-error.alert-dismissable(role="alert")
+                    a.close(href="#", data-dismiss="alert", aria-label="close") &times
+                    span #{errorMessage}
+            .row
+                .col-md-9.col-sm-12
+                    .col-helper
+                        form.form-horizontal.clearfix(action="", method="post", role="form")
+                            .form-group.input-form-group
+                                label.control-label.basic-text(for="username") Username (Your S-Number)
+                                +putUsernameField(errorMessage)
+                                //input#username.form-control.form-input-mod(name="username", type="text", placeholder="Username")
+                            .form-group.input-form-group
+                                label.control-label.basic-text(for="password") Password
+                                +putPasswordField(errorMessage)
+                                //input#password.form-control.form-input-mod(name="password", type="password", placeholder="Password")
+                            |
+                            button.pull-right.buttonGeneric.hvr-underline-from-center
+                                span Sign In.
+                .col-md-3.col-sm-12
+                    .col-helper
+                        .generic-box
+                            h2 Lorem Ipsum
+                            p
+                                | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+

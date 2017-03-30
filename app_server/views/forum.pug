@@ -1,25 +1,90 @@
 extends layout
 
 block content
-     - if(message)
-        .alert.alert-warning #{message}
-     .row
-         .col-md-4
-            - if(userName)
-                p Currently logged in as #{userName}
-            - else
-                p Not currently logged in
-         .col-md-8
-             - if(userName)
-                 a.btn.btn-default(href="/logout") Log Out
-             - else
-                .btn-group
-                    a.btn.btn-default(href="/login") Log In
-                    a.btn.btn-default(href="/register") Register
-     each forum in forums
-         .forum-box.clearfix
-             - var forumUrl = '/forum/' + forum._id
-                 a(href=forumUrl)
-                    h2 #{forum.title}
-                 p #{forum.description}
-                 p.pull-right Number of posts: #{forum.posts.length}
+    .content-margins
+        .parallax
+        .container-fluid
+            h1.page-title.center-text= pageHeader.title
+            p.basic-title.center-text= pageHeader.strapline
+            - if(message)
+                .alert.alert-error.alert-dismissable(role='alert')
+                    a.close(href='#', data-dismiss='alert', aria-label='close') &times
+                    | #{message}
+            .row
+                .col-md-8
+                    .col-helper
+                        each forum in forums
+                            .forum-thumbnail.clearfix
+                                - var forumUrl = '/forum/' + forum._id
+                                    a(href=forumUrl)
+                                        h1.subtitle.align-left #{forum.title}
+                                        p.basic-text #{forum.description}
+                                        .forum-colored-rect(style='background-color: #CC3300;')
+                                        p.basic-text Number of posts: #{forum.posts.length}
+                .col-md-4
+                    .col-helper
+                        - if(userName)
+                            .generic-box
+                                h2 Session
+                                p  You are currently logged in as #{userName}
+                                .button-col-helper
+                                    button.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;', onclick="location.href='/logout'")
+                                        span Sign Out
+                        - else
+                            .generic-box
+                                h2 This is how it works
+                                ol.tue-pink.inner-ol
+                                    li
+                                        p  Register and log in to the community
+                                    li
+                                        p  Ask your question and discuss
+                                    li
+                                        p  Help others and find answers
+                                .button-col-helper
+                                    button.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;', onclick="location.href='/register'")
+                                        span Register
+                            .generic-box
+                                h2 Sign In
+                                p  Are you a member already? Sign in here!
+                                .button-col-helper
+                                    button.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;', onclick="location.href='/login'")
+                                        span Sign In
+                        .generic-box
+                            h2 Lorem Ipsum
+                            p
+                                | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    ul.pagination-custom(style='margin: 50px 0;')
+        li.hvr-underline-from-center
+            a(href='#') &laquo;
+        li.active.hvr-underline-from-center
+            a(href='#') 1
+        li.hvr-underline-from-center
+            a(href='#') 2
+        li.hvr-underline-from-center
+            a(href='#') 3
+        li.hvr-underline-from-center
+            a(href='#') &raquo;
+
+
+    //- if(message)
+    //    .alert.alert-warning #{message}
+    //.row
+    //     .col-md-4
+    //        - if(userName)
+    //            p Currently logged in as #{userName}
+    //        - else
+    //            p Not currently logged in
+    //     .col-md-8
+    //         - if(userName)
+    //             a.btn.btn-default(href="/logout") Log Out
+    //         - else
+    //            .btn-group
+    //                a.btn.btn-default(href="/login") Log In
+    //                a.btn.btn-default(href="/register") Register
+    //each forum in forums
+    //     .forum-box.clearfix
+    //         - var forumUrl = '/forum/' + forum._id
+    //             a(href=forumUrl)
+    //                h2 #{forum.title}
+    //             p #{forum.description}
+    //             p.pull-right Number of posts: #{forum.posts.length}

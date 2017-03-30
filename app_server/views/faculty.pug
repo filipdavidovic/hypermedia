@@ -1,49 +1,51 @@
 extends layout
 
 block content
-    h1 #{pageHeader.title}
-    p #{pageHeader.strapline}
-
-    ul.nav.nav-pills
-        li.active(style="float: none; display: inline-block;")
-            a(data-toggle="pill", href="#bachelor") Bachelor
-        li(style="float: none; display: inline-block;")
-            a(data-toggle="pill", href="#premaster") Pre-Master
-        li(style="float: none; display: inline-block;")
-            a(data-toggle="pill", href="#master") Master
-
-    div(id="faculties-list")
-        - if(message)
-            .alert.alert-warning #{message}
-        input.search.form-control(id="search-bar", type="text", style="margin: 30px auto; width: 50%", placeholder="Search")
-        .tab-content
-            .tab-pane.fade.in.active(id="bachelor")
-                h1 Bachelor
-                    .row.row-eq-height.list(id="bachelorRow")
-                        each bachelorProgram in faculty.bachelor
-                            .col-md-4
-                                - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
-                                a.program-box(href=programUrl)
-                                    h3.name #{bachelorProgram.name}
-                                    p.description #{bachelorProgram.description}
-                                    img.img-responsive.img-center(src=bachelorProgram.banner)
-            .tab-pane.fade(id="premaster")
-                h1 Pre-Master
-                    .row.row-eq-height(id="premasterRow")
-                        each premasterProgram in faculty.premaster
-                            .col-md-4
-                                - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
-                                a.program-box(href=programUrl)
-                                    h3.name #{premasterProgram.name}
-                                    p.description #{premasterProgram.description}
-                                    img.img-responsive.img-center(src=premasterProgram.banner)
-            .tab-pane.fade(id="master")
-                h1 Master
-                    .row.row-eq-height(id="masterRow")
-                        each masterProgram in faculty.master
-                            .col-md-4
-                                - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
-                                a.program-box(href=programUrl)
-                                    h3.name #{masterProgram.name}
-                                    p.description #{masterProgram.description}
-                                    img.img-responsive.img-center(src=masterProgram.banner)
+    .content-margins
+        .container-fluid
+            h1.page-title.center-text= pageHeader.title
+            p.basic-title.center-text= pageHeader.strapline
+            - if(message)
+                .alert.alert-error.alert-dismissable(role='alert')
+                    a.close(href='#', data-dismiss='alert', aria-label='close') &times
+                    | #{message}
+            ul.nav.nav-pills(style='margin-top: 20px;')
+                li.active.hvr-overline-from-center
+                    a(data-toggle='pill', href='#bachelor') Bachelor
+                li.hvr-overline-from-center
+                    a(data-toggle='pill', href='#premaster') Pre-Master
+                li.hvr-overline-from-center
+                    a(data-toggle='pill', href='#master') Master
+            div#faculties-list
+                input.search.form-control.search-bar(id="search-bar", type='text', placeholder='Search For Majors or Faculties')
+                .tab-content(style='margin-bottom: 20px;')
+                    #bachelor.tab-pane.fade.in.active
+                        .row.row-eq-height.list(id="bachelorRow")
+                            each bachelorProgram in faculty.bachelor
+                                .col-md-4.col-sm-6.col-xs-12
+                                    - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
+                                        .program-thumbnail
+                                            a(href=programUrl)
+                                                img.img-responsive.img-center(src=bachelorProgram.banner)
+                                                .program-colored-rect(style='background-color: #d22061;')
+                                                h2.subtitle.align-right.name #{bachelorProgram.name}
+                    #premaster.tab-pane
+                        .row.row-eq-height(id="premasterRow")
+                            each premasterProgram in faculty.premaster
+                                .col-md-4.col-sm-6.col-xs-12
+                                    - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
+                                        .program-thumbnail
+                                            a(href=programUrl)
+                                                img.img-responsive.img-center(src=premasterProgram.banner)
+                                                .program-colored-rect(style='background-color: #d22061;')
+                                                h2.subtitle.align-right.name #{premasterProgram.name}
+                    #master.tab-pane
+                        .row.row-eq-height(id="masterRow")
+                            each masterProgram in faculty.master
+                                .col-md-4.col-sm-6.col-xs-12
+                                    - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
+                                        .program-thumbnail
+                                            a(href=programUrl)
+                                                img.img-responsive.img-center(src=masterProgram.banner)
+                                                .program-colored-rect(style='background-color: #d22061;')
+                                                h2.subtitle.align-right.name #{masterProgram.name}

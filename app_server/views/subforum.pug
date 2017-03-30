@@ -1,17 +1,54 @@
 extends layout
 
 block content
-    - if(loggedIn)
-        - var addPostUrl = '/forum/' + forum._id + '/add-new-post'
-        a.btn.btn-default(href=addPostUrl) Add a post
-    each post in forum.posts
-        .post-box.clearfix
-            - var forumUrl = '/forum/' + forum._id + '/' + post._id
-            a(href=forumUrl)
-                h2 #{post.title}
-                p #{post.description}
-            .row
-                .col-md-6
-                    p Author: #{post.author}
-                .col-md-6
-                    p.pull-right Number of answers: #{post.answers.length}
+    .content-margins
+        .container
+            .forum-thumbnail.clearfix
+                h1.subtitle #{forum.title}
+                p.basic-text #{forum.description}
+                .forum-colored-rect(style='background-color: #CC3300;')
+                .row.row-eq-height
+                    .col-md-6.col-sm-12
+                        p.basic-text.vertical-align-text
+                            | Number of posts:
+                            b  #{forum.posts.length}
+                    .col-md-6.col-sm-12
+                        div
+                            - if(loggedIn)
+                                - var addPostUrl = "location.href='/forum/'" + forum._id + "'/add-new-post'"
+                                    button.pull-right.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;', onclick=addPostUrl)
+                                        span Add Post
+            each post in forum.posts
+                .subforum-thumbnail
+                    - var postUrl = '/forum/' + forum._id + '/' + post._id
+                        a(href=postUrl)
+                            h2.basic-title.align-left #{post.title}
+                            p.basic-text #{post.description}
+                            .row
+                                .col-md-6.col-sm-12
+                                    p.basic-text.vertical-align-text.align-left
+                                        | Number of answers:
+                                        b  #{post.answers.length}
+                                .col-md-6.col-sm-12
+                                    p.basic-text.vertical-align-text.align-right
+                                        | Author:
+                                        b  #{post.author}
+                                    p.basic-text.align-right
+                                        | Created on:
+                                        b
+                                            +formatDate(post.createdOn)
+
+    //- if(loggedIn)
+    //    - var addPostUrl = '/forum/' + forum._id + '/add-new-post'
+    //    a.btn.btn-default(href=addPostUrl) Add a post
+    //each post in forum.posts
+    //    .post-box.clearfix
+    //        - var forumUrl = '/forum/' + forum._id + '/' + post._id
+    //        a(href=forumUrl)
+    //            h2 #{post.title}
+    //            p #{post.description}
+    //        .row
+    //            .col-md-6
+    //                p Author: #{post.author}
+    //            .col-md-6
+    //                p.pull-right Number of answers: #{post.answers.length}
