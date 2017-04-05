@@ -1,6 +1,9 @@
 extends layout
 
 block content
-    h1= message
-    h2= error.status
-    pre #{error.stack}
+    .content-margins-extended
+        h1.page-title.center-text= message
+        h2.basic-title.center-text
+            b #{error.status}
+        - if(error.stack != undefined)
+            pre.basic-text #{error.stack}

@@ -6,18 +6,9 @@ footer {
    text-align: center;
 }
 
-.upper-footer {
-  background-color: #2f3264; // #6600CC #2f3264
-  padding: 50px;
-}
-
-.upper-footer [class*='col-'] .helper { /* TODO: vertical align to center */
-  text-align: center;
-  margin: auto 0;
-}
-
-.upper-footer [class*='col-'] p {
-
+.page-footer {
+  background-color: #2f3264;
+  padding-top: 20px;
 }
 
 ul#socialMedia li a {
@@ -66,6 +57,6 @@ ul#socialMedia li {
   color: #cd201f;
 }
 
-.upper-footer .row {
-  width: 100%;
-}
+/*.upper-footer .row {*/
+  /*width: 100%;*/
+/*}*/

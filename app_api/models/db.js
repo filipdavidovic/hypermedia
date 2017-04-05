@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
 
-var dbURI = 'mongodb://localhost/hypermedia-group9';
-if (process.env.NODE_ENV === 'production') {
-    dbURI = 'mongodb://admin:admin@ds125060.mlab.com:25060/hypermedia-group9'; // update to use process.env.MONGODB_URI
-}
+
+var dbURI = 'mongodb://admin:admin@ds125060.mlab.com:25060/hypermedia-group9';
+
 mongoose.connect(dbURI);
 
 var gracefulShutdown = function (msg, callback) {

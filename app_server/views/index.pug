@@ -39,7 +39,7 @@ block content
                         .row.row-eq-height.list(id="bachelorRow")
                             each faculty in faculties
                                 each bachelorProgram in faculty.bachelor
-                                    .col-md-4.col-sm-6.col-xs-12
+                                    .col-md-4.col-sm-6.col-xs-12(style="margin: 10px 0;")
                                         - var programUrl = '/faculties/' + faculty._id + '/bachelor/' + bachelorProgram._id
                                                 .program-thumbnail
                                                     a(href=programUrl)
@@ -50,7 +50,7 @@ block content
                         .row.row-eq-height(id="premasterRow")
                             each faculty in faculties
                                 each premasterProgram in faculty.premaster
-                                    .col-md-4.col-sm-6.col-xs-12
+                                    .col-md-4.col-sm-6.col-xs-12(style="margin: 10px 0;")
                                         - var programUrl = '/faculties/' + faculty._id + '/premaster/' + premasterProgram._id
                                             .program-thumbnail
                                                 a(href=programUrl)
@@ -61,7 +61,7 @@ block content
                         .row.row-eq-height(id="masterRow")
                             each faculty in faculties
                                 each masterProgram in faculty.master
-                                    .col-md-4.col-sm-6.col-xs-12
+                                    .col-md-4.col-sm-6.col-xs-12(style="margin: 10px 0;")
                                         - var programUrl = '/faculties/' + faculty._id + '/master/' + masterProgram._id
                                             .program-thumbnail
                                                 a(href=programUrl)

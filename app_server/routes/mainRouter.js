@@ -6,17 +6,31 @@ var visitorCtrl = require('../controllers/visitor');
 var uniformCtrl = require('../controllers/uniform');
 
 var chooseUponUser = function (req, res, callback1, callback2) {
-    if(req.session.userType === undefined) {
+    if (req.session.userType === undefined) {
         req.session.userType = 'student';
         console.log(req.session.userType);
         // res.redirect(req.get('referrer'));
         // console.log(req.get('origin'));
         res.redirect('/'); // TODO: check this out
-    } else if(req.session.userType === 'student') {
+    } else if (req.session.userType === 'student') {
         callback1(req, res);
     } else {
         callback2(req, res);
     }
+};
+
+var checkUser = function (req, res, callback) {
+    if(req.session.userType === undefined || req.session.userType === 'visitor') {
+        req.session.userType = 'student';
+    }
+    callback(req, res);
+};
+
+var checkVisitor = function (req, res, callback) {
+    if(req.session.userType === undefined || req.session.userType === 'student') {
+        req.session.userType = 'visitor';
+    }
+    callback(req, res);
 };
 
 module.exports = function (passport) {
@@ -36,6 +50,10 @@ module.exports = function (passport) {
     // FORUM
     router.get('/forum', function (req, res) {
         chooseUponUser(req, res, studentCtrl.forum, uniformCtrl.notAvailable);
+    });
+
+    router.get('/forum/search', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.forumSearch, uniformCtrl.notAvailable);
     });
 
     router.get('/forum/:forumid', function (req, res) {
@@ -72,7 +90,19 @@ module.exports = function (passport) {
     });
 
     router.get('/faculties/:facultyid/bachelor/:bachelorid', function (req, res) {
-        chooseUponUser(req, res, studentCtrl.singleBachelor, visitorCtrl.singleBachelor);
+        chooseUponUser(req, res, studentCtrl.singleBachelorGeneralInfo, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
+    });
+
+    router.get('/faculties/:facultyid/bachelor/:bachelorid/professional-development', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleBachelorProfessionalDevelopment, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
+    });
+
+    router.get('/faculties/:facultyid/bachelor/:bachelorid/examination-schedules', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleBachelorExaminationSchedules, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
+    });
+
+    router.get('/faculties/:facultyid/bachelor/:bachelorid/graduation-deadlines', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleBachelorGraduationDeadlines, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
     });
 
     router.get('/faculties/:facultyid/premaster/:premasterid', function (req, res) {
@@ -84,36 +114,66 @@ module.exports = function (passport) {
     });
 
     // ORGANIZATION
-    router.get('/organization/map', uniformCtrl.map);
+    router.get('/organization/map', function(req, res) {
+        checkUser(req, res, uniformCtrl.map);
+    });
 
-    router.get('/organization/contact', uniformCtrl.contact);
+    router.get('/organization/contact', function(req, res) {
+        checkUser(req, res, uniformCtrl.contact)
+    });
 
-    router.get('/organization/student-for-a-day', uniformCtrl.studentForADay);
+    router.get('/organization/student-for-a-day', function(req, res) {
+        checkUser(req, res, uniformCtrl.studentForADay)
+    });
 
-    router.get('/organization/advisors-tutors', studentCtrl.advisorsTutors);
+    router.get('/organization/advisors-tutors', function(req, res) {
+        checkUser(req, res, studentCtrl.advisorsTutors);
+    });
 
-    router.get('/organization/rules-regulations', studentCtrl.rulesRegulations);
+    router.get('/organization/rules-regulations', function(req, res) {
+        checkUser(req, res, studentCtrl.rulesRegulations);
+    });
 
-    router.get('/organization/campus-card', studentCtrl.campusCard);
+    router.get('/organization/campus-card', function(req, res) {
+        checkUser(req, res, studentCtrl.campusCard);
+    });
 
-    router.get('/organization/enrollment', visitorCtrl.enrollment);
+    router.get('/organization/enrollment', function(req, res) {
+        checkVisitor(req, res, visitorCtrl.enrollment);
+    });
 
     // STUDY
-    router.get('/study/electives', uniformCtrl.electives);
+    router.get('/study/electives', function(req, res) {
+        checkUser(req, res, uniformCtrl.electives);
+    });
 
-    router.get('/study/notebook', uniformCtrl.notebook);
+    router.get('/study/notebook', function(req, res) {
+        chooseUponUser(req, res, studentCtrl.notebook, visitorCtrl.notebook);
+    });
 
-    router.get('/study/canvas', uniformCtrl.canvas);
+    router.get('/study/canvas', function(req, res) {
+        checkUser(req, res, uniformCtrl.canvas);
+    });
 
-    router.get('/study/timetables-timeslots', uniformCtrl.timetablesTimeslots);
+    router.get('/study/timetables-timeslots', function(req, res) {
+        checkUser(req, res, uniformCtrl.timetablesTimeslots);
+    });
 
-    router.get('/study/planapp', uniformCtrl.planapp);
+    router.get('/study/planapp', function(req, res) {
+        checkUser(req, res, uniformCtrl.planapp);
+    });
 
-    router.get('/study/internationals', uniformCtrl.internationals);
+    router.get('/study/internationals', function(req, res) {
+        checkUser(req, res, uniformCtrl.internationals);
+    });
 
-    router.get('/study/free-software', studentCtrl.freeSoftware);
+    router.get('/study/free-software', function(req, res) {
+        checkUser(req, res, studentCtrl.freeSoftware);
+    });
 
-    router.get('/study/academic-year', studentCtrl.academicYear);
+    router.get('/study/academic-year', function(req, res) {
+        checkUser(req, res, studentCtrl.academicYear);
+    });
 
     // USER
     router.get('/register', function (req, res) {

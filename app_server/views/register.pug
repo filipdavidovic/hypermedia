@@ -1,27 +1,44 @@
 extends layout
 
 block content
-    h1 Register
-    - if(errorMessage != undefined)
-        .alert.alert-danger(role="alert") #{errorMessage}
-    .row
-        .col-xs-12.col-md-6
-            form.form-horizontal(action="", method="post", role="form")
-                .form-group
-                    label.col-xs-10.col-sm-2.control-label(for="lastName") Last Name
-                    .col-xs-12.col-sm-6
-                        input#lastName.form-control(name="lastName")
-                .form-group
-                    label.col-xs-10.col-sm-2.control-label(for="initials") Initials
-                    .col-xs-12.col-sm-10
-                        input#initials.form-control(name="initials")
-                .form-group
-                    label.col-sm-2.control-label(for="username") Username (Your S-Number)
-                    .col-sm-10
-                        input#username.form-control(name="username")
-                .form-group
-                    label.col-sm-2.control-label(for="password") Password
-                    .col-sm-10
-                        input#password.form-control(type="password", name="password")
-                button.btn.btn-default.pull-right Sign up!
-        .col-xs-12.col-md-4
+    .content-margins-extended
+        .container-fluid
+            h1.page-title.center-text Register
+            - if(errorMessage != undefined && errorMessage != "")
+                .alert.alert-error.alert-dismissable(role="alert")
+                    a.close(href="#", data-dismiss="alert", aria-label="close") &times
+                    span #{errorMessage}
+                    //span Fields highlighted in
+                    //    b  this color
+                    //    |  are invalid
+            .row
+                .col-xs-12.col-md-9
+                    .col-helper
+                        form.form-horizontal(action="", method="post", role="form")
+                            .form-group
+                                label.basic-small.control-label(for="lastName") Last Name
+                                .input-group.input-group-unstyled
+                                    input#lastName.form-control.form-input-mod(type='text', placeholder='Last Name', name="lastName")
+                                    span.input-group-addon
+                                        i.generic-tooltip.fa.fa-question-circle.fa-2x(data-toggle='tooltip', title='Your Last Name', data-placement='bottom', aria-hidden='true')
+                            .form-group
+                                label.basic-small.control-label(for="initials") Initials
+                                .input-group.input-group-unstyled
+                                    input#initials.form-control.form-input-mod(type='text', placeholder='Initials', name="initials")
+                                    span.input-group-addon
+                                        i.generic-tooltip.fa.fa-question-circle.fa-2x(data-toggle='tooltip', title='Your initials followed by a full stop. For example: F. G. S.', data-placement='bottom', aria-hidden='true')
+                            .form-group
+                                label.basic-small.control-label(for="username") Username (Your S-Number)
+                                .input-group.input-group-unstyled
+                                    +putUsernameFieldSpecial(errorMessage)
+                                    span.input-group-addon
+                                        i.generic-tooltip.fa.fa-question-circle.fa-2x(data-toggle='tooltip', title='Your TU/e Student Number. For example: s123456', data-placement='bottom', aria-hidden='true')
+                            .form-group
+                                label.basic-small.control-label(for="password") Password
+                                .input-group.input-group-unstyled
+                                    input#password.form-control.form-input-mod(type='password', placeholder='Password', name="password")
+                                    span.input-group-addon
+                                        i.generic-tooltip.fa.fa-question-circle.fa-2x(data-toggle='tooltip', title='The requirements for the password are the following: One upper case letter[A-Z], One lower case letter[a-z], One number[0-9] and One symbol[!, @, #, $, *, +, -]. The password needs to contain at least 6 characters', data-placement='bottom', aria-hidden='true')
+                            button.pull-right.buttonGeneric.hvr-underline-from-center
+                                span Sign up!
+                .col-xs-12.col-md-4

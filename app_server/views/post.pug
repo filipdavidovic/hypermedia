@@ -21,7 +21,12 @@ block content
                                  +formatDate(target.post.createdOn)
             each answer in target.post.answers
                 .answer-box
-                    // TODO: add remove post
+                    - if(answer.creatorId === userId.toString())
+                        form(action="", method="post", role="form")
+                            button.pull-right(style="background: transparent;border: none !important;")
+                                i.fa.fa-times.fa-2x(aria-hidden='true', style="color: #d22061;")
+                            input(type="hidden", name="answerId", value=answer._id)
+                            input(type="hidden", name="_method", value="DELETE")
                     h3.basic-title.align-left #{answer.title}
                     p.basic-text #{answer.answerBody}
                     .row
@@ -33,7 +38,7 @@ block content
                             p.basic-text.align-right
                                 | Created on:
                                 b
-                                      +formatDate(answer.createdOn)
+                                    +formatDate(answer.createdOn)
             - if(loggedIn)
                 .answer-box
                     h3.basic-title.align-left Your Answer

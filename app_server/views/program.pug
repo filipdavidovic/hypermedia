@@ -17,125 +17,26 @@ block content
                 .row
                     .col-md-3.accordion-col
                         .col-helper
-                            button.accordion.accordion-dropdown.hvr-overline-from-center Curriculum
-                            .accordion-panel
-                                button.accordion.hvr-overline-from-center(onclick="location.href='#';") All Coruses
-                                |
-                                button.accordion.hvr-overline-from-center(onclick="location.href='#';") Electives and USE
-                            |
-                            button.accordion.hvr-overline-from-center(onclick="location.href='#';") Professional Development
-                            |
-                            button.accordion.hvr-overline-from-center(onclick="location.href='#';") Examination Schedules
-                            |
-                            button.accordion.hvr-overline-from-center(onclick="location.href='#';") Graduation Deadlines
-                            |
-                            button.accordion.hvr-overline-from-center(onclick="location.href='#';") Contact
+                            - var generalUrl = "location.href='" + baseUrl +  "';"
+                                - var classActive = (programOrganizationActive === "general" ? "active" : "")
+                                    button.accordion.hvr-overline-from-center(onclick=generalUrl, class=classActive) General
+
+                            - var professionalDevelopmentUrl = "location.href='" + baseUrl +  "/professional-development';"
+                                - var classActive = (programOrganizationActive === "professional-development" ? "active" : "")
+                                    button.accordion.hvr-overline-from-center(onclick=professionalDevelopmentUrl, class=classActive) Professional Development
+
+                            - var examinationSchedulesUrl = "location.href='" + baseUrl +  "/examination-schedules';"
+                                - var classActive = (programOrganizationActive === "examination-schedules" ? "active" : "")
+                                    button.accordion.hvr-overline-from-center(onclick=examinationSchedulesUrl, class=classActive) Examination Schedules
+
+                            - var graduationDeadlinesUrl = "location.href='" + baseUrl +  "/graduation-deadlines';"
+                                - var classActive = (programOrganizationActive === "graduation-deadlines" ? "active" : "")
+                                    button.accordion.hvr-overline-from-center(onclick=graduationDeadlinesUrl, class=classActive) Graduation Deadlines
                     .col-md-6
-                        h2.align-left.basic-title #{target.program.name}
-                        p.basic-text #{target.program.description}
-                        br
-                        br
-                        br
-                        ul.nav.nav-pills
-                            li.active.hvr-overline-from-center
-                                a(data-toggle='pill', href='#firstYear') First Year
-                            li.hvr-overline-from-center
-                                a(data-toggle='pill', href='#secondYear') Second Year
-                            li.hvr-overline-from-center
-                                a(data-toggle='pill', href='#thirdYear') Third Year
-                        .tab-content
-                            #firstYear.tab-pane.fade.in.active
-                                // TODO: integrate listjs into this table
-                                input#searchBar.form-control.search-bar(type='text', placeholder='Search for Course Name or Course Code')
-                                table.table.table-striped.course-table
-                                    thead.tue-pink.basic-text
-                                        tr
-                                            th  Course Name
-                                            th  Course Code
-                                            th  Quartile
-                                            th  Available Timeslots
-                                    tbody.basic-text
-                                        tr
-                                            td  Calculus
-                                            td  2WBB0
-                                            td  One (Q1)
-                                            td  B
-                                        tr
-                                            td  Programming
-                                            td  2IP90
-                                            td  One (Q1)
-                                            td  E
-                                        tr
-                                            td  Logic and Set Theory
-                                            td  2IT60
-                                            td  One (Q1)
-                                            td  D
-                                        tr
-                                            td  Applied Physical Sciences
-                                            td  3NAB0
-                                            td  Two (Q2)
-                                            td  B
-                                        tr
-                                            td  Computer Systems
-                                            td  2IC30
-                                            td  Two (Q2)
-                                            td  C/E
-                                        tr
-                                            td  Elective
-                                            td  *
-                                            td  Two (Q2)
-                                            td  *
-                                        tr
-                                            td  Introduction to Modeling
-                                            td  0LEB0
-                                            td  Three (Q3)
-                                            td  A
-                                        tr
-                                            td  Data Structures
-                                            td  2IL50
-                                            td  Three (Q3)
-                                            td  B
-                                        tr
-                                            td  DBL Embedded Systems
-                                            td  2IO70
-                                            td  Three (Q3)
-                                            td  C
-                                        tr
-                                            td  USE
-                                            td  0SAB0
-                                            td  Four (Q4)
-                                            td  A
-                                        tr
-                                            td  Automata and Process Theory
-                                            td  2IT70
-                                            td  Four (Q4)
-                                            td  B
-                                        tr
-                                            td  Elective
-                                            td  *
-                                            td  Four (Q4)
-                                            td  *
-                            #secondYear.tab-pane
-                                h1.subtitle 2
-                                |
-                                input#searchBar.form-control.search-bar(type='text', placeholder='Search for Course Name or Course Code')
-                            #thirdYear.tab-pane
-                                h1.subtitle 3
-                                |
-                                input#searchBar.form-control.search-bar(type='text', placeholder='Search for Course Name or Course Code')
+                        block innerContent
                     .col-md-3
                         .col-helper
-                            h2 Contact
-                            .generic-box.clearfix
-                                h3 Educational Administration
-                                p
-                                    a(href='mailto:studadm.win@TUE.nl')
-                                        i.fa.fa-envelope(aria-hidden='true')
-                                        |  studadm.win@TUE.nl
-                                p
-                                    a(href='tel:00314024723798343')
-                                        i.fa.fa-phone(aria-hidden='true')
-                                        |  +31 40-247 2379/8343
+                            | !{target.program.contact}
 
 
     //img(src=target.program.banner, style="width: 100%; margin-bottom: 100px;")

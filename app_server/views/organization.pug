@@ -2,42 +2,37 @@ extends layout
 
 block content
     .content-margins
-        - var style =
-            .parallax(style="background-image: url('/img/carousel5-generic.png'); background-position: center bottom;")
-            .container-fluid(style='margin-top: 10px;')
-                ol.basic-text.breadcrumb
-                    li
-                        a(href='/') Home
-                    li
-                        a(href='/faculties') Faculties
-                    li
-                    - var url = '/faculties/' + target.faculty._id
-                    a(href=url) #{target.faculty.name}
-                    li.active #{target.program.name}
-                .row
-                    .col-md-3.accordion-col
-                        .col-helper
-                            button.accordion.hvr-overline-from-center Curriculum
-
-                            button.accordion.hvr-overline-from-center(onclick="location.href='/organization/map';") Map
-
-                            button.accordion.hvr-overline-from-center(onclick="location.href='/organization/contact';") Contact
-
-                            button.accordion.hvr-overline-from-center(onclick="location.href='/organization/student-for-a-day';") Student-for-a-Day
-
-                            - if(userType === "student")
-                                button.accordion.hvr-overline-from-center(onclick="location.href='/organization/advisors-tutors';") Advisors &amp; Tutors
-
-                                button.accordion.hvr-overline-from-center(onclick="location.href='/organization/rules-regulations';") Rules &amp; Regulations
-
-                                button.accordion.hvr-overline-from-center(onclick="location.href='/organization/campus-card';") Campus Card
-                            - if(userType === "visitor")
-                                button.accordion.hvr-overline-from-center(onclick="location.href='/organization/enrollment';") Enrollment
-                    .col-md-6
-                        h2.align-left.basic-title #{pageHeadear.title}
-                        p.basic-text #{pageHeadear.strapline}
-                    .col-md-3
-                        .col-helper
+        .parallax(style="background-image: url('/img/carousel5-generic.png'); background-position: center bottom;")
+        .container-fluid(style="margin-top: 10px;")
+            .row
+                .col-md-3.accordion-col
+                    .col-helper
+                        - var classActive = (accordionOrganizationActive === "map" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/organization/map';") Map
+                        - var classActive = (accordionOrganizationActive === "contact" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/organization/contact';") Contact
+                        - var classActive = (accordionOrganizationActive === "student-for-a-day" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/organization/student-for-a-day';") Student-for-a-Day
+                        - if(userType === "student")
+                            - var classActive = (accordionOrganizationActive === "advisors-tutors" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/organization/advisors-tutors';") Advisors &amp; Tutors
+                            - var classActive = (accordionOrganizationActive === "rules-regulations" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/organization/rules-regulations';") Rules &amp; Regulations
+                            - var classActive = (accordionOrganizationActive === "campus-card" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/organization/campus-card';") Campus Card
+                        - if(userType === "visitor")
+                            - var classActive = (accordionOrganizationActive === "enrollment" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/organization/enrollment';") Enrollment
+                .col-md-6
+                    h1.page-title.center-text #{pageHeader.title}
+                    h3.subtitle #{pageHeader.strapline}
+                    div !{content}
+                    - if(map != undefined)
+                        img.img-responsive.img-center(src=map)
+                        //- TODO: create modal for this image
+                .col-md-3
+                    .col-helper
+                        each sidebox in sideboxes
                             .generic-box.clearfix
-                                h3 Lorem Ipsum
-                                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                h2 #{sidebox.title}
+                                div !{sidebox.body}

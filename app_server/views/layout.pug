@@ -7,9 +7,9 @@ html
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         meta(http-equiv='X-UA-Compatible', content='IE=8')
         link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css', media='screen')
-        link(rel='stylesheet', href='/stylesheets/style.css')
         link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
         link(rel='stylesheet', href='/stylesheets/hover.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
     body
         header
             nav#mainNavigation.navbar.navigacija.navbar-default.navbar-fixed-top
@@ -22,70 +22,75 @@ html
                     #navbarBrand
                         a.navbar-brand(href='/')
                             img#bannerImage(src='')
-                #navbar.navbar-collapse.collapse
+                #navbar.navbar-collapse.collapse(style="overflow-y: visible")
                     ul.nav.navbar-nav.pull-right
-                        li.active.headerTooltip(data-toggle='tooltip', title='Home', data-placement='bottom')
-                            a#homeHeaderAnchor.topHeaderAnchor(href='/') Home
+                        - var classActive = (headerActive === "home" ? "active" : "")
+                            li.headerTooltip(class=classActive, data-toggle='tooltip', title='Home', data-placement='bottom')
+                                a#homeHeaderAnchor.topHeaderAnchor(href='/') Home
                         - if(userType === 'student')
-                            li.headerTooltip(data-toggle='tooltip', title='Forum', data-placement='bottom')
-                                a#forumHeaderAnchor.topHeaderAnchor(href='/forum') Forum
-                        li.dropdown.dropdown-large
-                            a#facultiesHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') Faculties
-                            ul.dropdown-menu
-                                li
-                                    a(href='/faculties') Faculties
-                                li.dropdown-header  Undergraduate
-                                li
-                                    a(href='/faculties#bachelor') Bachelor
-                                li.dropdown-header  Graduate
-                                li
-                                    a(href='/faculties#premaster') Pre-Master
-                                li
-                                    a(href='/faculties#master') Master
-                        li.dropdown
-                            a#studyingHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') Studying
-                            ul.dropdown-menu
-                                li
-                                    a(href='/study/electives') Electives
-                                li
-                                    a(href='/study/notebook') Notebook
-                                li
-                                    a(href='/study/canvas') Canvas
-                                li
-                                    a(href='/study/timetables-timeslots') Timetables &amp; Timeslots
-                                li
-                                    a(href='/study/planapp') PlanApp
-                                li
-                                    a(href='/study/internationals') Internationals
-                                - if(userType === 'student')
-                                    li.dropdown-header  Students Only
+                            - var classActive = (headerActive === "forum" ? "active" : "")
+                                li.headerTooltip(class=classActive, data-toggle='tooltip', title='Forum', data-placement='bottom')
+                                    a#forumHeaderAnchor.topHeaderAnchor(href='/forum') Forum
+                        - var classActive = (headerActive === "faculties" ? "active" : "")
+                            li.dropdown.dropdown-large(class=classActive)
+                                a#facultiesHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false', style='cursor: default;') Faculties
+                                ul.dropdown-menu
                                     li
-                                        a(href='/study/free-software') Free Software
+                                        a(href='/faculties') Faculties
+                                    li.dropdown-header  Undergraduate
                                     li
-                                        a(href='/study/academic-year') Academic Year
-                        li.dropdown
-                            a#organizationHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') Organization
-                            ul.dropdown-menu
-                                li
-                                    a(href='/organization/map') Map
-                                li
-                                    a(href='/organization/contact') Contact
-                                li
-                                    a(href='/organization/student-for-a-day') Student-for-a-Day
-                                - if(userType === 'student')
-                                    li.dropdown-header
-                                        | Students Only
+                                        a(href='/faculties#bachelor') Bachelor
+                                    li.dropdown-header  Graduate
                                     li
-                                        a(href='/organization/advisors-tutors') Advisors &amp; Tutors
+                                        a(href='/faculties#premaster') Pre-Master
                                     li
-                                        a(href='/organization/rules-regulations') Rules &amp; Regulations
+                                        a(href='/faculties#master') Master
+                        - var classActive = (headerActive === "study" ? "active" : "")
+                            li.dropdown(class=classActive)
+                                a#studyingHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false', style='cursor: default;') Studying
+                                ul.dropdown-menu
                                     li
-                                        a(href='/organization/campus-card') Campus Card
-                                - if(userType === 'visitor')
-                                    li.dropdown-header
-                                        | Visitors Only
+                                        a(href='/study/electives') Electives
                                     li
-                                        a(href='/organization/enrollment') Enrollment
+                                        a(href='/study/notebook') Notebook
+                                    li
+                                        a(href='/study/canvas') Canvas
+                                    li
+                                        a(href='/study/timetables-timeslots') Timetables &amp; Timeslots
+                                    li
+                                        a(href='/study/planapp') PlanApp
+                                    li
+                                        a(href='/study/internationals') Internationals
+                                    - if(userType === 'student')
+                                        li.dropdown-header  Students Only
+                                        li
+                                            a(href='/study/free-software') Free Software
+                                        li
+                                            a(href='/study/academic-year') Academic Year
+                        - var classActive = (headerActive === "organization" ? "active" : "")
+                            li.dropdown(class=classActive)
+                                a#organizationHeaderAnchor.dropdown-toggle.topHeaderAnchor(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false', style='cursor: default;') Organization
+                                ul.dropdown-menu
+                                    li
+                                        a(href='/organization/map') Map
+                                    li
+                                        a(href='/organization/contact') Contact
+                                    li
+                                        a(href='/organization/student-for-a-day') Student-for-a-Day
+                                    - if(userType === 'student')
+                                        li.dropdown-header
+                                            | Students Only
+                                        li
+                                            a(href='/organization/advisors-tutors') Advisors &amp; Tutors
+                                        li
+                                            a(href='/organization/rules-regulations') Rules &amp; Regulations
+                                        li
+                                            a(href='/organization/campus-card') Campus Card
+                                    - if(userType === 'visitor')
+                                        li.dropdown-header
+                                            | Visitors Only
+                                        li
+                                            a(href='/organization/enrollment') Enrollment
 
 
         //p.pull-right You are currently:
@@ -93,56 +98,53 @@ html
 
         block content
 
+        a.scrollup(href="#", style="")
+            i.fa.fa-arrow-up.fa-2x(style="vertical-align: bottom;", aria-hidden='true')
+
         // TODO: fix footer to bottom
-        footer.page-footer
-            .upper-footer
-                .row(style='padding-bottom: 30px;')
+        footer.footer
+            .page-footer
+                .row(style='padding-bottom: 15px;')
                     .col-md-6
-                        .helper
-                            p.footer-header  Or are you looking for
-                            table.contact(style='text-align: center;')
-                                tr
-                                    td
+                        p.footer-header(style='margin-bottom: 15px;')  Or are you looking for
+                            .row
+                                .col-md-6
+                                    .ul
+                                    p
                                         a.footer-text(href='#') Route &amp; Map
-                                    td
+                                    p
                                         a.footer-text(href='#') Timetables
-                                tr
-                                    td
+                                .col-md-6
+                                    p
                                         a.footer-text(href='#') Notebook
-                                    td
+                                    p
                                         a.footer-text(href='#') PlanApp
-                                tr
-                                    td
+                                    p
                                         a.footer-text(href='#') Canvas
                     .col-md-6
-                        .helper
-                            p.footer-header
-                                | Contact TU
-                                b /
-                                | e
-                            table.contact(style='text-align: center;')
-                                tr
-                                    td
-                                        b Navigation address
-                                    td
-                                        b Postal address
-                                tr
-                                    td  De Zaale Eindhoven
-                                    td PO Box 513
-                                tr
-                                    td
-                                    td 5600 MB Eindhoven
-                                tr
-                                    td
-                                tr
-                                    td
+                        p.footer-header(style='margin-bottom: 15px;')
+                            | Contact TU
+                            b /
+                            | e
+                            .row
+                                .col-xs-6
+                                    p.footer-text Navigation address
+                                    p.footer-text Postal address
+                                .col-xs-6
+                                    p.footer-text De Zaale Eindhoven
+                                    p.footer-text PO Box 513
+                                    p.footer-text 5600 MB Eindhoven
+                            .row(style='margin-top: 15px;')
+                                .col-xs-6
+                                    p
                                         b E:
                                         |
                                         a.footer-text(href='mailto:info@tue.nl') info@tue.nl
-                                    td
+                                .col-xs-6
+                                    p
                                         b T:
                                         a.footer-text(href='tel:00310402479111') +31 (0)40 247 9111
-                .row(style='padding-bottom: 20px;')
+                .row(style='padding-bottom: 15px;')
                     .col-md-4
                         .helper
                             p.tue-pink.footer-text  &copy; 2017 TU/e

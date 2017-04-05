@@ -34,3 +34,9 @@ mixin putPasswordField(errorMessage)
         input#password.error-form-field.form-control.form-input-mod(name="password", type="password", placeholder="Password")
     - else
         input#password.form-control.form-input-mod(name="password", type="password", placeholder="Password")
+
+mixin putUsernameFieldSpecial(errorMessage)
+    - if(errorMessage == 's-number')
+        input#username.error-form-field.form-control.form-input-mod(type='text', placeholder='Username', name="username")
+    - else
+        input#username.form-control.form-input-mod(type='text', placeholder='Username', name="username")

@@ -1,0 +1,36 @@
+extends layout
+
+block content
+    .content-margins
+        .parallax(style="background-image: url('/img/carousel5-generic.png'); background-position: center bottom;")
+        .container-fluid(style="margin-top: 10px;")
+            .row
+                .col-md-3.accordion-col
+                    .col-helper
+                        - var classActive = (accordionStudyActive === "electives" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/electives';") Electives
+                        - var classActive = (accordionStudyActive === "notebook" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/notebook';") Notebook
+                        - var classActive = (accordionStudyActive === "canvas" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/canvas';") Canvas
+                        - var classActive = (accordionStudyActive === "timetables-timeslots" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/timetables-timeslots';") Timetables & Timeslots
+                        - var classActive = (accordionStudyActive === "planapp" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/planapp';") PlanApp
+                        - var classActive = (accordionStudyActive === "internationals" ? "active" : "")
+                            button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/internationals';") Internationals
+                        - if(userType === "student")
+                            - var classActive = (accordionStudyActive === "free-software" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/free-software';") Free Software
+                            - var classActive = (accordionStudyActive === "academic-year" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(class=classActive, onclick="location.href='/study/academic-year';") Academic Year
+                .col-md-6
+                    h1.page-title.center-text #{pageHeader.title}
+                    h3.subtitle #{pageHeader.strapline}
+                    div !{content}
+                .col-md-3
+                    .col-helper
+                        each sidebox in sideboxes
+                            .generic-box.clearfix
+                                h2 #{sidebox.title}
+                                div !{sidebox.body}

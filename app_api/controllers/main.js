@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
+// var assert = require('assert');
+
+var Promise = require('bluebird'); //ADD THIS LINE
+Promise.promisifyAll(mongoose); //AND THIS LINE
 
 var Faculty = mongoose.model('Faculty');
 var Forum = mongoose.model('Forum');
 var User = mongoose.model('User');
 
 var doAddPost = function (req, res, forum) {
-    if(!forum) {
+    if (!forum) {
         console.log("*** not found");
         sendJsonResponse(res, 404, {
             "message": "forumid not found"
@@ -20,11 +24,11 @@ var doAddPost = function (req, res, forum) {
         });
         forum.save(function (err, forum) {
             var thisPost;
-            if(err) {
+            if (err) {
                 console.log("**** ERROR: " + err);
-                sendJsonResponse(res, 404, err);
+                sendJsonResponse(res, err.statusCode, err);
             } else {
-                thisPost = forum.posts[forum.posts.length-1];
+                thisPost = forum.posts[forum.posts.length - 1];
                 sendJsonResponse(res, 201, thisPost);
             }
         });
@@ -32,7 +36,7 @@ var doAddPost = function (req, res, forum) {
 };
 
 var doAddAnswer = function (req, res, forum, post) {
-    if(!post) {
+    if (!post) {
         console.log("*** forumid or postid not found");
         sendJsonResponse(res, 404, {
             "message": "forumid or postid not found"
@@ -47,9 +51,9 @@ var doAddAnswer = function (req, res, forum, post) {
 
         console.log("*** Saving...");
         forum.save(function (err, forum) {
-            if(err) {
+            if (err) {
                 console.log("*** ERROR: " + err);
-                sendJsonResponse(res, 404, err);
+                sendJsonResponse(res, err.statusCode, err);
             } else {
                 console.log("*** SUCCESS");
                 sendJsonResponse(res, 201, post);
@@ -59,42 +63,38 @@ var doAddAnswer = function (req, res, forum, post) {
 };
 
 module.exports.getFaculties = function (req, res) {
-    Faculty
-        .find()
-        .exec(function (err, faculties) {
-            if(!faculties) {
-                sendJsonResponse(res, 404, {
-                    "message": "No faculties found"
-                });
-                return;
-            } else if(err) {
-                sendJsonResponse(res, 404, err);
-                return;
-            }
-            sendJsonResponse(res, 200, faculties);
-        });
+    Faculty.find().exec(function (err, faculties) {
+        if (!faculties) {
+            sendJsonResponse(res, 404, {
+                "message": "No faculties found"
+            });
+            return;
+        } else if (err) {
+            sendJsonResponse(res, 404, err);
+            return;
+        }
+        sendJsonResponse(res, 200, faculties);
+    });
 };
 
 module.exports.getOneFaculty = function (req, res) {
     console.log("Getting single faculty");
-    if(req.params && req.params.facultyid) {
-        Faculty
-            .findById(req.params.facultyid)
-            .exec(function (err, faculty) {
-                if(!faculty) {
-                    console.log("facultyid");
-                    sendJsonResponse(res, 404, {
-                        "message": "facultyid not found"
-                    });
-                    return;
-                } else if(err) {
-                    console.log("err");
-                    sendJsonResponse(res, 404, err);
-                    return;
-                }
-                console.log("Sending..");
-                sendJsonResponse(res, 200, faculty);
-            });
+    if (req.params && req.params.facultyid) {
+        Faculty.findById(req.params.facultyid).exec(function (err, faculty) {
+            if (!faculty) {
+                console.log("facultyid");
+                sendJsonResponse(res, 404, {
+                    "message": "facultyid not found"
+                });
+                return;
+            } else if (err) {
+                console.log("err");
+                sendJsonResponse(res, err.statusCode, err);
+                return;
+            }
+            console.log("Sending..");
+            sendJsonResponse(res, 200, faculty);
+        });
     } else {
         sendJsonResponse(res, 404, {
             "message": "Not found, facultyid and bachelorid are both required"
@@ -104,22 +104,22 @@ module.exports.getOneFaculty = function (req, res) {
 
 module.exports.getOneBachelor = function (req, res) {
     console.log("Getting single bachelor.");
-    if(req.params && req.params.facultyid && req.params.bachelorid) {
+    if (req.params && req.params.facultyid && req.params.bachelorid) {
         Faculty
             .findById(req.params.facultyid)
             .exec(function (err, faculty) {
                 var response, program;
-                if(!faculty) {
+                if (!faculty) {
                     sendJsonResponse(res, 404, {
                         "message": "facultyid not found"
                     });
                     return;
-                } else if(err){
-                    sendJsonResponse(res, 404, err)
+                } else if (err) {
+                    sendJsonResponse(res, err.statusCode, err)
                 }
-                if(faculty.bachelor && faculty.bachelor.length > 0) {
+                if (faculty.bachelor && faculty.bachelor.length > 0) {
                     program = faculty.bachelor.id(req.params.bachelorid);
-                    if(!program) {
+                    if (!program) {
                         sendJsonResponse(res, 404, {
                             "message": "Program not found!"
                         });
@@ -148,25 +148,25 @@ module.exports.getOneBachelor = function (req, res) {
 
 module.exports.getOnePremaster = function (req, res) {
     console.log("Getting single premaster.");
-    if(req.params && req.params.facultyid && req.params.premasterid) {
+    if (req.params && req.params.facultyid && req.params.premasterid) {
         Faculty
             .findById(req.params.facultyid)
             .exec(function (err, faculty) {
                 var response, program;
-                if(!faculty) {
+                if (!faculty) {
                     console.log("*** facultyid not found.");
                     sendJsonResponse(res, 404, {
                         "message": "facultyid not found"
                     });
                     return;
-                } else if(err){
+                } else if (err) {
                     console.log("*** Error: " + err);
-                    sendJsonResponse(res, 404, err)
+                    sendJsonResponse(res, err.statusCode, err)
                 }
 
-                if(faculty.premaster && faculty.premaster.length > 0) {
+                if (faculty.premaster && faculty.premaster.length > 0) {
                     program = faculty.premaster.id(req.params.premasterid);
-                    if(!program) {
+                    if (!program) {
                         console.log("*** Program not found");
                         sendJsonResponse(res, 404, {
                             "message": "Program not found!"
@@ -198,25 +198,25 @@ module.exports.getOnePremaster = function (req, res) {
 
 module.exports.getOneMaster = function (req, res) {
     console.log("Getting single master.");
-    if(req.params && req.params.facultyid && req.params.masterid) {
+    if (req.params && req.params.facultyid && req.params.masterid) {
         Faculty
             .findById(req.params.facultyid)
             .exec(function (err, faculty) {
                 var response, program;
-                if(!faculty) {
+                if (!faculty) {
                     console.log("*** facultyid not found.");
                     sendJsonResponse(res, 404, {
                         "message": "facultyid not found"
                     });
                     return;
-                } else if(err){
+                } else if (err) {
                     console.log("*** Error: " + err);
-                    sendJsonResponse(res, 404, err)
+                    sendJsonResponse(res, err.statusCode, err)
                 }
 
-                if(faculty.master && faculty.master.length > 0) {
+                if (faculty.master && faculty.master.length > 0) {
                     program = faculty.master.id(req.params.masterid);
-                    if(!program) {
+                    if (!program) {
                         console.log("*** Program not found");
                         sendJsonResponse(res, 404, {
                             "message": "Program not found!"
@@ -247,38 +247,36 @@ module.exports.getOneMaster = function (req, res) {
 };
 
 module.exports.getForums = function (req, res) {
-    Forum
-        .find()
-        .exec(function (err, forums) {
-            if(!forums) {
-                sendJsonResponse(res, 404, {
-                    "message": "No forums found"
-                });
-                return;
-            } else if(err) {
-                sendJsonResponse(res, 404, err);
-                return;
-            }
-            sendJsonResponse(res, 200, forums);
-        });
+    Forum.find().exec(function (err, forums) {
+        if (!forums) {
+            sendJsonResponse(res, 404, {
+                "message": "No forums found"
+            });
+            return;
+        } else if (err) {
+            sendJsonResponse(res, err.statusCode, err);
+            return;
+        }
+        sendJsonResponse(res, 200, forums);
+    });
 };
 
 module.exports.getOneForum = function (req, res) {
-    if(req.params && req.params.forumid) {
-        Forum
-            .findById(req.params.forumid)
-            .exec(function (err, forum) {
-                if(!forum) {
-                    sendJsonResponse(res, 404, {
-                        "message": "forumid not found"
-                    });
-                    return;
-                } else if(err) {
-                    sendJsonResponse(res, 404, err);
-                    return;
-                }
-                sendJsonResponse(res, 200, forum);
-            });
+    if (req.params && req.params.forumid) {
+        Forum.findById(req.params.forumid).exec(function (err, forum) {
+
+            if (!forum) {
+                sendJsonResponse(res, 404, {
+                    "message": "forumid not found"
+                });
+                return;
+            } else if (err) {
+                sendJsonResponse(res, err.statusCode, err);
+                return;
+            }
+            console.log("ZZZ");
+            sendJsonResponse(res, 200, forum);
+        });
     } else {
         sendJsonResponse(res, 404, {
             "message": "No forumid in request."
@@ -287,23 +285,23 @@ module.exports.getOneForum = function (req, res) {
 };
 
 module.exports.getOnePost = function (req, res) {
-    if(req.params && req.params.forumid && req.params.postid) {
+    if (req.params && req.params.forumid && req.params.postid) {
         Forum
             .findById(req.params.forumid)
             .exec(function (err, forum) {
                 var response, post;
-                if(!forum) {
+                if (!forum) {
                     sendJsonResponse(res, 404, {
                         "message": "forumid not found."
                     });
                     return;
-                } else if(err) {
-                    sendJsonResponse(res, 404, err);
+                } else if (err) {
+                    sendJsonResponse(res, err.statusCode, err);
                     return;
                 }
 
                 post = forum.posts.id(req.params.postid);
-                if(!post) {
+                if (!post) {
                     sendJsonResponse(res, 404, {
                         "message": "postid not found."
                     });
@@ -325,47 +323,112 @@ module.exports.getOnePost = function (req, res) {
     }
 };
 
+
 module.exports.createPost = function (req, res) {
-    if(!req.params.forumid) {
-        console.log("*** forumid required");
-        sendJsonResponse(res, 404, {
-            "message": "Not found, forumid required."
-        });
+    if (!req.body.user) {
+        res.status(401).send("Unauthorized");
     } else {
-        Forum
-            .findById(req.params.forumid)
-            .exec(function (err, forum) {
-                if(err) {
-                    sendJsonResponse(res, 404, err);
-                } else {
-                    console.log("*** do add review");
-                    doAddPost(req, res, forum);
-                }
+        if (!req.params.forumid) {
+            console.log("*** forumid required");
+            sendJsonResponse(res, 404, {
+                "message": "Not found, forumid required."
             });
+        } else {
+            Forum
+                .findById(req.params.forumid)
+                .exec(function (err, forum) {
+                    if (err) {
+                        sendJsonResponse(res, err.statusCode, err);
+                    } else {
+                        console.log("*** do add review");
+                        doAddPost(req, res, forum);
+                    }
+                });
+        }
     }
 };
 
 module.exports.createAnswer = function (req, res) {
-    if(!req.params.forumid || !req.params.postid) {
-        sendJsonResponse(res, 404, {
-            "message": "Not found, forumid and postid are both required."
-        });
+    if (!req.body.user) {
+        res.status(401).send("Unauthorized");
     } else {
-        Forum
-            .findById(req.params.forumid)
-            .select('title posts _id')
-            .exec(function (err, body) {
-                if(err) {
-                    console.log("*** ERROR: " + err);
-                    sendJsonResponse(res, 404, err);
-                } else {
-                    var post = body.posts.id(req.params.postid);
-
-                    console.log("*** Sending to doAddAnswer method");
-                    doAddAnswer(req, res, body, post);
-                }
+        if (!req.params.forumid || !req.params.postid) {
+            sendJsonResponse(res, 404, {
+                "message": "Not found, forumid and postid are both required."
             });
+        } else {
+            Forum
+                .findById(req.params.forumid)
+                .select('title posts _id')
+                .exec(function (err, body) {
+                    if (err) {
+                        console.log("*** ERROR: " + err);
+                        sendJsonResponse(res, err.statusCode, err);
+                    } else {
+                        var post = body.posts.id(req.params.postid);
+
+                        console.log("*** Sending to doAddAnswer method");
+                        doAddAnswer(req, res, body, post);
+                    }
+                });
+        }
     }
+};
+
+module.exports.findAnswer = function (req, res) {
+    var query = User.find({lastName: "Davidovic"});
+    // assert.ok(!(query instanceof require('mpromise')));
+
+    // A query is not a fully-fledged promise, but it does have a `.then()`.
+    // query.then(function (doc) {
+    //     console.log(doc);
+    // });
+    // mongoose.Promise = global.Promise;
+    // assert.equal(query.exec().constructor, global.Promise);
+
+    // `.exec()` gives you a fully-fledged promise
+        // var promise = query.exec();
+    // assert.ok(promise instanceof require('mpromise'));
+
+    // assert.equal(query.exec().constructor, require('bluebird'));
+
+    // promise.then(function (doc) {
+    //     res.send(doc);
+    // });
+
+
+
+    // var findKeywords = [];
+    //
+    // if (req.query.keywords !== '')
+    // {
+    //     var words = req.query.keywords.split(",");
+    //
+    //     for (ii=0; ii<words.length; ii++)
+    //         findKeywords[ii] = {keywords: words[ii].trim()};
+    //
+    //     console.log(findKeywords);
+    //     query.or(findKeywords);
+    // }
+    //
+    // query.exec(function (err,logs) {
+    //     if (err){
+    //         res.send(500,err);
+    //     } else {
+    //         res.send({
+    //             logs: logs
+    //         });
+    //     }
+    // });
+
+
+
+    User.textSearch("Dav", {}, function (err, data) { // req.params.query
+        if (err)
+            return console.log(err);
+
+        return res.send(data);
+    });
 };
 
 var sendJsonResponse = function (res, status, content) {
@@ -374,68 +437,74 @@ var sendJsonResponse = function (res, status, content) {
 };
 
 module.exports.deleteAnswer = function (req, res) {
-    if(!req.params.forumid || !req.params.postid) {
-        sendJsonResponse(res, 404, {
-            "message": "Not found, forumid and postid both required"
-        });
-        return;
-    }
-    Forum
-        .findById(req.params.forumid)
-        .select('posts')
-        .exec(function (err, forum) {
-            if(!forum) {
-                sendJsonResponse(res, 404, {
-                    "message": "forumid not found"
-                });
-                return;
-            } else if(err) {
-                sendJsonResponse(res, 404, err);
-                return;
-            }
-            if(forum.posts && forum.posts.length > 0) {
-                if (!forum.posts.id(req.params.postid)) {
+    if (!req.body.user) {
+        res.status(401).send("Unauthorized");
+    } else {
+        if (!req.params.forumid || !req.params.postid) {
+            sendJsonResponse(res, 404, {
+                "message": "Not found, forumid and postid both required"
+            });
+            return;
+        }
+        Forum
+            .findById(req.params.forumid)
+            .select('posts')
+            .exec(function (err, forum) {
+                if (!forum) {
                     sendJsonResponse(res, 404, {
-                        "message": "postid not found"
+                        "message": "forumid not found"
                     });
-                } else {
-                    var post = forum.posts.id(req.params.postid);
-                    if (!req.body.answerId) {
+                    return;
+                } else if (err) {
+                    sendJsonResponse(res, err.statusCode, err);
+                    return;
+                }
+                if (forum.posts && forum.posts.length > 0) {
+                    if (!forum.posts.id(req.params.postid)) {
                         sendJsonResponse(res, 404, {
-                            "message": "Not found, answerid required"
+                            "message": "postid not found"
                         });
-                        return;
-                    }
-
-                    var thisAnswer;
-                    var returnFourOFour = true;
-                    post.answers.forEach(function (answer) {
-                        if (answer._id.toString() === req.body.answerId.toString()) {
-                            thisAnswer = answer;
-                            returnFourOFour = false;
-                            if (thisAnswer.creatorId != req.body.user._id) {
-                                sendJsonResponse(res, 401, {
-                                    "message": "You are unauthorized to do this."
-                                });
-                            } else {
-                                thisAnswer.remove();
-                                forum.save(function (err) {
-                                    if (err) {
-                                        sendJsonResponse(res, 404, err);
-                                        return;
-                                    }
-                                    sendJsonResponse(res, 204, null);
-                                });
-                            }
+                    } else {
+                        var post = forum.posts.id(req.params.postid);
+                        if (!req.body.answerId) {
+                            sendJsonResponse(res, 404, {
+                                "message": "Not found, answerid required"
+                            });
+                            return;
                         }
-                    });
 
-                    if(returnFourOFour) {
-                        sendJsonResponse(res, 404, {
-                            "message": "Not found"
+                        var thisAnswer;
+                        var returnFourOFour = true;
+                        post.answers.forEach(function (answer) {
+                            if (answer._id.toString() === req.body.answerId.toString()) {
+                                thisAnswer = answer;
+                                returnFourOFour = false;
+                                if (thisAnswer.creatorId != req.body.user._id) {
+                                    sendJsonResponse(res, 401, {
+                                        "message": "You are unauthorized to do this."
+                                    });
+                                } else {
+                                    thisAnswer.remove();
+                                    forum.save(function (err) {
+                                        if (err) {
+                                            sendJsonResponse(res, err.statusCode, err);
+                                            return;
+                                        }
+                                        sendJsonResponse(res, 204, null);
+                                    });
+                                }
+                            }
                         });
+
+                        if (returnFourOFour) {
+                            sendJsonResponse(res, 404, {
+                                "message": "Not found"
+                            });
+                        }
                     }
                 }
-            }
-        });
+            });
+    }
 };
+
+

@@ -11,17 +11,7 @@ block content
                     a.close(href='#', data-dismiss='alert', aria-label='close') &times
                     | #{message}
             .row
-                .col-md-8
-                    .col-helper
-                        each forum in forums
-                            .forum-thumbnail.clearfix
-                                - var forumUrl = '/forum/' + forum._id
-                                    a(href=forumUrl)
-                                        h1.subtitle.align-left #{forum.title}
-                                        p.basic-text #{forum.description}
-                                        .forum-colored-rect(style='background-color: #CC3300;')
-                                        p.basic-text Number of posts: #{forum.posts.length}
-                .col-md-4
+                .col-md-4.col-md-push-8
                     .col-helper
                         - if(userName)
                             .generic-box
@@ -53,6 +43,16 @@ block content
                             h2 Lorem Ipsum
                             p
                                 | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                .col-md-8.col-md-pull-4
+                    .col-helper
+                        each forum in forums
+                            .forum-thumbnail.clearfix
+                                - var forumUrl = '/forum/' + forum._id
+                                a(href=forumUrl)
+                                    h1.subtitle.align-left #{forum.title}
+                                    p.basic-text #{forum.description}
+                                    .forum-colored-rect(style='background-color: #CC3300;')
+                                    p.basic-text Number of posts: #{forum.posts.length}
     ul.pagination-custom(style='margin: 50px 0;')
         li.hvr-underline-from-center
             a(href='#') &laquo;
@@ -65,26 +65,14 @@ block content
         li.hvr-underline-from-center
             a(href='#') &raquo;
 
-
-    //- if(message)
-    //    .alert.alert-warning #{message}
-    //.row
-    //     .col-md-4
-    //        - if(userName)
-    //            p Currently logged in as #{userName}
-    //        - else
-    //            p Not currently logged in
-    //     .col-md-8
-    //         - if(userName)
-    //             a.btn.btn-default(href="/logout") Log Out
-    //         - else
-    //            .btn-group
-    //                a.btn.btn-default(href="/login") Log In
-    //                a.btn.btn-default(href="/register") Register
-    //each forum in forums
-    //     .forum-box.clearfix
-    //         - var forumUrl = '/forum/' + forum._id
-    //             a(href=forumUrl)
-    //                h2 #{forum.title}
-    //             p #{forum.description}
-    //             p.pull-right Number of posts: #{forum.posts.length}
+    //ul.pagination-custom(style='margin: 50px 0;')
+    //    li.hvr-underline-from-center
+    //        a(href='#') &laquo;
+    //    li.active.hvr-underline-from-center
+    //        a(href='#') 1
+    //    li.hvr-underline-from-center
+    //        a(href='#') 2
+    //    li.hvr-underline-from-center
+    //        a(href='#') 3
+    //    li.hvr-underline-from-center
+    //        a(href='#') &raquo;

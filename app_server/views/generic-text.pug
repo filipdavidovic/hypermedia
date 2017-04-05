@@ -1,10 +1,6 @@
 extends layout
 
 block content
-    #banner.page-header
-        .row
-            .col-md-6.col-sm-12
-                h1= title
-    .row
-        .col-md-6.col-sm-12
-            p !{(content).replace(/\n/g, '<br/>')}
+    .content-margins-extended
+        h1.page-title.center-text= title
+        p.basic-text.center-text !{(content).replace(/\n/g, '<br/>')}

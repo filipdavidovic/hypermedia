@@ -12,6 +12,14 @@ $(document).ready(function() {
       $("#mainNavigation").toggleClass("top-nav-collapse", $(this).scrollTop() > 100);
   }
 
+  function checkScrollup() {
+      if($(this).scrollTop() > 100) {
+          $('.scrollup').fadeIn();
+      } else {
+          $('.scrollup').fadeOut();
+      }
+  }
+
   function changeToCollapsed() {
     $('.nav.navbar-nav').removeClass("pull-right");
 
@@ -109,6 +117,7 @@ $(document).ready(function() {
       $('.nav.navbar-nav').removeClass("pull-right");
       $('.navbar .navbar-nav > li').css("padding", null);
       resizeBanner("extra-small");
+      checkScrollup();
       $('.navbar .navbar-nav > li').css("padding", null);
       $('.generic-tooltip').attr("data-placement", "bottom");
     }
@@ -124,6 +133,21 @@ $(document).ready(function() {
 
   $(window).scroll(function() {
       fixHeader();
+  });
+
+  $('.scrollup').click(function () {
+    var url = window.location.href;
+    if(url.match("forum/")) {
+        $("html, body").animate({
+            scrollTop: 230
+        }, 600);
+        return false;
+    }
+    console.log(url);
+    $("html, body").animate({
+      scrollTop: 500
+    }, 600);
+    return false;
   });
 });
 

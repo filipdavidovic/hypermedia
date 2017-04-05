@@ -1,0 +1,61 @@
+extends program
+
+block innerContent
+        div !{target.program.general.body}
+        ul.nav.nav-pills
+            li.active.hvr-overline-from-center
+                a(data-toggle='pill', href='#firstYear') First Year
+            li.hvr-overline-from-center
+                a(data-toggle='pill', href='#secondYear') Second Year
+            li.hvr-overline-from-center
+                a(data-toggle='pill', href='#thirdYear') Third Year
+        .tab-content
+            #firstYear.tab-pane.fade.in.active
+                // TODO: integrate listjs into this table
+                input#searchBar.form-control.search-bar(type='text', placeholder='Search for Course Name or Course Code')
+                table.table.table-striped.course-table
+                    thead.tue-pink.basic-text
+                        tr
+                            th  Course Name
+                            th  Course Code
+                            th  Quartile
+                            th  Available Timeslots
+                    tbody.basic-text
+                        each subject in target.program.general.courses.firstYear
+                            tr
+                                td  #{subject.name}
+                                td  #{subject.code}
+                                td  #{subject.quartile}
+                                td  #{subject.timeslots}
+            #secondYear.tab-pane
+                input#searchBar.form-control.search-bar(type='text', placeholder='Search for Course Name or Course Code')
+                table.table.table-striped.course-table
+                    thead.tue-pink.basic-text
+                        tr
+                            th  Course Name
+                            th  Course Code
+                            th  Quartile
+                            th  Available Timeslots
+                    tbody.basic-text
+                        each subject in target.program.general.courses.secondYear
+                            tr
+                                td  #{subject.name}
+                                td  #{subject.code}
+                                td  #{subject.quartile}
+                                td  #{subject.timeslots}
+            #thirdYear.tab-pane
+                input#searchBar.form-control.search-bar(type='text', placeholder='Search for Course Name or Course Code')
+                table.table.table-striped.course-table
+                    thead.tue-pink.basic-text
+                        tr
+                            th  Course Name
+                            th  Course Code
+                            th  Quartile
+                            th  Available Timeslots
+                    tbody.basic-text
+                        each subject in target.program.general.courses.thirdYear
+                            tr
+                                td  #{subject.name}
+                                td  #{subject.code}
+                                td  #{subject.quartile}
+                                td  #{subject.timeslots}

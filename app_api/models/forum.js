@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+
 var answerSchema = new mongoose.Schema({
     "author": {type: String, required: true},
     "answerBody": {type: String, required: true},

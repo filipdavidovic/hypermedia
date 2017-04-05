@@ -13,17 +13,17 @@ module.exports = function (passport) {
     }, function (req, username, password, done) {
         User.findOne({'username': username}, function (err, user) {
             // In case of error, return error using done method
-            if(err) {
+            if (err) {
                 console.log("ERROR: " + err);
                 return done(err);
             }
             // Username does not exist, log error and redirect back
-            if(!user) {
+            if (!user) {
                 console.log('User not found with username ' + username);
                 return done(null, false, req.flash('message', 'User not found with username ' + username));
             }
             // User exists but wrong password, log the error
-            if(!isValidPassword(user, password)) {
+            if (!isValidPassword(user, password)) {
                 console.log('Invalid Password');
                 return done(null, false, req.flash('message', 'Invalid username and password combination'));
             }
