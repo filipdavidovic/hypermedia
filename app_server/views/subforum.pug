@@ -6,7 +6,8 @@ block content
             .forum-thumbnail.clearfix
                 h1.subtitle #{forum.title}
                 p.basic-text #{forum.description}
-                .forum-colored-rect(style='background-color: #CC3300;')
+                - var styleForumRect = 'background-color: '  + forum.color + ';';
+                    .forum-colored-rect(style=styleForumRect)
                 .row.row-eq-height
                     .col-md-6.col-sm-12
                         p.basic-text.vertical-align-text

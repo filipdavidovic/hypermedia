@@ -184,8 +184,8 @@ module.exports = function (passport) {
         chooseUponUser(req, res, studentCtrl.notebook, visitorCtrl.notebook);
     });
 
-    router.get('/study/canvas', function(req, res) {
-        checkUser(req, res, uniformCtrl.canvas);
+    router.get('/study/mytue', function(req, res) {
+        checkUser(req, res, uniformCtrl.mytue);
     });
 
     router.get('/study/timetables-timeslots', function(req, res) {

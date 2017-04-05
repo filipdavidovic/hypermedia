@@ -47,7 +47,8 @@ block content
                                 a(href=forumUrl)
                                     h1.subtitle.align-left #{forum.title}
                                     p.basic-text #{forum.description}
-                                    .forum-colored-rect(style='background-color: #CC3300;')
+                                    - var styleForumRect = 'background-color: '  + forum.color + ';';
+                                        .forum-colored-rect(style=styleForumRect)
                                     p.basic-text Number of posts: #{forum.posts.length}
 
     //ul.pagination-custom(style='margin: 50px 0;')

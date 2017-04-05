@@ -21,7 +21,8 @@ var forumSchema = new mongoose.Schema({
     "_id": {type: String, required: true},
     "title": {type: String, required: true},
     "description": {type: String, "default": "This is a forum"},
-    "posts": [postSchema]
+    "posts": [postSchema],
+    "color": {type: String, required: true}
 });
 
 mongoose.model('Forum', forumSchema, 'forum');
