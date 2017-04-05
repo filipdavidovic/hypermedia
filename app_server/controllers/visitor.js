@@ -28,7 +28,7 @@ var doSinglePremaster = function (req, res, type) {
             var data  = {
                 title: premaster.name,
                 pageHeader: {
-                    title: premaster.name
+                    title: premaster.name + " / General"
                 },
                 target: premaster,
                 targetBody: premaster.program.visitorBody,
@@ -245,7 +245,40 @@ module.exports.singlePremaster = function (req, res) {
 // };
 
 module.exports.singleMaster = function (req, res) {
-    res.send("Single Master - Visitor");
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/master/' + req.params.masterid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var master = body;
+
+        if (response.statusCode === 200) {
+            console.log(master);
+
+            var data = {
+                title: master.name,
+                pageHeader: {
+                    title: master.program.name + " / General"
+                },
+                target: master,
+                targetBody: master.program.visitorBody,
+                headerActive: "faculties",
+                programOrganizationActive: "general",
+                baseUrl: '/faculties/' + req.params.facultyid + '/master/' + req.params.masterid,
+                userType: req.session.userType
+            };
+
+            res.render('programMasterGeneric', data);
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
 };
 
 module.exports.notebook = function (req, res) {

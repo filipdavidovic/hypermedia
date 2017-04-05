@@ -122,7 +122,7 @@ var doSinglePremaster = function (req, res, type) {
             var data  = {
                 title: premaster.name,
                 pageHeader: {
-                    title: premaster.name
+                    title: premaster.program.name
                 },
                 target: premaster,
                 headerActive: "faculties",
@@ -133,9 +133,11 @@ var doSinglePremaster = function (req, res, type) {
 
             if(type === "general") {
                 data.targetBody = premaster.program.general.body;
+                data.pageHeader.title = data.pageHeader.title + " / General";
                 res.render('programPremasterGeneric', data);
             } else {
                 data.targetBody = premaster.program.graduationDeadlines;
+                data.pageHeader.title = data.pageHeader.title + " / Conditions For Enrollment";
                 res.render('programPremasterGeneric', data);
             }
         } else {

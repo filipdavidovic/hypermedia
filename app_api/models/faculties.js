@@ -16,8 +16,7 @@ var generalBachelorSchema = new mongoose.Schema({
     }
 });
 var generalPremasterSchema = new mongoose.Schema({
-    body: {type: String, required: true},
-    courses: [subjectSchema]
+    body: {type: String, required: true}
 });
 
 
