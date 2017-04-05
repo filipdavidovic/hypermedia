@@ -33,8 +33,6 @@ $(document).ready(function() {
     navigation.find('a.topHeaderAnchor#facultiesHeaderAnchor').html('<i class="fa fa-book" aria-hidden="true"></i>');
     navigation.find('a.topHeaderAnchor#studyingHeaderAnchor').html('<i class="fa fa-graduation-cap" aria-hidden="true"></i>');
     navigation.find('a.topHeaderAnchor#organizationHeaderAnchor').html('<i class="fa fa-sitemap" aria-hidden="true"></i>');
-
-    console.log("collapsed");
   }
 
   function changeToExpanded() {
@@ -49,8 +47,6 @@ $(document).ready(function() {
     navigation.find('a.topHeaderAnchor#facultiesHeaderAnchor').html('Faculties');
     navigation.find('a.topHeaderAnchor#studyingHeaderAnchor').html('Studying');
     navigation.find('a.topHeaderAnchor#organizationHeaderAnchor').html('Organization');
-
-    console.log("expanded");
   }
 
   function checkNavCollapse() {
@@ -67,7 +63,6 @@ $(document).ready(function() {
   }
 
   function checkTooltip() {
-    // console.log($(window).scrollTop());
     if($(window).scrollTop() > 100) {
       $('[data-toggle="tooltip"].headerTooltip').tooltip("enable");
     } else {
@@ -143,7 +138,6 @@ $(document).ready(function() {
         }, 600);
         return false;
     }
-    console.log(url);
     $("html, body").animate({
       scrollTop: 500
     }, 600);

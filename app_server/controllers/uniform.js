@@ -4,6 +4,10 @@ var apiOptions = {
     server: "http://localhost:3000"
 };
 
+if(process.env.NODE_ENV === 'production') {
+    apiOptions.server = "https://hypermedia-group9-studyguide.herokuapp.com";
+}
+
 module.exports.notAvailable = function (req, res) {
     res.render('error', {
         "message": "You are not allowed to use this service",
@@ -81,13 +85,10 @@ module.exports.electives = function (req, res) {
             title: "Electives",
             strapline: "Electives that you can choose as a student of TU/e"
         },
-        content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        content: "<p class='basic-text'>TU/e offers a broad range of elective courses for all students. In the Bachelor College, students can choose elective courses from all faculties. This way, students can shape their own education to their needs and wishes. There is a broad range of elective courses for every major. At the TU/e, you are completely in charge of your own specialization. Every major can be shaped to your specific interests.</p>",
         headerActive: "study",
         accordionStudyActive: "electives",
-        sideboxes: [{
-            title: "Lorem Ipsum",
-            body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-        }],
+        sideboxes: [],
         userType: req.session.userType
     });
 };

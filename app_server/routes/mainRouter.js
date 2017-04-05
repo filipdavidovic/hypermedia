@@ -109,9 +109,50 @@ module.exports = function (passport) {
         chooseUponUser(req, res, studentCtrl.singlePremaster, visitorCtrl.singlePremaster);
     });
 
+    router.get('/faculties/:facultyid/premaster/:premasterid/conditions-for-enrollment', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singlePremasterConditionsForEnrollment, visitorCtrl.singlePremaster);
+    });
+
     router.get('/faculties/:facultyid/master/:masterid', function (req, res) {
         chooseUponUser(req, res, studentCtrl.singleMaster, visitorCtrl.singleMaster);
     });
+
+    router.get('/faculties/:facultyid/master/:masterid/curriculum/:streamid', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterCurriculumStream, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/coaching-professional-skills', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterCoachingProfessionalSkills, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/internship-exchange', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterInternshipExchange, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/honors-program', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterHonorsProgram, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/graduation', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterGraduation, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/examination-schedules', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterExaminationSchedules, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/graduation-deadlines', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterGraduationDeadlines, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/prior-bachelors', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterPriorBachelors, visitorCtrl.singleMaster);
+    });
+
+    router.get('/faculties/:facultyid/master/:masterid/regulations', function (req, res) {
+        chooseUponUser(req, res, studentCtrl.singleMasterRegulations, visitorCtrl.singleMaster);
+    });
+
 
     // ORGANIZATION
     router.get('/organization/map', function(req, res) {

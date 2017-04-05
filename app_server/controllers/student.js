@@ -27,6 +27,122 @@ var _showError = function (req, res, status) {
     });
 };
 
+var doSingleMaster = function (req, res, type) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/master/' + req.params.masterid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var master = body;
+
+        if (response.statusCode === 200) {
+            console.log(master);
+
+            var data = {
+                title: master.name,
+                pageHeader: {
+                    title: master.program.name
+                },
+                target: master,
+                targetBody: master.program.description,
+                headerActive: "faculties",
+                programOrganizationActive: type,
+                baseUrl: '/faculties/' + req.params.facultyid + '/master/' + req.params.masterid,
+                userType: req.session.userType
+            };
+
+            switch(type) {
+                case "coaching-professional-skills":
+                    data.targetBody = master.program.coachingProfessionalSkills;
+                    data.pageHeader.title = data.pageHeader.title + " / Coaching & Professional Skills";
+                    break;
+                case "internship-exchange":
+                    data.targetBody = master.program.internshipExchange;
+                    data.pageHeader.title = data.pageHeader.title + " / Internship and Exchange";
+                    break;
+                case "honors-program":
+                    data.targetBody = master.program.honorsProgram;
+                    data.pageHeader.title = data.pageHeader.title + " / Honors Program";
+                    break;
+                case "graduation":
+                    data.targetBody = master.program.graduation;
+                    data.pageHeader.title = data.pageHeader.title + " / Graduation";
+                    break;
+                case "examination-schedules":
+                    data.targetBody = master.program.examinationSchedules;
+                    data.pageHeader.title = data.pageHeader.title + " / Examination Schedules";
+                    break;
+                case "graduation-deadlines":
+                    data.targetBody = master.program.graduationDeadlines;
+                    data.pageHeader.title = data.pageHeader.title + " / Graduation Deadlines";
+                    break;
+                case "prior-bachelors":
+                    data.targetBody = master.program.priorBachelors;
+                    data.pageHeader.title = data.pageHeader.title + " / Prior Bachelors";
+                    break;
+                case "regulations":
+                    data.targetBody = master.program.regulations;
+                    data.pageHeader.title = data.pageHeader.title + " / Regulations";
+                    break;
+                default:
+                    data.targetBody = master.program.general;
+                    data.pageHeader.title = data.pageHeader.title + " / General";
+            }
+
+            res.render('programMasterGeneric', data);
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
+var doSinglePremaster = function (req, res, type) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var premaster = body;
+
+        if (response.statusCode === 200) {
+            console.log(premaster);
+
+            var data  = {
+                title: premaster.name,
+                pageHeader: {
+                    title: premaster.name
+                },
+                target: premaster,
+                targetBody: premaster.program.description,
+                headerActive: "faculties",
+                programOrganizationActive: type,
+                baseUrl: '/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid,
+                userType: req.session.userType
+            };
+
+            if(type === "general") {
+                res.render('programPremasterGeneral', data);
+            } else {
+                res.render('programPremasterGeneric', data);
+            }
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
 /* homepage */
 module.exports.homepage = function (req, res) {
     var requestOptions, path;
@@ -324,77 +440,52 @@ module.exports.singleBachelorGraduationDeadlines = function (req, res) {
 };
 
 module.exports.singlePremaster = function (req, res) {
-    var requestOptions, path;
+    doSinglePremaster(req, res, "general");
+};
 
-    path = '/api/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid;
-
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
-
-    request(requestOptions, function (err, response, body) {
-        var premaster = body;
-
-        if (response.statusCode === 200) {
-            console.log(premaster);
-            res.render('program', {
-                title: premaster.name,
-                pageHeader: {
-                    title: premaster.name,
-                    strapline: premaster.description
-                },
-                target: premaster,
-                type: {
-                    bachelor: false,
-                    premaster: true,
-                    master: false
-                },
-                headerActive: "faculties",
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
+module.exports.singlePremasterConditionsForEnrollment = function (req, res) {
+    doSinglePremaster(req, res, "conditions-for-enrollment");
 };
 
 module.exports.singleMaster = function (req, res) {
-    var requestOptions, path;
+    doSingleMaster(req, res, "general");
+};
 
-    path = '/api/faculties/' + req.params.facultyid + '/master/' + req.params.masterid;
+module.exports.singleMasterCurriculumStream = function (req, res) {
+    // doSingleMaster(req, res, "general");
+    res.send("CIAO");
+};
 
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
+module.exports.singleMasterCoachingProfessionalSkills = function (req, res) {
+    doSingleMaster(req, res, "coaching-professional-skills");
+};
 
-    request(requestOptions, function (err, response, body) {
-        var master = body;
+module.exports.singleMasterInternshipExchange = function (req, res) {
+    doSingleMaster(req, res, "internship-exchange");
+};
 
-        if (response.statusCode === 200) {
-            console.log(master);
-            res.render('program', {
-                title: master.name,
-                pageHeader: {
-                    title: master.name,
-                    strapline: master.description
-                },
-                target: master,
-                type: {
-                    bachelor: false,
-                    premaster: false,
-                    master: true
-                },
-                headerActive: "faculties",
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
+module.exports.singleMasterHonorsProgram = function (req, res) {
+    doSingleMaster(req, res, "honors-program");
+};
+
+module.exports.singleMasterGraduation = function (req, res) {
+    doSingleMaster(req, res, "graduation");
+};
+
+module.exports.singleMasterExaminationSchedules = function (req, res) {
+    doSingleMaster(req, res, "examination-schedules");
+};
+
+module.exports.singleMasterGraduationDeadlines = function (req, res) {
+    doSingleMaster(req, res, "graduation-deadlines");
+};
+
+module.exports.singleMasterPriorBachelors = function (req, res) {
+    doSingleMaster(req, res, "prior-bachelors");
+};
+
+module.exports.singleMasterRegulations = function (req, res) {
+    doSingleMaster(req, res, "regulations");
 };
 
 module.exports.forum = function (req, res) {
@@ -425,7 +516,7 @@ module.exports.forum = function (req, res) {
             title: "TUe Forums",
             pageHeader: {
                 title: "Forum",
-                strapline: "Welcome to TUe Forums"
+                strapline: "Welcome to TU/e Forums"
             },
             forums: forums,
             message: message,

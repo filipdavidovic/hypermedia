@@ -2,7 +2,7 @@ extends layout
 
 block content
     .content-margins
-        .parallax
+        .parallax(style="background-image: url('/img/carousel2-mf.png');")
         .container-fluid
             h1.page-title.center-text= pageHeader.title
             p.basic-title.center-text= pageHeader.strapline
@@ -39,10 +39,6 @@ block content
                                 .button-col-helper
                                     button.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;', onclick="location.href='/login'")
                                         span Sign In
-                        .generic-box
-                            h2 Lorem Ipsum
-                            p
-                                | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 .col-md-8.col-md-pull-4
                     .col-helper
                         each forum in forums
@@ -53,17 +49,6 @@ block content
                                     p.basic-text #{forum.description}
                                     .forum-colored-rect(style='background-color: #CC3300;')
                                     p.basic-text Number of posts: #{forum.posts.length}
-    ul.pagination-custom(style='margin: 50px 0;')
-        li.hvr-underline-from-center
-            a(href='#') &laquo;
-        li.active.hvr-underline-from-center
-            a(href='#') 1
-        li.hvr-underline-from-center
-            a(href='#') 2
-        li.hvr-underline-from-center
-            a(href='#') 3
-        li.hvr-underline-from-center
-            a(href='#') &raquo;
 
     //ul.pagination-custom(style='margin: 50px 0;')
     //    li.hvr-underline-from-center

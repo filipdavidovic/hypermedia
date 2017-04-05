@@ -127,7 +127,8 @@ module.exports.getOneBachelor = function (req, res) {
                         response = {
                             faculty: {
                                 name: faculty.name,
-                                _id: req.params.facultyid
+                                _id: req.params.facultyid,
+                                contact: faculty.contact
                             },
                             program: program
                         };
@@ -175,7 +176,8 @@ module.exports.getOnePremaster = function (req, res) {
                         response = {
                             faculty: {
                                 name: faculty.name,
-                                _id: req.params.facultyid
+                                _id: req.params.facultyid,
+                                contact: faculty.contact
                             },
                             program: program
                         };
@@ -225,7 +227,8 @@ module.exports.getOneMaster = function (req, res) {
                         response = {
                             faculty: {
                                 name: faculty.name,
-                                _id: req.params.facultyid
+                                _id: req.params.facultyid,
+                                contact: faculty.contact
                             },
                             program: program
                         };

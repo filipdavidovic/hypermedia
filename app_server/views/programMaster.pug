@@ -1,0 +1,67 @@
+extends layout
+
+block content
+    .content-margins
+        - var style = "background-image: url('" + target.program.banner + "'); background-position: center bottom;"
+        .parallax(style=style)
+        .container-fluid(style='margin-top: 10px;')
+            ol.basic-text.breadcrumb
+                li
+                    a(href='/') Home
+                li
+                    a(href='/faculties') Faculties
+                li
+                    - var url = '/faculties/' + target.faculty._id
+                        a(href=url) #{target.faculty.name}
+                li.active #{target.program.name}
+            .row
+                .col-md-3.accordion-col
+                    .col-helper
+                        - var generalUrl = "location.href='" + baseUrl +  "';"
+                            - var classActive = (programOrganizationActive === "general" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=generalUrl, class=classActive) General
+
+                        - var classActive = (programOrganizationActive === "curriculum" ? "active" : "")
+                        button.accordion.accordion-dropdown.hvr-overline-from-center(class=classActive) Curriculum
+                        .accordion-panel
+                            //each stream in target.program.curriculum.streams
+                            //    - var streamUrl = "location.href='" + baseUrl +  "/curriculum" + stream._id + "';"
+                            //        button.accordion.hvr-overline-from-center(onclick=streamUrl) #{stream.name}
+
+                        - var coachingSkillsUrl = "location.href='" + baseUrl +  "/coaching-professional-skills';"
+                            - var classActive = (programOrganizationActive === "coaching-professional-skills" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=coachingSkillsUrl, class=classActive) Coaching & Professional Skills
+
+                        - var internshipExchangeUrl = "location.href='" + baseUrl +  "/internship-exchange';"
+                            - var classActive = (programOrganizationActive === "internship-exchange" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=internshipExchangeUrl, class=classActive) Internship and Exchange
+
+                        - var honorsUrl = "location.href='" + baseUrl +  "/honors-program';"
+                            - var classActive = (programOrganizationActive === "honors-program" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=honorsUrl, class=classActive) Honors Program
+
+                        - var graduationUrl = "location.href='" + baseUrl +  "/graduation';"
+                            - var classActive = (programOrganizationActive === "graduation" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=graduationUrl, class=classActive) Graduation
+
+                        - var examinationScheduleUrl = "location.href='" + baseUrl +  "/examination-schedules';"
+                            - var classActive = (programOrganizationActive === "examination-schedules" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=examinationScheduleUrl, class=classActive) Examination Schedules
+
+                        - var graduationDeadlinesUrl = "location.href='" + baseUrl +  "/graduation-deadlines';"
+                            - var classActive = (programOrganizationActive === "graduation-deadlines" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=graduationDeadlinesUrl, class=classActive) Graduation Deadlines
+
+                        - var priorBachelorsUrl = "location.href='" + baseUrl +  "/prior-bachelors';"
+                            - var classActive = (programOrganizationActive === "prior-bachelors" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=priorBachelorsUrl, class=classActive) Prior Bachelors
+
+                        - var regulationsUrl = "location.href='" + baseUrl +  "/regulations';"
+                            - var classActive = (programOrganizationActive === "regulations" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=regulationsUrl, class=classActive) Regulations
+                .col-md-6
+                    h1.page-title.center-text #{pageHeader.title}
+                    block innerContent
+                .col-md-3
+                    .col-helper
+                        | !{target.faculty.contact}

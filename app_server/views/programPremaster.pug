@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .content-margins
+        - var style = "background-image: url('" + target.program.banner + "'); background-position: center bottom;"
+        .parallax(style=style)
+        .container-fluid(style='margin-top: 10px;')
+            ol.basic-text.breadcrumb
+                li
+                    a(href='/') Home
+                li
+                    a(href='/faculties') Faculties
+                li
+                    - var url = '/faculties/' + target.faculty._id
+                    a(href=url) #{target.faculty.name}
+                li.active #{target.program.name}
+            .row
+                .col-md-3.accordion-col
+                    .col-helper
+                        - var generalUrl = "location.href='" + baseUrl +  "';"
+                            - var classActive = (programOrganizationActive === "general" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=generalUrl, class=classActive) General
+
+                        - var enrollmentConditionsUrl = "location.href='" + baseUrl +  "/conditions-for-enrollment';"
+                            - var classActive = (programOrganizationActive === "conditions-for-enrollment" ? "active" : "")
+                                button.accordion.hvr-overline-from-center(onclick=enrollmentConditionsUrl, class=classActive) Conditions for Enrollment
+                .col-md-6
+                    h1.page-title.center-text #{pageHeader.title}
+                    block innerContent
+                .col-md-3
+                    .col-helper
+                        | !{target.faculty.contact}

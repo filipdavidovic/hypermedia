@@ -1,0 +1,19 @@
+extends programPremaster
+
+block innerContent
+    div !{targetBody}
+
+    table.table.table-striped.course-table
+        thead.tue-pink.basic-text
+            tr
+                th  Course Name
+                th  Course Code
+                th  Quartile
+                th  Available Timeslots
+        tbody.basic-text
+            each subject in target.program.general.courses
+                tr
+                    td  #{subject.name}
+                    td  #{subject.code}
+                    td  #{subject.quartile}
+                    td  #{subject.timeslots}

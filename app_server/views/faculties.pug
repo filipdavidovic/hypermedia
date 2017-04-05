@@ -28,7 +28,8 @@ block content
                                         .program-thumbnail
                                             a(href=programUrl)
                                                 img.img-responsive.img-center(src=bachelorProgram.banner)
-                                                .program-colored-rect(style='background-color: #d22061;')
+                                                - var coloredRectColor = 'background-color: ' + faculty.color + ';'
+                                                    .program-colored-rect(style=coloredRectColor)
                                                 h2.subtitle.align-right.name #{bachelorProgram.name}
                     #premaster.tab-pane
                         .row.row-eq-height(id="premasterRow")
@@ -39,7 +40,8 @@ block content
                                         .program-thumbnail
                                             a(href=programUrl)
                                                 img.img-responsive.img-center(src=premasterProgram.banner)
-                                                .program-colored-rect(style='background-color: #d22061;')
+                                                - var coloredRectColor = 'background-color: ' + faculty.color + ';'
+                                                    .program-colored-rect(style=coloredRectColor)
                                                 h2.subtitle.align-right.name #{premasterProgram.name}
                     #master.tab-pane
                         .row.row-eq-height(id="masterRow")
@@ -50,5 +52,6 @@ block content
                                         .program-thumbnail
                                             a(href=programUrl)
                                                 img.img-responsive.img-center(src=masterProgram.banner)
-                                                .program-colored-rect(style='background-color: #d22061;')
+                                                - var coloredRectColor = 'background-color: ' + faculty.color + ';'
+                                                    .program-colored-rect(style=coloredRectColor)
                                                 h2.subtitle.align-right.name #{masterProgram.name}

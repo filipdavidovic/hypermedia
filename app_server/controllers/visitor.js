@@ -4,6 +4,10 @@ var apiOptions = {
     server: "http://localhost:3000"
 };
 
+if(process.env.NODE_ENV === 'production') {
+    apiOptions.server = "https://hypermedia-group9-studyguide.herokuapp.com";
+}
+
 module.exports.homepage = function (req, res) {
     var requestOptions, path;
 
