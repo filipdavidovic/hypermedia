@@ -4,6 +4,10 @@ var apiOptions = {
     server: "http://localhost:3000"
 };
 
+if(process.env.NODE_ENV === 'production') {
+    apiOptions.server = "https://hypermedia-group9-studyguide.herokuapp.com";
+}
+
 var _showError = function (req, res, status) {
     var title, content;
     if (status === 404) {
@@ -200,8 +204,7 @@ module.exports.singleBachelorGeneralInfo = function (req, res) {
             res.render('programGeneral', {
                 title: bachelor.name,
                 pageHeader: {
-                    title: bachelor.program.name,
-                    strapline: bachelor.program.description
+                    title: bachelor.program.name + " / General"
                 },
                 target: bachelor,
                 programOrganizationActive: "general",
@@ -235,8 +238,7 @@ module.exports.singleBachelorProfessionalDevelopment = function (req, res) {
             res.render('programGeneric', {
                 title: bachelor.name,
                 pageHeader: {
-                    title: bachelor.program.name,
-                    strapline: bachelor.program.description
+                    title: bachelor.program.name + " / Professional Development"
                 },
                 target: bachelor,
                 targetBody: bachelor.program.professionalDevelopment,
@@ -271,8 +273,7 @@ module.exports.singleBachelorExaminationSchedules = function (req, res) {
             res.render('programGeneric', {
                 title: bachelor.name,
                 pageHeader: {
-                    title: bachelor.program.name,
-                    strapline: bachelor.program.description
+                    title: bachelor.program.name + " / Examination Schedules"
                 },
                 target: bachelor,
                 targetBody: bachelor.program.examinationSchedules,
@@ -307,8 +308,7 @@ module.exports.singleBachelorGraduationDeadlines = function (req, res) {
             res.render('programGeneric', {
                 title: bachelor.name,
                 pageHeader: {
-                    title: bachelor.program.name,
-                    strapline: bachelor.program.description
+                    title: bachelor.program.name + " / Graduation Deadlines"
                 },
                 target: bachelor,
                 targetBody: bachelor.program.graduationDeadlines,

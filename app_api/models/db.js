@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 var dbURI = 'mongodb://admin:admin@ds125060.mlab.com:25060/hypermedia-group9';
 
 mongoose.connect(dbURI);
