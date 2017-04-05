@@ -38,7 +38,8 @@ var premasterSchema = new mongoose.Schema({
     description: {type: String, required: true},
     banner: {type: String, required: true},
     general: generalPremasterSchema,
-    conditionsForEnrollment: {type: String, required: true}
+    conditionsForEnrollment: {type: String, required: true},
+    visitorBody: {type: String, required: true}
 });
 
 var masterSchema = new mongoose.Schema({
@@ -54,7 +55,8 @@ var masterSchema = new mongoose.Schema({
     examinationSchedules: {type: String, required: true},
     graduationDeadlines: {type: String, required: true},
     priorBachelors: {type: String, required: true},
-    regulations: {type: String, required: true}
+    regulations: {type: String, required: true},
+    visitorBody: {type: String, required: true}
 });
 
 var facultiesSchema = new mongoose.Schema({

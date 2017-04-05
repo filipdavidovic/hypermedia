@@ -125,7 +125,6 @@ var doSinglePremaster = function (req, res, type) {
                     title: premaster.name
                 },
                 target: premaster,
-                targetBody: premaster.program.description,
                 headerActive: "faculties",
                 programOrganizationActive: type,
                 baseUrl: '/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid,
@@ -133,8 +132,10 @@ var doSinglePremaster = function (req, res, type) {
             };
 
             if(type === "general") {
-                res.render('programPremasterGeneral', data);
+                data.targetBody = premaster.program.general.body;
+                res.render('programPremasterGeneric', data);
             } else {
+                data.targetBody = premaster.program.graduationDeadlines;
                 res.render('programPremasterGeneric', data);
             }
         } else {
@@ -261,182 +262,6 @@ module.exports.premaster = function (req, res) {
 
 module.exports.master = function (req, res) {
     res.send("Master - Student");
-};
-
-module.exports.singleBachelor = function (req, res) {
-    var requestOptions, path;
-
-    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
-
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
-
-    request(requestOptions, function (err, response, body) {
-        var bachelor = body;
-
-        if (response.statusCode === 200) {
-            console.log(bachelor);
-            res.render('program', {
-                title: bachelor.name,
-                pageHeader: {
-                    title: bachelor.name,
-                    strapline: bachelor.description
-                },
-                target: bachelor,
-                type: {
-                    bachelor: true,
-                    premaster: false,
-                    master: false
-                },
-                headerActive: "faculties",
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
-};
-
-module.exports.singleBachelorGeneralInfo = function (req, res) {
-    var requestOptions, path;
-
-    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
-
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
-
-    request(requestOptions, function (err, response, body) {
-        var bachelor = body;
-
-        if (response.statusCode === 200) {
-            console.log("Name: " + bachelor);
-            console.log(bachelor.program);
-            res.render('programGeneral', {
-                title: bachelor.name,
-                pageHeader: {
-                    title: bachelor.program.name + " / General"
-                },
-                target: bachelor,
-                programOrganizationActive: "general",
-                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
-                headerActive: "faculties",
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
-};
-
-module.exports.singleBachelorProfessionalDevelopment = function (req, res) {
-    var requestOptions, path;
-
-    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
-
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
-
-    request(requestOptions, function (err, response, body) {
-        var bachelor = body;
-
-        if (response.statusCode === 200) {
-            console.log("Name: " + bachelor);
-            console.log(bachelor.program);
-            res.render('programGeneric', {
-                title: bachelor.name,
-                pageHeader: {
-                    title: bachelor.program.name + " / Professional Development"
-                },
-                target: bachelor,
-                targetBody: bachelor.program.professionalDevelopment,
-                programOrganizationActive: "professional-development",
-                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
-                headerActive: "faculties",
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
-};
-
-module.exports.singleBachelorExaminationSchedules = function (req, res) {
-    var requestOptions, path;
-
-    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
-
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
-
-    request(requestOptions, function (err, response, body) {
-        var bachelor = body;
-
-        if (response.statusCode === 200) {
-            console.log("Name: " + bachelor);
-            console.log(bachelor.program);
-            res.render('programGeneric', {
-                title: bachelor.name,
-                pageHeader: {
-                    title: bachelor.program.name + " / Examination Schedules"
-                },
-                target: bachelor,
-                targetBody: bachelor.program.examinationSchedules,
-                programOrganizationActive: "examination-schedules",
-                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
-                headerActive: "faculties",
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
-};
-
-module.exports.singleBachelorGraduationDeadlines = function (req, res) {
-    var requestOptions, path;
-
-    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
-
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
-
-    request(requestOptions, function (err, response, body) {
-        var bachelor = body;
-
-        if (response.statusCode === 200) {
-            console.log("Name: " + bachelor);
-            console.log(bachelor.program);
-            res.render('programGeneric', {
-                title: bachelor.name,
-                pageHeader: {
-                    title: bachelor.program.name + " / Graduation Deadlines"
-                },
-                target: bachelor,
-                targetBody: bachelor.program.graduationDeadlines,
-                programOrganizationActive: "graduation-deadlines",
-                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
-                headerActive: "faculties",
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
 };
 
 module.exports.singlePremaster = function (req, res) {
@@ -620,7 +445,7 @@ module.exports.doAddPost = function (req, res) {
     path = '/api/forum/' + req.params.forumid + '/add-new-post';
 
     postdata = {
-        author: req.body.author,
+        author: req.user.lastName + " " + req.user.initials,
         title: req.body.title,
         description: req.body.description
     };

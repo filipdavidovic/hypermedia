@@ -8,6 +8,47 @@ if(process.env.NODE_ENV === 'production') {
     apiOptions.server = "https://hypermedia-group9-studyguide.herokuapp.com";
 }
 
+var doSinglePremaster = function (req, res, type) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var premaster = body;
+
+        if (response.statusCode === 200) {
+            console.log(premaster);
+
+            var data  = {
+                title: premaster.name,
+                pageHeader: {
+                    title: premaster.name
+                },
+                target: premaster,
+                targetBody: premaster.program.visitorBody,
+                headerActive: "faculties",
+                programOrganizationActive: type,
+                baseUrl: '/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid,
+                userType: req.session.userType
+            };
+
+            if(type === "general") {
+                res.render('programPremasterGeneric', data);
+            } else {
+                res.render('programPremasterGeneric', data);
+            }
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
 module.exports.homepage = function (req, res) {
     var requestOptions, path;
 
@@ -164,40 +205,44 @@ module.exports.singleBachelor = function (req, res) {
 };
 
 module.exports.singlePremaster = function (req, res) {
-    var requestOptions, path;
-
-    path = '/api/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid;
-
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json: {}
-    };
-
-    request(requestOptions, function (err, response, body) {
-        var premaster = body;
-
-        if (response.statusCode === 200) {
-            console.log(premaster);
-            res.render('program', {
-                title: premaster.name,
-                pageHeader: {
-                    title: premaster.name,
-                    strapline: premaster.description
-                },
-                target: premaster,
-                type: {
-                    bachelor: false,
-                    premaster: true,
-                    master: false
-                },
-                userType: req.session.userType
-            });
-        } else {
-            _showError(req, res, response.statusCode);
-        }
-    });
+    doSinglePremaster(req, res, "general");
 };
+
+// module.exports.singlePremaster = function (req, res) {
+//     var requestOptions, path;
+//
+//     path = '/api/faculties/' + req.params.facultyid + '/premaster/' + req.params.premasterid;
+//
+//     requestOptions = {
+//         url: apiOptions.server + path,
+//         method: "GET",
+//         json: {}
+//     };
+//
+//     request(requestOptions, function (err, response, body) {
+//         var premaster = body;
+//
+//         if (response.statusCode === 200) {
+//             console.log(premaster);
+//             res.render('program', {
+//                 title: premaster.name,
+//                 pageHeader: {
+//                     title: premaster.name,
+//                     strapline: premaster.description
+//                 },
+//                 target: premaster,
+//                 type: {
+//                     bachelor: false,
+//                     premaster: true,
+//                     master: false
+//                 },
+//                 userType: req.session.userType
+//             });
+//         } else {
+//             _showError(req, res, response.statusCode);
+//         }
+//     });
+// };
 
 module.exports.singleMaster = function (req, res) {
     res.send("Single Master - Visitor");

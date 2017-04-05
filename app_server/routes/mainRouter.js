@@ -89,21 +89,13 @@ module.exports = function (passport) {
         chooseUponUser(req, res, studentCtrl.master, visitorCtrl.master);
     });
 
-    router.get('/faculties/:facultyid/bachelor/:bachelorid', function (req, res) {
-        chooseUponUser(req, res, studentCtrl.singleBachelorGeneralInfo, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
-    });
+    router.get('/faculties/:facultyid/bachelor/:bachelorid', uniformCtrl.singleBachelorGeneralInfo);
 
-    router.get('/faculties/:facultyid/bachelor/:bachelorid/professional-development', function (req, res) {
-        chooseUponUser(req, res, studentCtrl.singleBachelorProfessionalDevelopment, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
-    });
+    router.get('/faculties/:facultyid/bachelor/:bachelorid/professional-development', uniformCtrl.singleBachelorProfessionalDevelopment);
 
-    router.get('/faculties/:facultyid/bachelor/:bachelorid/examination-schedules', function (req, res) {
-        chooseUponUser(req, res, studentCtrl.singleBachelorExaminationSchedules, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
-    });
+    router.get('/faculties/:facultyid/bachelor/:bachelorid/examination-schedules', uniformCtrl.singleBachelorExaminationSchedules);
 
-    router.get('/faculties/:facultyid/bachelor/:bachelorid/graduation-deadlines', function (req, res) {
-        chooseUponUser(req, res, studentCtrl.singleBachelorGraduationDeadlines, visitorCtrl.singleBachelor); // singleBachelorGeneralInfo
-    });
+    router.get('/faculties/:facultyid/bachelor/:bachelorid/graduation-deadlines', uniformCtrl.singleBachelorGraduationDeadlines);
 
     router.get('/faculties/:facultyid/premaster/:premasterid', function (req, res) {
         chooseUponUser(req, res, studentCtrl.singlePremaster, visitorCtrl.singlePremaster);

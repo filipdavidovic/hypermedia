@@ -17,13 +17,14 @@ block content
             .row
                 .col-md-3.accordion-col
                     .col-helper
-                        - var generalUrl = "location.href='" + baseUrl +  "';"
-                            - var classActive = (programOrganizationActive === "general" ? "active" : "")
-                                button.accordion.hvr-overline-from-center(onclick=generalUrl, class=classActive) General
+                        - if(userType === 'student')
+                            - var generalUrl = "location.href='" + baseUrl +  "';"
+                                - var classActive = (programOrganizationActive === "general" ? "active" : "")
+                                    button.accordion.hvr-overline-from-center(onclick=generalUrl, class=classActive) General
 
-                        - var enrollmentConditionsUrl = "location.href='" + baseUrl +  "/conditions-for-enrollment';"
-                            - var classActive = (programOrganizationActive === "conditions-for-enrollment" ? "active" : "")
-                                button.accordion.hvr-overline-from-center(onclick=enrollmentConditionsUrl, class=classActive) Conditions for Enrollment
+                            - var enrollmentConditionsUrl = "location.href='" + baseUrl +  "/conditions-for-enrollment';"
+                                - var classActive = (programOrganizationActive === "conditions-for-enrollment" ? "active" : "")
+                                    button.accordion.hvr-overline-from-center(onclick=enrollmentConditionsUrl, class=classActive) Conditions for Enrollment
                 .col-md-6
                     h1.page-title.center-text #{pageHeader.title}
                     block innerContent

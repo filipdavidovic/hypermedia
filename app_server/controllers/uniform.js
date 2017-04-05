@@ -15,6 +15,182 @@ module.exports.notAvailable = function (req, res) {
     });
 };
 
+module.exports.singleBachelor = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var bachelor = body;
+
+        if (response.statusCode === 200) {
+            console.log(bachelor);
+            res.render('program', {
+                title: bachelor.name,
+                pageHeader: {
+                    title: bachelor.name,
+                    strapline: bachelor.description
+                },
+                target: bachelor,
+                type: {
+                    bachelor: true,
+                    premaster: false,
+                    master: false
+                },
+                headerActive: "faculties",
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
+module.exports.singleBachelorGeneralInfo = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var bachelor = body;
+
+        if (response.statusCode === 200) {
+            console.log("Name: " + bachelor);
+            console.log(bachelor.program);
+            res.render('programGeneral', {
+                title: bachelor.name,
+                pageHeader: {
+                    title: bachelor.program.name + " / General"
+                },
+                target: bachelor,
+                programOrganizationActive: "general",
+                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
+                headerActive: "faculties",
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
+module.exports.singleBachelorProfessionalDevelopment = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var bachelor = body;
+
+        if (response.statusCode === 200) {
+            console.log("Name: " + bachelor);
+            console.log(bachelor.program);
+            res.render('programGeneric', {
+                title: bachelor.name,
+                pageHeader: {
+                    title: bachelor.program.name + " / Professional Development"
+                },
+                target: bachelor,
+                targetBody: bachelor.program.professionalDevelopment,
+                programOrganizationActive: "professional-development",
+                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
+                headerActive: "faculties",
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
+module.exports.singleBachelorExaminationSchedules = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var bachelor = body;
+
+        if (response.statusCode === 200) {
+            console.log("Name: " + bachelor);
+            console.log(bachelor.program);
+            res.render('programGeneric', {
+                title: bachelor.name,
+                pageHeader: {
+                    title: bachelor.program.name + " / Examination Schedules"
+                },
+                target: bachelor,
+                targetBody: bachelor.program.examinationSchedules,
+                programOrganizationActive: "examination-schedules",
+                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
+                headerActive: "faculties",
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
+module.exports.singleBachelorGraduationDeadlines = function (req, res) {
+    var requestOptions, path;
+
+    path = '/api/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid;
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {}
+    };
+
+    request(requestOptions, function (err, response, body) {
+        var bachelor = body;
+
+        if (response.statusCode === 200) {
+            console.log("Name: " + bachelor);
+            console.log(bachelor.program);
+            res.render('programGeneric', {
+                title: bachelor.name,
+                pageHeader: {
+                    title: bachelor.program.name + " / Graduation Deadlines"
+                },
+                target: bachelor,
+                targetBody: bachelor.program.graduationDeadlines,
+                programOrganizationActive: "graduation-deadlines",
+                baseUrl: '/faculties/' + req.params.facultyid + '/bachelor/' + req.params.bachelorid,
+                headerActive: "faculties",
+                userType: req.session.userType
+            });
+        } else {
+            _showError(req, res, response.statusCode);
+        }
+    });
+};
+
 // ORGANIZATION
 module.exports.map = function (req, res) {
     res.render('organization', {

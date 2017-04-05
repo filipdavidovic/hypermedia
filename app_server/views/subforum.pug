@@ -15,7 +15,7 @@ block content
                     .col-md-6.col-sm-12
                         div
                             - if(loggedIn)
-                                - var addPostUrl = "location.href='/forum/'" + forum._id + "'/add-new-post'"
+                                - var addPostUrl = "location.href='/forum/" + forum._id + "/add-new-post'"
                                     button.pull-right.buttonGeneric.hvr-underline-from-center(style='background-color: #E0E0E8;', onclick=addPostUrl)
                                         span Add Post
             each post in forum.posts
